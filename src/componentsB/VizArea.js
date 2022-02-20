@@ -33,9 +33,9 @@ function VizArea({ data, type }) {
 
   return (
     <Grid className={classes.vizWrapper}>
-      {((type === "B" || type === "C") && data.length) ? 
+      {/* {((type === "B" || type === "C") && data.length) ? 
            <DataCircle  d={ data[data.length -1]} /> 
-            : null}
+            : null} */}
       {((type === "B" || type === "C") && data.length) ? 
            <Grid  className={classes.avgDiv} >
              {<Typography className={classes.avgText} >Average Time: {average}</Typography>}
