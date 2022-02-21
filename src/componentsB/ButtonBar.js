@@ -19,113 +19,157 @@ import {
 import { openWebSocket } from "../styles/utils/utilsFunction";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { IOSSwitch } from "../styles/utils/IosRadio";
-import * as webSocketService from '../services/websocket'
+import * as webSocketService from "../services/websocket";
 import { PinDropSharp } from "@material-ui/icons";
+import MultipleSelect from "./MultipleSelect";
 
-let data = {
-      type: 'get_data',
-      filters: {
-        type: 'MKT',
-      },
-    }
+let type = "get_data";
 
-function ButtonBar(props) {
+const ButtonBar = (props) => {
   const [showFilters, setShowFilters] = useState(false);
-  const [power , setPower] = useState(false)
+  const [filtersChanged, setFiltersChanged] = useState(false);
+  const [filters, setFilters] = useState({
+    servers: [],
+    types: [],
+    sides: [],
+    products: [],
+  });
+  const [power, setPower] = useState(false);
   const classes = useStyles();
+  useEffect(() => {}, [power]);
   const handleShowFilters = () => {
     setShowFilters((prev) => !prev);
   };
 
   const createTrade = () => {
-    setPower(!power)
-    console.log(power)
+    let data = {};
+    console.log(power);
+    const filteredFilters = {};
+    if (!power) {
+      Object.entries(filters).forEach(([filter, arr]) => {
+        if (arr.length) {
+          filteredFilters[filter] = arr;
+        }
+      });
+    }
+    // if (Object.values(filteredFilters).every((arr) => !arr.length)) {
+    //   data = { type, power: !power };
+    // } else {
+    data = { type, filters: filteredFilters, power: !power };
+    // }
     webSocketService.sendEvent(JSON.stringify(data));
-    console.log(data)
-   
-  }
-console.log(props.products,"products coin")
+    console.log(data);
+    setPower((prev) => !prev);
+  };
+
   return (
-    <Grid style={{marginTop: 20, width: "30vw", border: '1px solid black' }} container spacing={5} direction="row">
+    <Grid
+      style={{ marginTop: 20, width: "30vw", border: "1px solid black" }}
+      container
+      spacing={5}
+      direction="row"
+    >
       <Grid style={{ flex: 1 }} container item>
-        <FormControl
-          style={{ flex: 1 }}
-          className={classes.buttonRow}
-          variant="outlined"
-        >
-          <InputLabel>Servers</InputLabel>
-          <Select inputProps={{variant: 'dense'}}/>
-        </FormControl>
+        <MultipleSelect
+          options={["a server", "dfgfg"]}
+          label="servers"
+          setFilters={setFilters}
+          values={filters.servers}
+        />
       </Grid>
       <Grid style={{ flex: 1 }} container item>
-        <FormControl style={{ flex: 1 }} variant="outlined">
+        <FormControl style={{ flex: 1 }} variant="outlined" size="small">
           <InputLabel>Mode</InputLabel>
-          <Select />
+          <Select
+            id="demo-multiple-option"
+            value={filters.mode}
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, mode: e.target.value }))
+            }
+            // renderValue={(selected) => console.log("SELECTED", selected)}
+            // MenuProps={MenuProps}
+          >
+            {["Regular", "Stress"].map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
         </FormControl>
       </Grid>
-      <Grid item container xs={4} direction="row" alignItems='center'>
-        <Button onClick={createTrade} style={{backgroundColor : 'lightblue'}}>
-          {!power? 'Start' : 'Stop'}</Button>
+
+      <Grid item>
+        <FormControlLabel
+          control={
+            <Checkbox
+              style={{ color: "black" }}
+              icon={<FilterListIcon />}
+              checkedIcon={<FilterListIcon />}
+              value={showFilters}
+              onChange={handleShowFilters}
+            />
+          }
+          label="Filter By"
+          style={
+            {
+              // border: "1px solid black",
+              // position: "absolute",
+              // left: 0,
+              // transform: "translateX(-100%)",
+            }
+          }
+        />
       </Grid>
-      <Grid item container direction='row'  style={{position: 'relative'}}>
-        <Grid item >
-          <FormControlLabel 
-            control={
-              <Checkbox
-                style={{ color: "black" }}
-                icon={<FilterListIcon />}
-                checkedIcon={<FilterListIcon />}
-                value={showFilters}
-                onChange={handleShowFilters}
-              />
-            } 
-            label="Filter By" style={{position: 'absolute' ,left: 0, transform: 'translateX(-100%)'}}
-          />
-          <Grid
-            container
-            spacing={3}
-            style={{ width: "30vw", display: showFilters ? "flex" : "none" }}
-          >
-            <Grid style={{ flex: 1 }} container item>
-              <FormControl
-                style={{ flex: 1 }}
-                className={classes.buttonRow}
-                variant="outlined"
-              >
-                <InputLabel>Side</InputLabel>
-                <Select />
-              </FormControl>
-            </Grid>
-            <Grid style={{ flex: 1 }} container item>
-              <FormControl
-                style={{ flex: 1 }}
-                className={classes.buttonRow}
-                variant="outlined"
-              >
-                <InputLabel>Type</InputLabel>
-                <Select />
-              </FormControl>
-            </Grid>
-            <Grid style={{ flex: 1 }} container item>
-              <FormControl
-                style={{ flex: 1 }}
-                className={classes.buttonRow}
-                variant="outlined"
-              >
-                <InputLabel>Coins</InputLabel>
-                <Select>
-                  {props.products?.map(coin =>{
-                    console.log(coin,"COIN")
-                    return <MenuItem>{coin.product_name}</MenuItem>
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
+      <Grid
+        item
+        container
+        direction="row"
+        style={{ position: "relative" }}
+      >
+        <Grid
+          container
+          spacing={3}
+          direction="row" 
+          justifyContent="center"
+          style={{ width: "30vw", display: showFilters ? "flex" : "none" }}
+        >
+          <Grid container item xs={6}>
+            <MultipleSelect
+              options={["FOK", "MKT", "RFQ"]}
+              label="types"
+              setFilters={setFilters}
+              values={filters.types}
+            />
+          </Grid>
+          <Grid container item xs={6}>
+            <MultipleSelect
+              options={["Buy", "Sell"]}
+              label="sides"
+              setFilters={setFilters}
+              values={filters.sides}
+            />
+          </Grid>
+          <Grid container item xs={12}>
+            <MultipleSelect
+              options={props.products}
+              label="products"
+              setFilters={setFilters}
+              values={filters.products}
+              isObjectOptions
+            />
+          </Grid>
+          <Grid item container xs={6} direction="row" alignItems="center">
+            <Button
+              onClick={createTrade}
+              style={{ backgroundColor: "lightblue", flex: 1 }}
+            >
+              {!power ? "Start" : "Stop"}
+            </Button>
           </Grid>
         </Grid>
       </Grid>
     </Grid>
   );
-}
+};
 
 export default ButtonBar;
