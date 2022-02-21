@@ -14,11 +14,13 @@ import {
   InputLabel,
   Checkbox,
   FormControlLabel,
+  MenuItem,
 } from "@material-ui/core";
 import { openWebSocket } from "../styles/utils/utilsFunction";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { IOSSwitch } from "../styles/utils/IosRadio";
 import * as webSocketService from '../services/websocket'
+import { PinDropSharp } from "@material-ui/icons";
 
 let data = {
       type: 'get_data',
@@ -27,7 +29,7 @@ let data = {
       },
     }
 
-function ButtonBar() {
+function ButtonBar(props) {
   const [showFilters, setShowFilters] = useState(false);
   const [power , setPower] = useState(false)
   const classes = useStyles();
@@ -42,7 +44,7 @@ function ButtonBar() {
     console.log(data)
    
   }
-
+console.log(props.products,"products coin")
   return (
     <Grid style={{marginTop: 20, width: "30vw", border: '1px solid black' }} container spacing={5} direction="row">
       <Grid style={{ flex: 1 }} container item>
@@ -111,7 +113,12 @@ function ButtonBar() {
                 variant="outlined"
               >
                 <InputLabel>Coins</InputLabel>
-                <Select />
+                <Select>
+                  {props.products?.map(coin =>{
+                    console.log(coin,"COIN")
+                    return <MenuItem>{coin.product_name}</MenuItem>
+                  })}
+                </Select>
               </FormControl>
             </Grid>
           </Grid>
