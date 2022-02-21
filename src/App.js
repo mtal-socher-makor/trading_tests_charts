@@ -28,41 +28,42 @@ function App() {
   const classes = useStyles();
   const [stateTrades, setStateTrades] = useState([]);
 
-  //let ws = webSocketService.connectWS()
+  let ws = webSocketService.connectWS()
 
   // Dummy Data
-  useEffect(() => {
-    const tradeInterval = setInterval(() => {
-      const newObj = returnObj();
-      const tradeObj = { ...newObj.data };
-      setStateTrades((prev) => [...prev, tradeObj]);
-      //console.log("trades",stateTrades)
-    }, 1000);
-    //return clearInterval(tradeInterval);
-  }, []);
-
   // useEffect(() => {
-  //   let data = {
-  //     type: 'getData',
-  //     data: {
-  //       type: 'MKT',
-  //     },
-  //   }
+  //   const tradeInterval = setInterval(() => {
+  //     const newObj = returnObj();
+  //     const tradeObj = { ...newObj.data };
+  //     setStateTrades((prev) => [...prev, tradeObj]);
+  //     //console.log("trades",stateTrades)
+  //   }, 1000);
+  //   //return clearInterval(tradeInterval);
+  // }, []);
 
-  //   webSocketService.sendEvent(data)
-  //   ws.onmessage = (event) => {
-  //     data = JSON.parse(event.data)
-  //     console.log(data)
-  //     setStateTrades((prev) => [...prev, data])
-  //     // setLabels((prev) => [...prev, data.name])
-  //   }
-  // }, [])
+  useEffect(() => {
+    let data = {
+      type: 'get_data',
+      data: {
+        type: 'MKT',
+      },
+    }
+
+    // webSocketService.sendEvent(data)
+    ws.onmessage = (event) => {
+      data = JSON.parse(event.data)
+      console.log(data)
+      const newData = {...data.data,id:Math.random() * 100000}
+      setStateTrades((prev) => [...prev, newData])
+      // setLabels((prev) => [...prev, data.name])
+    }
+  }, [])
 
   return (
     <div className="App">
       {/* <Charts /> */}
       <Grid container direction="column" className={classes.App2}>
-        <Grid item>
+        <Grid item >
           <Typography className={classes.title}>Test the Server</Typography>
         </Grid>
         <Grid item xs={12}>

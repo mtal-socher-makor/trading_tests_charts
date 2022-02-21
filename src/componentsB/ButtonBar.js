@@ -15,18 +15,36 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@material-ui/core";
+import { openWebSocket } from "../styles/utils/utilsFunction";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { IOSSwitch } from "../styles/utils/IosRadio";
+import * as webSocketService from '../services/websocket'
+
+let data = {
+      type: 'get_data',
+      filters: {
+        type: 'MKT',
+      },
+    }
 
 function ButtonBar() {
   const [showFilters, setShowFilters] = useState(false);
+  const [power , setPower] = useState(false)
   const classes = useStyles();
   const handleShowFilters = () => {
     setShowFilters((prev) => !prev);
   };
 
+  const createTrade = () => {
+    setPower(!power)
+    console.log(power)
+    webSocketService.sendEvent(JSON.stringify(data));
+    console.log(data)
+   
+  }
+
   return (
-    <Grid style={{ width: "30vw", border: '1px solid black' }} container spacing={5} direction="row">
+    <Grid style={{marginTop: 20, width: "30vw", border: '1px solid black' }} container spacing={5} direction="row">
       <Grid style={{ flex: 1 }} container item>
         <FormControl
           style={{ flex: 1 }}
@@ -44,12 +62,8 @@ function ButtonBar() {
         </FormControl>
       </Grid>
       <Grid item container xs={4} direction="row" alignItems='center'>
-        <Grid item>
-          <IOSSwitch />
-        </Grid>
-        <Grid item>
-          <Typography>Start</Typography>
-        </Grid>
+        <Button onClick={createTrade} style={{backgroundColor : 'lightblue'}}>
+          {!power? 'Start' : 'Stop'}</Button>
       </Grid>
       <Grid item container direction='row'  style={{position: 'relative'}}>
         <Grid item >

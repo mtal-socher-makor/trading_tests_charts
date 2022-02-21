@@ -9,13 +9,13 @@ import { useStyles } from "../../styles/mainStyles"
 
 
 const width = "5000";
-const height = 700;
-const margin = { top: 20, right: 30, bottom: 65, left: 90 };
+const height = 450;
+const margin = { top:-20, right: 30, bottom: 60, left: 90 };
 const xAxisLabelOffset = 50;
 
 
 function LineChart({ data, type }) {
-  
+  console.log(data,"DATA FROM LINE CHA")
   const classes = useStyles();
 
     const innerHeight = height - margin.top - margin.bottom;
