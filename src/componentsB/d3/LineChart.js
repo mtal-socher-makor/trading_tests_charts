@@ -1,10 +1,10 @@
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { scaleBand, scaleLinear, max, format } from 'd3';
 import AxisBottom  from './barchart/AxisBottom';
 import AxisLeft  from './barchart/AxisLeft';
 import MarksLine from "./lineChart/MarksLine";
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core'
 import { useStyles } from "../../styles/mainStyles"
 
 
@@ -14,7 +14,7 @@ const margin = { top: 20, right: 30, bottom: 65, left: 90 };
 const xAxisLabelOffset = 50;
 
 
-function LineChart({ data, type }) {
+export function LineChart({ data, type }) {
   
   const classes = useStyles();
 
@@ -37,8 +37,10 @@ function LineChart({ data, type }) {
       .domain([0, max(data, yValue)])
       .range([innerHeight - 30, 60]);
 
+     
+
   return (
-    <Grid container className={classes.barchartContainer} >
+    <Grid container className={classes.linechartContainer} >
       
       <svg width={width} height={height} >
         <g transform={`translate(${margin.left},${margin.top})`}>
@@ -76,7 +78,6 @@ function LineChart({ data, type }) {
         <MarksLine 
             type={type}
             data={data}
-            //key={`${d.time}${d.name}${d.type}`}
             xScale={xScale}
             yScale={yScale}
             xValue={xValue}
@@ -90,4 +91,5 @@ function LineChart({ data, type }) {
   )
 }
 
-export default LineChart
+
+export const MemoLineChart = React.memo(LineChart)

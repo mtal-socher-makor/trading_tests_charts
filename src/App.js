@@ -20,6 +20,7 @@ const returnObj = () => {
         quantity: 2.5,
         tradeTime: Math.random(),
         id:Math.random()*100000,
+        product_name:"BTC-USD"
   }};
 }
 

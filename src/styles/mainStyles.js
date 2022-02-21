@@ -19,7 +19,7 @@ export const useStyles = makeStyles((theme) => ({
         height: "700px",
         borderRadius: "8px",
         //marginTop:50,
-        overflowX: "auto",
+        overflowX: "scroll",
         overflowY: "hidden",
         position: "relative",
        
@@ -29,10 +29,9 @@ export const useStyles = makeStyles((theme) => ({
       color: 'var(--secondary)',
       //alignSelf : "center",
     },
-    barchartContainer:{
+    linechartContainer:{
       width: 5000,
-      // alignItems: "center",
-      // justifyContent: "center"
+      
     },
     dataCircle:{
       position: "absolute",
@@ -53,6 +52,15 @@ export const useStyles = makeStyles((theme) => ({
       color: "var(--main)",
       fontSize: "30px !important",
       padding: 8
+    },
+    tooltipBox:{
+      zIndex: 3
+    },
+    tspanTitle:{
+      fontWeight: 900,
+    },
+    tspan:{
+      fontWeight: 600,
     }
 
 }))
@@ -110,3 +118,5 @@ export const FilledButton = withStyles({
       },
     },
   })(TextField);
+
+  
