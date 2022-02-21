@@ -6,18 +6,15 @@ import { Grid, Typography } from '@material-ui/core'
 import FilterBar from './FilterBar';
 import {MemoLineChart} from "./d3/LineChart"
 import DataCircle from './d3/DataCircle';
+import GroupBy from './GroupBy';
 // import * as webSocketService from '../services/websocket'
 
 
 
 
 
-function VizArea({ data, type }) {
-    //  if((type === "B" || type === "C")){
-    //    console.log("here")
-    //   data=data.map((d)=>{return d.data})
-    //   console.log("data",data)
-    //  }
+function VizArea({ data, type, value ,setValue }) {
+
   
     const classes = useStyles();
    const [average, setAverage] = useState("0")

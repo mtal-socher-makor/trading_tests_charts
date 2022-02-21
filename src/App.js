@@ -1,98 +1,85 @@
-import ButtonBar from "./componentsB/ButtonBar";
-import VizArea from "./componentsB/VizArea";
-import { Grid, makeStyles, Typography } from '@material-ui/core';
+import ButtonBar from './componentsB/ButtonBar'
+import VizArea from './componentsB/VizArea'
+import { Grid, makeStyles, Typography } from '@material-ui/core'
 import * as webSocketService from './services/websocket'
 import React, { useState, useEffect, useRef } from 'react'
-import DataCircle from "./componentsB/d3/DataCircle";
-import productsData from "./products.json"
+import DataCircle from './componentsB/d3/DataCircle'
+import productsData from './products.json'
+import Graph from './componentsB/Graph'
 
-const types = ["MKT", "FOK", "RFQ"];
-const sides = ["SELL", "BUY"];
-const productIDs = productsData.products.map(product => product.product_id);
+// const types = ['MKT', 'FOK', 'RFQ']
+// const sides = ['SELL', 'BUY']
+// const productIDs = productsData.products.map((product) => product.product_id)
 
-const returnObj = () => {
-  return   {
-    type: 'trade',
-      data: {
-        type: types[Math.floor(Math.random()*3)],
-        side: sides[Math.floor(Math.random()*2)],
-        product_id: productIDs[Math.floor(Math.random()*29)],
-        quantity: 2.5,
-        tradeTime: Math.random(),
-        id:Math.random()*100000,
-        product_name:"BTC-USD"
-  }};
-}
+// const returnObj = () => {
+//   return {
+//     type: 'trade',
+//     data: {
+//       type: types[Math.floor(Math.random() * 3)],
+//       side: sides[Math.floor(Math.random() * 2)],
+//       product_id: productIDs[Math.floor(Math.random() * 29)],
+//       quantity: 2.5,
+//       tradeTime: Math.random(),
+//       id: Math.random() * 100000,
+//     },
+//   }
+// }
 
 function App() {
-  const classes = useStyles();
-    const [stateTrades, setStateTrades] = useState([]);
+  const classes = useStyles()
+  const [stateTrades, setStateTrades] = useState([])
 
-    //let ws = webSocketService.connectWS()
-    
-   
-  // Dummy Data  
-    useEffect(() => {
-     const tradeInterval = setInterval(() => {
-       const newObj = returnObj()
-       const tradeObj = {...newObj.data}
-        setStateTrades(prev => [...prev,tradeObj])
-        //console.log("trades",stateTrades)
-      }, 1000);
-        //return clearInterval(tradeInterval);
-    }, [])
-    
-  
+
+  // Dummy Data
   // useEffect(() => {
-  //   let data = {
-  //     type: 'getData',
-  //     data: {
-  //       type: 'MKT',
-  //     },
-  //   }
-
-  //   webSocketService.sendEvent(data)
-  //   ws.onmessage = (event) => {
-  //     data = JSON.parse(event.data)
-  //     console.log(data)
-  //     setStateTrades((prev) => [...prev, data])
-  //     // setLabels((prev) => [...prev, data.name])
-  //   }
+  //   const tradeInterval = setInterval(() => {
+  //     const newObj = returnObj()
+  //     const tradeObj = { ...newObj.data }
+  //     setStateTrades((prev) => [...prev, tradeObj])
+  //     //console.log("trades",stateTrades)
+  //   }, 1000)
+  //   //return clearInterval(tradeInterval);
   // }, [])
-     
+  let ws = webSocketService.connectWS()
 
+  useEffect(() => {
+    let data = {
+      type: 'get_data',
+    }
 
+    webSocketService.sendEvent(data)
+    ws.onmessage = (event) => {
+      data = JSON.parse(event.data)
+      if (data.type === 'trade') {
+        setStateTrades((prev) => [...prev, data.data])
+      }
+    }
+  }, [])
 
   return (
-    <div className="App">
+    <div className='App'>
       {/* <Charts /> */}
-      <Grid container direction="column" className={classes.App2}>
-          <Typography className={classes.title}>Test the Server</Typography>
-          <ButtonBar />
-          
-          {/* { stateTrades.length && <DataCircle  d={ stateTrades[stateTrades -1]} /> } */}
-            
-           
-          <VizArea type="C" data={stateTrades}/>
-        </Grid>
+      <Grid container direction='column' className={classes.App2}>
+        <Typography className={classes.title}>Test the Server</Typography>
+        <ButtonBar />
+
+       <Graph stateTrades={stateTrades}></Graph>
+      </Grid>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
 
 const useStyles = makeStyles((theme) => ({
-
   App2: {
-      width: "85vw",
-      margin: "5vh auto 0 auto",
-      alignItems: "center"
-      
+    width: '85vw',
+    margin: '5vh auto 0 auto',
+    alignItems: 'center',
   },
-  title:{
+  title: {
     fontSize: 40,
-    color:  'var(--main)',
+    color: 'var(--main)',
     fontWeight: 600,
   },
-
 }))
