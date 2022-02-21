@@ -29,18 +29,7 @@ function App() {
   const [stateTrades, setStateTrades] = useState([]);
   const [products,setProducts] = useState([]);
 
-  let ws = webSocketService.connectWS()
-
-  // Dummy Data
-  // useEffect(() => {
-  //   const tradeInterval = setInterval(() => {
-  //     const newObj = returnObj();
-  //     const tradeObj = { ...newObj.data };
-  //     setStateTrades((prev) => [...prev, tradeObj]);
-  //     //console.log("trades",stateTrades)
-  //   }, 1000);
-  //   //return clearInterval(tradeInterval);
-  // }, []);
+  let ws = webSocketService.connectWS();
 
   useEffect(() => {
 

@@ -29,10 +29,10 @@ function VizArea({ data, type, value ,setValue }) {
 
   return (
     <Grid className={classes.vizWrapper}>
-      { data.length ? 
+      {/* { data.length ? 
         <DataCircle  d={ data[data.length -1]} /> 
         : null
-      }
+      } */}
       { data.length ? 
         <Grid  className={classes.avgDiv} >
           {<Typography className={classes.avgText} >Average Time: {average}</Typography>}

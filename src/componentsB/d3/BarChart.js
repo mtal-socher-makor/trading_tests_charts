@@ -24,12 +24,7 @@ export default function BarChart({ data, type }) {
 
     const elementRef = useRef();
 
-    useEffect(() => {
-      //elementRef.current?.scrollIntoView({ behavior: 'smooth', block: "nearest", inline: "nearest" });
-      //elementRef?.current.scrollTop =  elementRef.current?.scrollHeight;
-      //scrollyDiv.scrollTop = scrollyDiv.scrollHeight
-
-    }, [data])
+    
     
 
     const yValue = d => d.tradeTime;

@@ -16,7 +16,7 @@ const xAxisLabelOffset = 50;
 
 
 function LineChart({ data, type, value, setValue }) {
-
+console.log("MYDATA",data)
   const innerHeight = height - margin.top - margin.bottom;
   const innerWidth = width - margin.left - margin.right;
 
