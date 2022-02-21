@@ -5,7 +5,7 @@ import * as webSocketService from './services/websocket'
 import React, { useState, useEffect, useRef } from 'react'
 import DataCircle from './componentsB/d3/DataCircle'
 import productsData from './products.json'
-import Graph from './componentsB/Graph'
+//import Graph from './componentsB/Graph'
 
 // const types = ['MKT', 'FOK', 'RFQ']
 // const sides = ['SELL', 'BUY']
@@ -62,8 +62,8 @@ function App() {
       <Grid container direction='column' className={classes.App2}>
         <Typography className={classes.title}>Test the Server</Typography>
         <ButtonBar />
-
-       <Graph stateTrades={stateTrades}></Graph>
+        <VizArea type="C" data={stateTrades}/>
+       {/* <Graph stateTrades={stateTrades}></Graph> */}
       </Grid>
     </div>
   )
