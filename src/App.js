@@ -27,6 +27,7 @@ const returnObj = () => {
 function App() {
   const classes = useStyles();
   const [stateTrades, setStateTrades] = useState([]);
+  const [products,setProducts] = useState([]);
 
   let ws = webSocketService.connectWS()
 
@@ -42,19 +43,24 @@ function App() {
   // }, []);
 
   useEffect(() => {
-    let data = {
-      type: 'get_data',
-      data: {
-        type: 'MKT',
-      },
-    }
 
-    // webSocketService.sendEvent(data)
+    webSocketService.sendEvent({type:"products"})
     ws.onmessage = (event) => {
-      data = JSON.parse(event.data)
-      console.log(data)
-      const newData = {...data.data,id:Math.random() * 100000}
-      setStateTrades((prev) => [...prev, newData])
+      const parsedData = JSON.parse(event.data)
+      
+      if(parsedData.type ==="products"){
+        console.log("IN PRODUCTS")
+        setProducts(parsedData.data)
+        console.log(products,"APP PRODUCTS")
+      }
+      if(parsedData.type==="trade"){
+        let data = JSON.parse(event.data)
+        console.log(data,"DATA")
+        const newData = {...parsedData.data,id:Math.random() * 100000}
+        setStateTrades((prev) => [...prev, newData])
+        
+      }
+      
       // setLabels((prev) => [...prev, data.name])
     }
   }, [])
@@ -67,7 +73,7 @@ function App() {
           <Typography className={classes.title}>Test the Server</Typography>
         </Grid>
         <Grid item xs={12}>
-          <ButtonBar />
+          <ButtonBar products = {products} />
         </Grid>
 
         {/* { stateTrades.length && <DataCircle  d={ stateTrades[stateTrades -1]} /> } */}
