@@ -16,6 +16,7 @@ export const sendEvent = (data) => {
     if (ws.readyState !== 1) {
       messages.push(data)
     } else {
+      console.log("HERE")
       ws.send(data)
     }
     ws.onopen = () => {

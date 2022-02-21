@@ -1,24 +1,26 @@
 import React from 'react'
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormControl from '@material-ui/core/FormControl'
-import FormLabel from '@material-ui/core/FormLabel'
+import { Grid, Typography } from '@material-ui/core'
+import { useStyles } from "../styles/mainStyles"
 
-export default function GroupBy({ value, setValue }) {
-  const handleChange = (event) => {
-    setValue(event.target.value)
-   
+export default function GroupBy({setGroupBy }) {
+
+  const classes = useStyles();
+
+ 
+  const handleGroup =(btnName)=>{
+    setGroupBy(btnName)
   }
-
   return (
-    <FormControl component='fieldset'>
-      <FormLabel component='legend'>Gender</FormLabel>
-      <RadioGroup aria-label='gender' name='gender1' value={value} onChange={handleChange}>
-        <FormControlLabel value='TYPE' control={<Radio />} label='TYPE' />
-        <FormControlLabel value='SIDE' control={<Radio />} label='SIDE' />
-        <FormControlLabel value='LOCATION' control={<Radio />} label='LOCATION' />
-      </RadioGroup>
-    </FormControl>
+   <Grid container spacing={4} className={classes.groupWrapper}>
+     <Grid item>
+       <Typography variant='caption' className={classes.groupBtn} onClick={() => handleGroup("type")}>Type </Typography>
+     </Grid>
+     <Grid item>
+       <Typography variant='caption' className={classes.groupBtn}>Side </Typography>
+     </Grid>
+     <Grid item>
+       <Typography variant='caption' className={classes.groupBtn}>Location</Typography>
+     </Grid>
+   </Grid>
   )
 }

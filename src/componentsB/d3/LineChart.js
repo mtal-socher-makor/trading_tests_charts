@@ -1,11 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import { scaleBand, scaleLinear, max, format } from 'd3'
-import AxisBottom from './barchart/AxisBottom'
-import AxisLeft from './barchart/AxisLeft'
-import MarksLine from './lineChart/MarksLine'
-import { Grid, Typography } from '@material-ui/core'
-import { useStyles } from '../../styles/mainStyles'
-import GroupBy from '../GroupBy'
+import React, { useState, useCallback, useEffect } from 'react';
+import { scaleBand, scaleLinear, max, format, group } from 'd3';
+import AxisBottom from './barchart/AxisBottom';
+import AxisLeft from './barchart/AxisLeft';
+import MarksLine from './lineChart/MarksLine';
+import { Grid, Typography } from '@material-ui/core';
+import { useStyles } from '../../styles/mainStyles';
+//import GroupBy from '../GroupBy'
 
 
 const width = "5000";
@@ -15,24 +15,23 @@ const xAxisLabelOffset = 50;
 
 
 
-function LineChart({ data, type, value, setValue }) {
+function LineChart({ data, type, groupBy}) {
 console.log("MYDATA",data)
   const innerHeight = height - margin.top - margin.bottom;
   const innerWidth = width - margin.left - margin.right;
-
-  console.log(data,"DATA FROM LINE CHA")
+  
+  
   const classes = useStyles();
 
   const yValue = (d) => d.tradeTime
   const xValue = (d) => d.id
 
-  const siFormat = format('.2s')
-  const yAxisTickFormat = (tickValue) => siFormat(tickValue)
+  const siFormat = format('.2s');
+  const yAxisTickFormat = (tickValue) => siFormat(tickValue);
 
   const xScale = scaleBand()
     .domain(data.map(xValue))
     .range([0, data.length * 30])
-    //   .range([0, innerWidth])
     .paddingInner(0.15)
 
   const yScale = scaleLinear()
@@ -43,7 +42,6 @@ console.log("MYDATA",data)
 
   return (
     <Grid container className={classes.linechartContainer} >
-       <GroupBy  value={value} setValue={setValue}></GroupBy>
       <svg width={width} height={height} >
         <g transform={`translate(${margin.left},${margin.top})`}>
           {xScale.domain().map((tickValue) => (

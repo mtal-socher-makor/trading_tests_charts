@@ -68,6 +68,13 @@ export const useStyles = makeStyles((theme) => ({
     },
     tspan:{
       fontWeight: 600,
+    },
+    groupBtn: {
+      color: "var(--secondary)",
+      fontSize: 20,
+    },
+    groupWrapper:{
+      marginLeft: 20,
     }
 
 }))

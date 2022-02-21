@@ -24,9 +24,7 @@ import { PinDropSharp } from "@material-ui/icons";
 
 let data = {
       type: 'get_data',
-      filters: {
-        type: 'MKT',
-      },
+      power:true
     }
 
 function ButtonBar(props) {
@@ -41,7 +39,7 @@ function ButtonBar(props) {
     setPower(!power)
     console.log(power)
     webSocketService.sendEvent(JSON.stringify(data));
-    console.log(data)
+    // console.log(data)
    
   }
 console.log(props.products,"products coin")
@@ -115,7 +113,7 @@ console.log(props.products,"products coin")
                 <InputLabel>Coins</InputLabel>
                 <Select>
                   {props.products?.map(coin =>{
-                    console.log(coin,"COIN")
+                    // console.log(coin,"COIN")
                     return <MenuItem>{coin.product_name}</MenuItem>
                   })}
                 </Select>

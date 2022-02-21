@@ -1,59 +1,54 @@
 import ButtonBar from "./componentsB/ButtonBar";
-import VizArea from "./componentsB/VizArea";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import * as webSocketService from "./services/websocket";
 import React, { useState, useEffect, useRef } from "react";
 import DataCircle from "./componentsB/d3/DataCircle";
 import productsData from "./products.json";
-
+import Graph from "./componentsB/Graph"
+import VizArea from "./componentsB/VizArea";
+import GroupBy from "./componentsB/GroupBy";
 const types = ["MKT", "FOK", "RFQ"];
 const sides = ["SELL", "BUY"];
 const productIDs = productsData.products.map((product) => product.product_id);
 
-const returnObj = () => {
-  return {
-    type: "trade",
-    data: {
-      type: types[Math.floor(Math.random() * 3)],
-      side: sides[Math.floor(Math.random() * 2)],
-      product_id: productIDs[Math.floor(Math.random() * 29)],
-      quantity: 2.5,
-      tradeTime: Math.random(),
-      id: Math.random() * 100000,
-    },
-  };
-};
+
 
 function App() {
   const classes = useStyles();
   const [stateTrades, setStateTrades] = useState([]);
-  const [products,setProducts] = useState([]);
-
+  const [products, setProducts] = useState([]);
+  const [groupedData, setGroupedData] = useState([])
+  const [groupBy, setGroupBy] = useState("")
   let ws = webSocketService.connectWS();
 
   useEffect(() => {
-
-    webSocketService.sendEvent({type:"products"})
+    if (!products.length) {
+      webSocketService.sendEvent({ type: "products" })
+    }
     ws.onmessage = (event) => {
       const parsedData = JSON.parse(event.data)
-      
-      if(parsedData.type ==="products"){
+
+      if (parsedData.type === "products") {
         console.log("IN PRODUCTS")
         setProducts(parsedData.data)
-        console.log(products,"APP PRODUCTS")
+        console.log(products, "APP PRODUCTS")
       }
-      if(parsedData.type==="trade"){
+      if (parsedData.type === "trade") {
         let data = JSON.parse(event.data)
-        console.log(data,"DATA")
-        const newData = {...parsedData.data,id:Math.random() * 100000}
+        console.log(data, "DATA")
+        const newData = { ...parsedData.data, id: Math.random() * 100000 }
         setStateTrades((prev) => [...prev, newData])
-        
       }
-      
-      // setLabels((prev) => [...prev, data.name])
+
     }
   }, [])
-
+  // useEffect(() => {
+  //   if (groupBy == 'type') {
+  //     let filteredMkt = stateTrades.filter((trade) => trade.type == "MKT")
+  //     let grouped=[]
+  //     setStateTrades([])
+  //   }
+  // }, [groupBy])
   return (
     <div className='App'>
       {/* <Charts /> */}
@@ -62,7 +57,7 @@ function App() {
           <Typography className={classes.title}>Test the Server</Typography>
         </Grid>
         <Grid item xs={12}>
-          <ButtonBar products = {products} />
+          <ButtonBar products={products} />
         </Grid>
 
         {/* { stateTrades.length && <DataCircle  d={ stateTrades[stateTrades -1]} /> } */}
@@ -71,7 +66,9 @@ function App() {
           xs={10}
           style={{ display: "flex", justifyContent: "center" }}
         >
-          <VizArea type="C" data={stateTrades} />
+          <GroupBy setGroupBy={setGroupBy} />
+          {<VizArea groupBy={groupBy} data={groupBy ? groupedData : stateTrades} />}
+          {/* <Graph stateTrades={stateTrades} setStateTrades={setStateTrades}/> */}
         </Grid>
       </Grid>
     </div>
