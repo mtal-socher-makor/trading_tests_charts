@@ -4,7 +4,7 @@ let messages = []
 export const connectWS = () => {
   console.log('ws', ws)
   if ((ws === null || ws.readyState === 3) ) {
-    ws = new WebSocket(`ws://10.0.0.67:3040`)
+    ws = new WebSocket(`ws://10.0.0.67:3050`)
   }
   messages = []
   return ws

@@ -12,7 +12,7 @@ const height = 450
 const margin = { top: -20, right: 30, bottom: 60, left: 90 }
 const xAxisLabelOffset = 50
 
-function LineChart({ data, data2, type, groupBy, dataStates}) {
+function LineChart({ type, groupBy, dataStates}) {
  
   const innerHeight = height - margin.top - margin.bottom
   const innerWidth = width - margin.left - margin.right
@@ -51,8 +51,6 @@ function LineChart({ data, data2, type, groupBy, dataStates}) {
 
           <MarksLine
             type={type}
-            data={data}
-            data2={data2}
             groupBy={groupBy} 
             dataStates={dataStates}
             xScale={xScale}
