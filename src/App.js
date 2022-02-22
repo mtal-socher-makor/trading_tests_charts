@@ -24,6 +24,108 @@ const productIDs = productsData.products.map((product) => product.product_id);
 //   };
 // };
 
+const dummyData = [
+  {
+    type: "MKT",
+    side: "BUY",
+    product_id: "1",
+    product_name: "BTC-EUR",
+    quantity: 0.001,
+    tradeTime: "0.682",
+    id: 69527.61133277306,
+  },
+  {
+    type: "MKT",
+    side: "SELL",
+    product_id: "1",
+    product_name: "BTC-EUR",
+    quantity: 0.001,
+    tradeTime: "0.652",
+    id: 97609.21879812758,
+  },
+  {
+    type: "FOK",
+    side: "BUY",
+    product_id: "1",
+    product_name: "BTC-EUR",
+    quantity: 0.001,
+    tradeTime: "0.520",
+    id: 99548.74174524637,
+  },
+  {
+    type: "FOK",
+    side: "SELL",
+    product_id: "1",
+    product_name: "BTC-EUR",
+    quantity: 0.001,
+    tradeTime: "0.478",
+    id: 48925.79887408548,
+  },
+  {
+    type: "RFQ",
+    side: "BUY",
+    product_id: "1",
+    product_name: "BTC-EUR",
+    quantity: 0.001,
+    tradeTime: "0.490",
+    id: 73241.2960801257,
+  },
+  {
+    type: "RFQ",
+    side: "SELL",
+    product_id: "1",
+    product_name: "BTC-EUR",
+    quantity: 0.001,
+    tradeTime: "0.416",
+    id: 54589.54933579119,
+  },
+  {
+    type: "MKT",
+    side: "BUY",
+    product_id: "2",
+    product_name: "BTC-USD",
+    quantity: 0.0001,
+    tradeTime: "0.690",
+    id: 3445.055711470135,
+  },
+  {
+    type: "MKT",
+    side: "SELL",
+    product_id: "2",
+    product_name: "BTC-USD",
+    quantity: 0.0001,
+    tradeTime: "0.680",
+    id: 8978.802970175393,
+  },
+  {
+    type: "FOK",
+    side: "BUY",
+    product_id: "2",
+    product_name: "BTC-USD",
+    quantity: 0.0001,
+    tradeTime: "0.557",
+    id: 93893.6582976933,
+  },
+  {
+    type: "FOK",
+    side: "SELL",
+    product_id: "2",
+    product_name: "BTC-USD",
+    quantity: 0.0001,
+    tradeTime: "0.428",
+    id: 86188.55746581737,
+  },
+  {
+    type: "RFQ",
+    side: "BUY",
+    product_id: "2",
+    product_name: "BTC-USD",
+    quantity: 0.0001,
+    tradeTime: "3.309",
+    id: 20324.171753075727,
+  },
+];
+
 function App() {
   const classes = useStyles();
   const [stateTrades, setStateTrades] = useState([]);
@@ -62,8 +164,8 @@ function App() {
       if (parsedData.type === "trade") {
         let data = JSON.parse(event.data);
         console.log(data, "DATA");
-        const newData = { ...parsedData.data, id: Math.random() * 100000 };
-        setStateTrades((prev) => [...prev, newData]);
+        setStateTrades((prev) => [...prev, data]);
+        // setStateTrades(dummyData)
       }
 
       // setLabels((prev) => [...prev, data.name])
@@ -87,7 +189,7 @@ function App() {
           xs={10}
           style={{ display: "flex", justifyContent: "center" }}
         >
-          <VizArea type="C" data={stateTrades} />
+          <VizArea type="C" data={dummyData} />
         </Grid>
       </Grid>
     </div>
@@ -104,7 +206,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 40,
-    color: "var(--main)",
+    color: "white",
     fontWeight: 600,
   },
 }));

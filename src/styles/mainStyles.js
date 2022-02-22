@@ -7,12 +7,33 @@ import {
   Switch,
 } from "@material-ui/core";
 
+//474D57
+
 export const useStyles = makeStyles((theme) => ({
-  buttonRow: {
-    // width: "40vw",
-    // margin: "10vh auto 20px auto",
-    // justifyContent: "space-evenly",
+  focusField: {
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "white",
+    },
+    "& .MuiOutlinedInput-root": {
+      color: "#848E9C",
+    },
   },
+  filterInput: {
+    "& .MuiSelect-outlined.MuiSelect-outlined": {
+      backgroundColor: "rgb(24,26,32);",
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#474D57",
+    },
+    root: {},
+  },
+  selectPaper: {
+    backgroundColor: "#646464",
+    color: '#ffffff'
+  },
+  icon: {
+    fill: 'white',
+ },
   vizWrapper: {
     width: "80%",
     // height: "200px",

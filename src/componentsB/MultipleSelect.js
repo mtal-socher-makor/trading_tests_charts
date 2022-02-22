@@ -6,6 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { Checkbox, ListItemText, Typography } from "@material-ui/core";
+import { useStyles } from "../styles/mainStyles";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -36,6 +37,7 @@ const MultipleSelect = ({
 }) => {
   //   console.log("options", options);
   const theme = useTheme();
+  const classes = useStyles();
   //   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleChange = (e, child) => {
@@ -67,16 +69,40 @@ const MultipleSelect = ({
   };
 
   return (
-    <FormControl style={{ flex: 1 }} variant="outlined" size='small'>
-      <InputLabel style={{ textTransform: "capitalize" }}>{label}</InputLabel>
+    <FormControl
+    fullWidth
+      className={classes.focusField}
+      style={{ flex: 1 }}
+      variant="outlined"
+      size="small"
+    >
+      <InputLabel style={{ textTransform: "capitalize", color: "#848E9C" }}>
+        {label}
+      </InputLabel>
       <Select
+        
         id="demo-multiple-option"
         multiple
         value={values}
+        className={classes.filterInput}
         onChange={(e, child) => handleChange(e, child)}
-        input={<OutlinedInput label="option" />}
+        input={<OutlinedInput label={label} />}
         renderValue={(selected) => selected.join(", ")}
-        MenuProps={MenuProps}
+        MenuProps={{
+          classes: {
+            paper: classes.selectPaper,
+            icon: classes.icon,
+          },
+          anchorOrigin: {
+            vertical: "bottom",
+            horizontal: "left",
+          },
+          transformOrigin: {
+            vertical: "top",
+            horizontal: "left",
+          },
+          getContentAnchorEl: null,
+        }}
       >
         {options.map((option) =>
           isObjectOptions ? (
