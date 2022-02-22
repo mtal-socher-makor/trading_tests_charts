@@ -7,6 +7,8 @@ import {
   Switch,
 } from "@material-ui/core";
 
+//474D57
+
 export const useStyles = makeStyles((theme) => ({
     buttonRow:{
         // width: "40vw",
@@ -97,6 +99,23 @@ export const useStyles = makeStyles((theme) => ({
     groupItem:{
       display: "inline"
     },
+    focusField: {
+      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        borderColor: "white",
+      },
+      "& .MuiOutlinedInput-root": {
+        color: "#848E9C",
+      },
+    },
+    filterInput: {
+      "& .MuiSelect-outlined.MuiSelect-outlined": {
+        backgroundColor: "rgb(24,26,32);",
+      },
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#474D57",
+      },
+    }
+    
 
 }))
 
@@ -143,4 +162,5 @@ export const StyledTextField = withStyles({
   }
   })(TextField);
 
+  
   

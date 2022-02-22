@@ -326,7 +326,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 40,
-    color: 'var(--main)',
+    color: "white",
     fontWeight: 600,
   },
 }))

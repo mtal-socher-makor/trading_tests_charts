@@ -1,0 +1,36 @@
+ <Grid
+            container
+            spacing={3}
+            direction="row"
+            justifyContent="center"
+            style={{
+              position: "relative",
+              width: "30vw",
+              display: showFilters ? "flex" : "none",
+            }}
+          >
+            <Grid item container xs={6}>
+              <MultipleSelect
+                options={["FOK", "MKT", "RFQ"]}
+                label="types"
+                setFilters={setFilters}
+                values={filters.types}
+              />
+            </Grid>
+            <Grid item container xs={6}>
+              <MultipleSelect
+                options={["Buy", "Sell"]}
+                label="sides"
+                setFilters={setFilters}
+                values={filters.sides}
+              />
+            </Grid>
+            <Grid item container xs={12}>
+              <MultipleSelect
+                options={props.products}
+                label="products"
+                setFilters={setFilters}
+                values={filters.products}
+                isObjectOptions
+              />
+            </Grid>

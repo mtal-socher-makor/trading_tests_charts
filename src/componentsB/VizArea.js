@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
-import {useStyles, FilledButton }from "../styles/mainStyles";
+import React, { useState, useEffect, useRef } from "react";
+import { useStyles, FilledButton } from "../styles/mainStyles";
 // import data from "../model_data.json";
 import { Grid, Typography } from '@material-ui/core'
 
@@ -28,12 +28,12 @@ function VizArea({  groupBy, dataStates }) {
     
       <Grid container className={classes.vizContainer}>
          
-          {!dataStates[0].length ?  <Typography variant="h1" className={classes.loading}>Loading...</Typography> : null}
+          {/* {!dataStates[0].length ?  <Typography variant="h1" className={classes.loading}>Loading...</Typography> : null} */}
           {dataStates[0].length ? <MemoLineChart groupBy={groupBy} dataStates={dataStates} /> : null}
           
       </Grid>
     </Grid>
-  )
+  );
 }
 
-export default VizArea
+export default VizArea;
