@@ -1,5 +1,5 @@
 import { useState, forwardRef } from 'react'
-import { line, curveNatural, transition, ease, duration, easeSin, scaleOrdinal } from 'd3'
+import { line, curveNatural,curveCardinal, transition, ease, duration, easeSin, scaleOrdinal } from 'd3'
 import Tooltip from '../Tooltip'
 import MarksLineSingle from './MarksLineSingle'
 
@@ -42,7 +42,8 @@ const MarksLine = forwardRef(({ data, data2, xScale, yScale, xValue, yValue, too
                     d={line()
                       .x((d) => xScale(xValue(d)))
                       .y((d) => yScale(yValue(d)))
-                      .curve(curveNatural)(arr)}
+                      .curve(curveCardinal)(arr)
+                    }
                   />
                   {arr.map((d) => (
                     <MarksLineSingle d={d} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color={colorScale(arrayNames[index])} />
