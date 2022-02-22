@@ -8,7 +8,8 @@ function MarksLineSingle({d,
                           xValue,
                           yValue,
                           xScale,
-                          yScale
+                          yScale,
+                          color
                             }) {
 
   const [tooltipState, setTooltipState] = useState(false);
@@ -37,7 +38,7 @@ function MarksLineSingle({d,
             cx={xScale(xValue(d))} 
             cy={yScale(yValue(d))} 
             r={6} 
-            fill="var(--secondary)"
+            fill={color}
             onMouseEnter={tooltipEnter}
             onMouseLeave={tooltipLeave}
             >

@@ -17,7 +17,7 @@ export const useStyles = makeStyles((theme) => ({
     vizWrapper:{
       width: "100%",
       //height: "700px",
-      marginTop: 130,
+      //marginTop: 130,
       position: "relative",
     },
     vizContainer:{
@@ -69,13 +69,34 @@ export const useStyles = makeStyles((theme) => ({
     tspan:{
       fontWeight: 600,
     },
-    groupBtn: {
-      color: "var(--secondary)",
-      fontSize: 20,
+    presentationArea:{
+      justifyContent: "center"
     },
+    groupBtn: {
+      color: "yellow",
+      fontSize: "25px !important",
+      "&:hover":{
+        cursor: "pointer"
+      }
+    },
+    groupBtnSpecial:{
+      color: "#fff",
+      fontSize: "25px !important",
+      "&:hover":{
+        cursor: "pointer"
+      }
+    },
+
     groupWrapper:{
-      marginLeft: 20,
-    }
+      // marginLeft: 20,
+      position: "absolute",
+      top: "10px",
+      left: "10px",
+      zIndex: 2
+    },
+    groupItem:{
+      display: "inline"
+    },
 
 }))
 

@@ -9,36 +9,27 @@ import DataCircle from './d3/DataCircle';
 import GroupBy from './GroupBy';
 // import * as webSocketService from '../services/websocket'
 
-function VizArea({ data,setGroupBy, groupBy }) {
+function VizArea({  groupBy, dataStates }) {
 
-  
     const classes = useStyles();
    const [average, setAverage] = useState("0")
     
     useEffect(() => {
-     if(data.length){
-      setAverage((data.reduce((acc, current) => (acc + current.tradeTime), 0) / data.length).toFixed(3))
+     if(dataStates[0].length){
+      setAverage((dataStates[0].reduce((acc, current) => (acc + current.tradeTime), 0) / dataStates[0].length).toFixed(3))
       
      }
-    }, [data])
+    }, [dataStates[0]])
     
 
   return (
     <Grid className={classes.vizWrapper}>
-      {/* { data.length ? 
-        <DataCircle  d={ data[data.length -1]} /> 
-        : null
-      } */}
-      {/* { data.length ? 
-        <Grid  className={classes.avgDiv} >
-          {<Typography className={classes.avgText} >Average Time: {average}</Typography>}
-        </Grid> 
-    : null} */}
+    
     
       <Grid container className={classes.vizContainer}>
          
-          {!data.length ?  <Typography variant="h1" className={classes.loading}>Loading...</Typography> : null}
-          {data.length ? <MemoLineChart groupBy={groupBy} data={data}/> : null}
+          {!dataStates[0].length ?  <Typography variant="h1" className={classes.loading}>Loading...</Typography> : null}
+          {dataStates[0].length ? <MemoLineChart groupBy={groupBy} dataStates={dataStates} /> : null}
           
       </Grid>
     </Grid>
