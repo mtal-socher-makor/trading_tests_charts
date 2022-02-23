@@ -28,7 +28,7 @@ function LineChart({ type, groupBy, dataStates }) {
 
   const xScale = scaleBand()
     .domain(dataStates[0].map(xValue))
-    .range([0, dataStates[0].length * 30])
+    .range([20, dataStates[0].length * 35])
     .paddingInner(0.15);
 
   const yScale = scaleLinear()

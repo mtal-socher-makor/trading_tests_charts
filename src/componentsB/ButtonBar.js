@@ -16,15 +16,10 @@ const ButtonBar = (props) => {
   const [showFilters, setShowFilters] = useState(false)
   const [filtersChanged, setFiltersChanged] = useState(false)
   const [setGroupByType, setGroupBySide, setGroupByLocation, setGroupByThread] = props.groupBySetters
-  const [filters, setFilters] = useState({
-    servers: [],
-    types: [],
-    sides: [],
-    products: [],
-  })
+  const filters =props.filters
+  const  setFilters= props.setFilters
   console.log('props', props)
   const [numberOfThreads, setNumOfThreads] = useState(0);
-
   const [power, setPower] = useState(false)
   const [setStateTrades, setStateTradesPartly, setTypeTrades, setSideTrades, setLocationTrades, setThreadTrades] = props.dataSetters
   const classes = useStyles()

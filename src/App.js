@@ -32,6 +32,12 @@ function App() {
   const [groupByThread, setGroupByThread] = useState(false)
   const [locationTrades, setLocationTrades] = useState({})
   const [threadTrades, setThreadTrades] = useState({})
+  const [filters, setFilters] = useState({
+    servers: [],
+    types: [],
+    sides: [],
+    products: [],
+  })
   let dataStates = [stateTrades, stateTradesPartly, typeTrades, sideTrades, locationTrades, threadTrades]
   let dataSetters = [setStateTrades, setStateTradesPartly, setTypeTrades, setSideTrades, setLocationTrades, setThreadTrades]
   let groupBy = [groupByType, groupBySide, groupByLocation, groupByThread]
@@ -126,17 +132,17 @@ function App() {
           <Typography className={classes.title}>Test the Server</Typography>
         </Grid>
         <Grid item xs={12}>
-          <ButtonBar groupBySetters={groupBySetters} changeMode={setMode} mode={mode} products={products} dataSetters={dataSetters} />
+          <ButtonBar groupBySetters={groupBySetters} changeMode={setMode} mode={mode} products={products} dataSetters={dataSetters} filters={filters} setFilters={setFilters} />
         </Grid>
         {console.log('threads', threadTrades)}
         {/* { stateTrades.length && <DataCircle  d={ stateTrades[stateTrades -1]} /> } */}
-        <Grid container  className={classes.presentationArea}>
+        <Grid container className={classes.presentationArea}>
           <Grid item xs={10} style={{ display: 'flex', justifyContent: 'center' }} style={{ position: 'relative' }}>
-            <GroupBy groupByThread={groupByThread} groupBySetters={groupBySetters} groupBy={groupBy} />
+            <GroupBy  filters={filters} groupByThread={groupByThread} groupBySetters={groupBySetters} groupBy={groupBy} />
           </Grid>
-          <Grid item >
+          <Grid item>
             <Grid container direction='row' spacing={2}>
-              <Grid item className='vizPlusLegend'  style={{ paddingTop: '10rem' }}>
+              <Grid item className='vizPlusLegend' style={{ paddingTop: '10rem' }}>
                 {!groupByThread && <Legend arrayNames={arrayNames} colorScale={colorScale} />}
               </Grid>
               <Grid item>{<VizArea dataStates={dataStates} groupBy={groupBy} />}</Grid>
