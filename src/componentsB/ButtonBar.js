@@ -13,9 +13,9 @@ let type = 'get_data'
 
 const ButtonBar = (props) => {
   const changeMode = props.changeMode
-  const setGroupByThread = props.setGroupByThread
   const [showFilters, setShowFilters] = useState(false)
   const [filtersChanged, setFiltersChanged] = useState(false)
+  const [setGroupByType, setGroupBySide, setGroupByLocation, setGroupByThread] = props.groupBySetters
   const [filters, setFilters] = useState({
     servers: [],
     types: [],
@@ -49,6 +49,9 @@ const ButtonBar = (props) => {
       setSideTrades({});
       setLocationTrades({});
       setThreadTrades({})
+      setGroupByType(false) 
+      setGroupBySide(false) 
+      setGroupByLocation(false)
 
     }
 

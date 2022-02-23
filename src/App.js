@@ -55,7 +55,7 @@ function App() {
         if (parsedData.thread) {
         }
         let data = parsedData.data
-        console.log('data from app SSSSSSSS', data)
+        console.log('data THREAD from app SSSSSSSS', data.thread)
         setStateTrades((prev) => [...prev, data])
       }
     }
@@ -126,17 +126,21 @@ function App() {
           <Typography className={classes.title}>Test the Server</Typography>
         </Grid>
         <Grid item xs={12}>
-          <ButtonBar changeMode={setMode} mode={mode} products={products} dataSetters={dataSetters} setGroupByThread={setGroupByThread} />
+          <ButtonBar groupBySetters={groupBySetters} changeMode={setMode} mode={mode} products={products} dataSetters={dataSetters} />
         </Grid>
         {console.log('threads', threadTrades)}
         {/* { stateTrades.length && <DataCircle  d={ stateTrades[stateTrades -1]} /> } */}
-        <Grid container direction='column' className={classes.presentationArea}>
+        <Grid container  className={classes.presentationArea}>
           <Grid item xs={10} style={{ display: 'flex', justifyContent: 'center' }} style={{ position: 'relative' }}>
-            <GroupBy groupByThread={groupByThread} groupBySetters={groupBySetters} groupBy={groupBy}/>
+            <GroupBy groupByThread={groupByThread} groupBySetters={groupBySetters} groupBy={groupBy} />
           </Grid>
-          <Grid item>{<VizArea dataStates={dataStates} groupBy={groupBy} />}</Grid>
-          <Grid item className='vizPlusLegend' direction='row' spacing={2} style={{paddingTop: '10rem' }}>
-            {!groupByThread && <Legend arrayNames={arrayNames} colorScale={colorScale} />}
+          <Grid item >
+            <Grid container direction='row' spacing={2}>
+              <Grid item className='vizPlusLegend'  style={{ paddingTop: '10rem' }}>
+                {!groupByThread && <Legend arrayNames={arrayNames} colorScale={colorScale} />}
+              </Grid>
+              <Grid item>{<VizArea dataStates={dataStates} groupBy={groupBy} />}</Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

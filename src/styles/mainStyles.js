@@ -1,11 +1,4 @@
-import {
-  makeStyles,
-  TextField,
-  withStyles,
-  Button,
-  IconButton,
-  Switch,
-} from "@material-ui/core";
+import { makeStyles, TextField, withStyles, Button, IconButton, Switch } from '@material-ui/core'
 
 //474D57
 
@@ -23,38 +16,38 @@ export const useStyles = makeStyles((theme) => ({
   //   overflowX: "auto",
   // },
   vizContainer: {
-    backgroundColor: '#313131',
+    backgroundColor: 'rgb(41, 41, 41);',
     // borderShadow: "5px 10px #000",
-    width: "80vw",
-    height: "400px",
-    borderRadius: "8px",
+    width: '80vw',
+    height: '400px',
+    borderRadius: '8px',
     //marginTop:50,
     // overflowX: "auto",
-    overflowY: "hidden",
-    position: "relative",
+    overflowY: 'hidden',
+    position: 'relative',
   },
   loading: {
-    fontSize: "40px",
-    color: "var(--secondary)",
+    fontSize: '40px',
+    color: 'var(--secondary)',
     //alignSelf : "center",
   },
   dataCircle: {
-    position: "absolute",
-    top: "-130px",
+    position: 'absolute',
+    top: '-130px',
     right: 0,
     zIndex: 2,
   },
   avgDiv: {
-    position: "absolute",
+    position: 'absolute',
     top: -25,
     left: 20,
     zIndex: 2,
-    backgroundColor: "var(--secondary)",
+    backgroundColor: 'var(--secondary)',
     borderRadius: 8,
   },
   avgText: {
-    color: "var(--main)",
-    fontSize: "30px !important",
+    color: 'var(--main)',
+    fontSize: '30px !important',
     padding: 8,
   },
   tooltipBox: {
@@ -67,121 +60,120 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
   },
   presentationArea: {
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   groupBtn: {
-    color: "#848E9C",
-    fontSize: "1.1em !important",
-    "&:hover": {
-      cursor: "pointer",
-      color: "#FFD700",
+    color: '#848E9C',
+    fontSize: '1.1em !important',
+    '&:hover': {
+      cursor: 'pointer',
+      color: '#FFD700',
     },
   },
   groupBtnSpecial: {
-    color: "#848E9C",
-    fontSize: "1.1em !important",
-    "&:hover": {
-      color: "#FFD700",
-      cursor: "pointer",
+    color: '#848E9C',
+    fontSize: '1.1em !important',
+    '&:hover': {
+      color: '#FFD700',
+      cursor: 'pointer',
     },
-    
   },
   groupWrapper: {
     // marginLeft: 20,
     // position: "absolute",
-    top: "10px",
-    left: "10px",
+    top: '10px',
+    left: '10px',
     zIndex: 2,
   },
   groupItem: {
-    display: "inline",
+    display: 'inline',
   },
   legendContainer: {
-    margin: "0 auto",
+    margin: '0 auto',
   },
 
   focusField: {
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "white",
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'white',
     },
-    "& .MuiOutlinedInput-root": {
-      color: "#848E9C",
+    '& .MuiOutlinedInput-root': {
+      color: '#848E9C',
     },
   },
   filterInput: {
-    "& .MuiSelect-outlined.MuiSelect-outlined": {
-      backgroundColor: "rgb(24,26,32);",
+    '& .MuiSelect-outlined.MuiSelect-outlined': {
+      backgroundColor: 'rgb(24,26,32);',
     },
-    "& .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#474D57",
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#474D57',
     },
   },
   TextFieldInput: {
-    "& .MuiOutlinedInput-inputMarginDense": {
-      backgroundColor: "rgb(24,26,32)",
-      color: "#848E9C",
+    '& .MuiOutlinedInput-inputMarginDense': {
+      backgroundColor: 'rgb(24,26,32)',
+      color: '#848E9C',
     },
-    "& .MuiInputLabel-root": {
-      color: "#848E9C",
+    '& .MuiInputLabel-root': {
+      color: '#848E9C',
     },
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "white",
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'white',
     },
   },
   input: {
-    "& input[type=number]": {
-      "-moz-appearance": "textfield",
+    '& input[type=number]': {
+      '-moz-appearance': 'textfield',
     },
-    "& input[type=number]::-webkit-outer-spin-button": {
-      "-webkit-appearance": "none",
+    '& input[type=number]::-webkit-outer-spin-button': {
+      '-webkit-appearance': 'none',
       margin: 0,
     },
-    "& input[type=number]::-webkit-inner-spin-button": {
-      "-webkit-appearance": "none",
+    '& input[type=number]::-webkit-inner-spin-button': {
+      '-webkit-appearance': 'none',
       margin: 0,
     },
   },
-}));
+}))
 
 export const FilledButton = withStyles({
   root: {
-    padding: "7px 39px",
-    backgroundColor: "var(--secondary)",
+    padding: '7px 39px',
+    backgroundColor: 'var(--secondary)',
     fontWeight: 600,
-    fontSize: "18px",
-    color: "#FFFFFF",
-    borderRadius: "21px",
-    textTransform: "none",
-    "&:hover": {
-      backgroundColor: "var(--secondaryDark)",
-      boxShadow: "0px 6px 10px #00185829",
-      transition: ".3s",
+    fontSize: '18px',
+    color: '#FFFFFF',
+    borderRadius: '21px',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: 'var(--secondaryDark)',
+      boxShadow: '0px 6px 10px #00185829',
+      transition: '.3s',
     },
-    "&.Mui-disabled": {
-      backgroundColor: "#ACB1BF",
-      color: "#868DA2",
+    '&.Mui-disabled': {
+      backgroundColor: '#ACB1BF',
+      color: '#868DA2',
     },
   },
-})(Button);
+})(Button)
 
 export const StyledTextField = withStyles({
   root: {
-    width: "100%",
-    "& .MuiOutlinedInput-root": {
-      borderRadius: "8px",
-      "& fieldset": {
-        borderColor: "#EDEFF3",
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+      borderRadius: '8px',
+      '& fieldset': {
+        borderColor: '#EDEFF3',
       },
-      "&:hover fieldset": {
-        border: "1px solid #EDEFF3",
+      '&:hover fieldset': {
+        border: '1px solid #EDEFF3',
       },
-      "&.Mui-focused fieldset": {
-        border: "1px solid #EDEFF3",
+      '&.Mui-focused fieldset': {
+        border: '1px solid #EDEFF3',
       },
-      "& .MuiSelect-select:focus": {
-        backgroundColor: "transparent",
-        borderRadius: "8px",
+      '& .MuiSelect-select:focus': {
+        backgroundColor: 'transparent',
+        borderRadius: '8px',
       },
     },
   },
-})(TextField);
+})(TextField)
