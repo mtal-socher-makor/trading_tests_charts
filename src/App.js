@@ -7,6 +7,8 @@ import productsData from "./products.json";
 import Graph from "./componentsB/Graph";
 import VizArea from "./componentsB/VizArea";
 import GroupBy from "./componentsB/GroupBy";
+import Legend from "./componentsB/d3/Legend";
+
 export const currentWorker = new Worker("index.js");
 
 function App() {
