@@ -7,16 +7,17 @@ import { Grid, Typography } from '@material-ui/core'
 import { useStyles } from '../../styles/mainStyles'
 //import GroupBy from '../GroupBy'
 
-const width = '5000'
-const height = 450
-const margin = { top: -20, right: 30, bottom: 60, left: 90 }
-const xAxisLabelOffset = 50
-
-function LineChart({ data, data2, type, groupBy, dataStates}) {
- 
+function LineChart({ type, groupBy, dataStates }) {
+  const [stateTrades] = dataStates
+  const windowWidth = window.innerWidth
+  const dynamicWidth = windowWidth + stateTrades.length * 30
+  const height = 450
+  const margin = { top: -20, right: 30, bottom: 60, left: 90 }
   const innerHeight = height - margin.top - margin.bottom
-  const innerWidth = width - margin.left - margin.right
-
+  const innerWidth = dynamicWidth - margin.left - margin.right
+  // const stylesProps = {
+  //   w: width,
+  // }
   const classes = useStyles()
 
   const yValue = (d) => d.tradeTime
@@ -34,10 +35,9 @@ function LineChart({ data, data2, type, groupBy, dataStates}) {
     .domain([0, max(dataStates[0], yValue)])
     .range([innerHeight - 30, 60])
 
-
   return (
-    <Grid container className={classes.linechartContainer}>
-      <svg width={width} height={height}>
+    <Grid container id="ZEZEZE" style={{ width: dynamicWidth }}>
+      <svg width={dynamicWidth} height={height}>
         <g transform={`translate(${margin.left},${margin.top})`}>
           {xScale.domain().map((tickValue) => (
             <AxisBottom xScale={xScale} innerWidth={innerWidth} tickValue={tickValue} />
@@ -51,9 +51,7 @@ function LineChart({ data, data2, type, groupBy, dataStates}) {
 
           <MarksLine
             type={type}
-            data={data}
-            data2={data2}
-            groupBy={groupBy} 
+            groupBy={groupBy}
             dataStates={dataStates}
             xScale={xScale}
             yScale={yScale}
