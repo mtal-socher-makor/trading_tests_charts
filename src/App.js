@@ -51,7 +51,7 @@ function App() {
   // workerizedWorker.expensive();
   currentWorker.postMessage({ type: 'trial' })
   useEffect(() => {
-    // currentWorker.postMessage({ type: "trial" });
+    currentWorker.postMessage({ type: "products" });
     currentWorker.onmessage = (e) => {
       const parsedData = JSON.parse(e.data)
       if (parsedData.type === 'products') {
