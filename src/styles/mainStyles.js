@@ -16,19 +16,20 @@ export const useStyles = makeStyles((theme) => ({
         // justifyContent: "space-evenly",
                
     },
-    vizWrapper:{
-      width: "100%",
-      //height: "700px",
-      //marginTop: 130,
-      position: "relative",
-    },
+    // vizWrapper:{
+    //   width: "100%",
+    //   //height: "700px",
+    //   //marginTop: 130,
+    //   position: "relative",
+    //   overflowX: "auto",
+    // },
     vizContainer:{
         backgroundColor: 'var(--main)',
-        width: "100%",
+        width: "100vw",
         height: "400px",
         borderRadius: "8px",
         //marginTop:50,
-        overflowX: "scroll",
+        // overflowX: "auto",
         overflowY: "hidden",
         position: "relative",
        
@@ -37,10 +38,6 @@ export const useStyles = makeStyles((theme) => ({
       fontSize: "40px",
       color: 'var(--secondary)',
       //alignSelf : "center",
-    },
-    linechartContainer:{
-      width: 5000,
-      
     },
     dataCircle:{
       position: "absolute",
@@ -88,7 +85,6 @@ export const useStyles = makeStyles((theme) => ({
         cursor: "pointer"
       }
     },
-
     groupWrapper:{
       // marginLeft: 20,
       position: "absolute",
@@ -99,6 +95,10 @@ export const useStyles = makeStyles((theme) => ({
     groupItem:{
       display: "inline"
     },
+    legendContainer:{
+      margin: "0 auto"
+    },
+  
     focusField: {
       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
         borderColor: "white",

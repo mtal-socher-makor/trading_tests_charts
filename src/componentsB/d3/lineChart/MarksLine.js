@@ -5,7 +5,7 @@ import MarksLineSingle from './MarksLineSingle'
 
 const transitionPath = transition().ease(easeSin).duration(2500)
 
-const MarksLine = forwardRef(({ data, data2, xScale, yScale, xValue, yValue, tooltipFormat, innerHeight, type, groupBy, dataStates }, ref) => {
+const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue, tooltipFormat, innerHeight, type, groupBy, dataStates }, ref) => {
   //const [showTooltips, setShowTooltips] = useState(true)
   const [stateTrades, stateTradesPartly, typeTrades, sideTrades, locationTrades] = dataStates
   const [groupByType, groupBySide, groupByLocation] = groupBy
@@ -72,23 +72,6 @@ const MarksLine = forwardRef(({ data, data2, xScale, yScale, xValue, yValue, too
           </>
         )}
       </g>
-      {arrayNames.length &&
-        arrayNames.map((name, index) => {
-          console.log("arrayNames[index]",colorScale(arrayNames[index]))
-          return (
-            <foreignobject>
-              <div>
-                <svg>
-                  <g transform={`translate(200px,200px)`}>
-                    <circle cx={`${200 + index*40}`} cy={innerHeight} r='6' fill={colorScale(arrayNames[index])} />
-                    <text x={`${200 + index*40 + 10}`} y="0" >{name} </text>
-                  </g>
-                </svg>
-              </div>
-            </foreignobject>
-            
-          )
-        })}
         
     </>
   )

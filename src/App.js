@@ -7,110 +7,16 @@ import productsData from './products.json'
 import Graph from './componentsB/Graph'
 import VizArea from './componentsB/VizArea'
 import GroupBy from './componentsB/GroupBy'
+import createDataArrays from "./helperFunctions.js/createDataArrays";
+import Legend from "./componentsB/d3/Legend";
+
+
+
 const types = ['MKT', 'FOK', 'RFQ']
 const sides = ['SELL', 'BUY']
 const productIDs = productsData.products.map((product) => product.product_id)
-const dummyRfq = [
-  {
-    type: 'MKT',
-    side: 'BUY',
-    product_id: '1',
-    product_name: 'BTC-EUR',
-    quantity: 0.001,
-    tradeTime: '0.682',
-    id: 69527.61133277306,
-  },
-  {
-    type: 'MKT',
-    side: 'SELL',
-    product_id: '1',
-    product_name: 'BTC-EUR',
-    quantity: 0.001,
-    tradeTime: '0.652',
-    id: 97609.21879812758,
-  },
-  {
-    type: 'FOK',
-    side: 'BUY',
-    product_id: '1',
-    product_name: 'BTC-EUR',
-    quantity: 0.001,
-    tradeTime: '0.520',
-    id: 99548.74174524637,
-  },
-  {
-    type: 'FOK',
-    side: 'SELL',
-    product_id: '1',
-    product_name: 'BTC-EUR',
-    quantity: 0.001,
-    tradeTime: '0.478',
-    id: 48925.79887408548,
-  },
-  {
-    type: 'RFQ',
-    side: 'BUY',
-    product_id: '1',
-    product_name: 'BTC-EUR',
-    quantity: 0.001,
-    tradeTime: '0.490',
-    id: 73241.2960801257,
-  },
-  {
-    type: 'RFQ',
-    side: 'SELL',
-    product_id: '1',
-    product_name: 'BTC-EUR',
-    quantity: 0.001,
-    tradeTime: '0.416',
-    id: 54589.54933579119,
-  },
-  {
-    type: 'MKT',
-    side: 'BUY',
-    product_id: '2',
-    product_name: 'BTC-USD',
-    quantity: 0.0001,
-    tradeTime: '0.690',
-    id: 3445.055711470135,
-  },
-  {
-    type: 'MKT',
-    side: 'SELL',
-    product_id: '2',
-    product_name: 'BTC-USD',
-    quantity: 0.0001,
-    tradeTime: '0.680',
-    id: 8978.802970175393,
-  },
-  {
-    type: 'FOK',
-    side: 'BUY',
-    product_id: '2',
-    product_name: 'BTC-USD',
-    quantity: 0.0001,
-    tradeTime: '0.557',
-    id: 93893.6582976933,
-  },
-  {
-    type: 'FOK',
-    side: 'SELL',
-    product_id: '2',
-    product_name: 'BTC-USD',
-    quantity: 0.0001,
-    tradeTime: '0.428',
-    id: 86188.55746581737,
-  },
-  {
-    type: 'RFQ',
-    side: 'BUY',
-    product_id: '2',
-    product_name: 'BTC-USD',
-    quantity: 0.0001,
-    tradeTime: '3.309',
-    id: 20324.171753075727,
-  },
-]
+
+
 function App() {
   const classes = useStyles()
 
@@ -129,6 +35,7 @@ function App() {
   let groupBy = [groupByType, groupBySide, groupByLocation]
   let groupBySetters = [setGroupByType, setGroupBySide, setGroupByLocation]
   let ws = webSocketService.connectWS()
+  const [arrays, arrayNames, colorScale] = createDataArrays(dataStates, groupBy)
   console.log('typeTrades', typeTrades)
   console.log('group', groupByType)
 
@@ -186,6 +93,8 @@ function App() {
     }
   }, [stateTrades, groupByType, groupBySide, groupByLocation])
 
+
+
   return (
     <div className='App'>
       {/* <Charts /> */}
@@ -203,6 +112,7 @@ function App() {
             <GroupBy groupBySetters={groupBySetters} />
           </Grid>
           <Grid item>{<VizArea dataStates={dataStates} groupBy={groupBy} />}</Grid>
+          <Grid item style={{}}><Legend arrayNames={arrayNames} colorScale={colorScale}/></Grid>
         </Grid>
       </Grid>
     </div>

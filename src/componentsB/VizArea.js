@@ -4,7 +4,7 @@ import { useStyles, FilledButton } from "../styles/mainStyles";
 import { Grid, Typography } from '@material-ui/core'
 
 import FilterBar from './FilterBar';
-import {MemoLineChart} from "./d3/LineChart"
+import { MemoLineChart } from "./d3/LineChart"
 import DataCircle from './d3/DataCircle';
 import GroupBy from './GroupBy';
 // import * as webSocketService from '../services/websocket'
@@ -23,7 +23,6 @@ function VizArea({  groupBy, dataStates }) {
     
 
   return (
-    <Grid className={classes.vizWrapper}>
     
     
       <Grid container className={classes.vizContainer}>
@@ -32,7 +31,6 @@ function VizArea({  groupBy, dataStates }) {
           {dataStates[0].length ? <MemoLineChart groupBy={groupBy} dataStates={dataStates} /> : null}
           
       </Grid>
-    </Grid>
   );
 }
 

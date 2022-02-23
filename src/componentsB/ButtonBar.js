@@ -51,7 +51,7 @@ const ButtonBar = (props) => {
     // if (Object.values(filteredFilters).every((arr) => !arr.length)) {
     //   data = { type, power: !power };
     // } else {
-    data = { type, filters: filteredFilters, power: !power }
+    data = { type, mode:"regular", filters: filteredFilters, power: !power }
     // }
     webSocketService.sendEvent(JSON.stringify(data))
     console.log(data)
@@ -164,7 +164,7 @@ const ButtonBar = (props) => {
           </Grid>
         </Collapse>
       </Grid>
-      <Grid item xs={6} direction='row' alignItems='center'>
+      <Grid item xs={6} direction='row' >
         <Button
           fullWidth
           onClick={createTrade}
