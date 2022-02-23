@@ -1,17 +1,29 @@
-export let ws = null;
+let ws = null;
+onmessage = (e) => {
+  console.log("INSIDE THE WEB WORKER", e.data);
+  if (e.data.type === "trial") {
+    ws = connectWS();
+  }
+  console.log("WEBSOCKET WS", ws);
+  if (e.data.type === "get_data") {
+    console.log("HERE", e.data);
+    sendEvent(JSON.stringify(e.data));
+  }
+  ws.onmessage = (e) => {
+    postMessage(e.data);
+  };
+};
 
-let messages = [];
-export const connectWS = () => {
+const connectWS = () => {
   console.log("ws", ws);
   if (ws === null || ws.readyState === 3) {
     ws = new WebSocket(`ws://10.0.0.67:3050`);
   }
-
   messages = [];
   return ws;
 };
 
-export const sendEvent = (data) => {
+const sendEvent = (data) => {
   // messages.push(data)
   if (ws !== null) {
     if (ws.readyState !== 1) {
@@ -39,8 +51,7 @@ export const sendEvent = (data) => {
     connectWS();
   }
 };
-
-export const closeWS = (token) => {
+const closeWS = (token) => {
   if (ws) {
     if (ws.readyState === 1) {
       ws.send(JSON.stringify({ type: "close-connection" }));

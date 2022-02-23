@@ -24,7 +24,7 @@ import * as webSocketService from "../services/websocket";
 import { PinDropSharp } from "@material-ui/icons";
 import MultipleSelect from "./MultipleSelect";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
-
+import { currentWorker } from "../App";
 let type = "get_data";
 
 const ButtonBar = (props) => {
@@ -57,10 +57,12 @@ const ButtonBar = (props) => {
     // if (Object.values(filteredFilters).every((arr) => !arr.length)) {
     //   data = { type, power: !power };
     // } else {
-    data = { type, filters: filteredFilters, power: !power };
+    data = { mode: props.mode, type, filters: filteredFilters, power: !power };
+    if (props.mode === "stress") data.threads = 1; /////CHANGE
     // }
-    webSocketService.sendEvent(JSON.stringify(data));
-    console.log(data);
+    // webSocketService.sendEvent(JSON.stringify(data));
+    // console.log(data);
+    currentWorker.postMessage(data);
     setPower((prev) => !prev);
   };
 
@@ -99,9 +101,7 @@ const ButtonBar = (props) => {
             id="demo-multiple-option"
             value={filters.mode}
             input={<OutlinedInput label="option" />}
-            onChange={(e) =>
-              setFilters((prev) => ({ ...prev, mode: e.target.value }))
-            }
+            onChange={(e) => props.changeMode(e.target.value)}
             // renderValue={(selected) => console.log("SELECTED", selected)}
             // MenuProps={MenuProps}
             MenuProps={{
@@ -119,7 +119,7 @@ const ButtonBar = (props) => {
               getContentAnchorEl: null,
             }}
           >
-            {["Regular", "Stress"].map((option) => (
+            {["regular", "stress"].map((option) => (
               <MenuItem key={option} value={option}>
                 {option}
               </MenuItem>
@@ -201,7 +201,7 @@ const ButtonBar = (props) => {
       </Grid>
       <Grid item xs={6} direction="row" alignItems="center">
         <Button
-        fullWidth
+          fullWidth
           onClick={createTrade}
           style={{
             backgroundColor: "lightblue",
