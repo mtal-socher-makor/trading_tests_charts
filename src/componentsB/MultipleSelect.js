@@ -34,6 +34,7 @@ const MultipleSelect = ({
   values,
   setFilters,
   isObjectOptions,
+  disabled,
 }) => {
   //   console.log("options", options);
   const theme = useTheme();
@@ -70,7 +71,8 @@ const MultipleSelect = ({
 
   return (
     <FormControl
-    fullWidth
+      disabled={disabled}
+      fullWidth
       className={classes.focusField}
       style={{ flex: 1 }}
       variant="outlined"
@@ -80,7 +82,6 @@ const MultipleSelect = ({
         {label}
       </InputLabel>
       <Select
-        
         id="demo-multiple-option"
         multiple
         value={values}

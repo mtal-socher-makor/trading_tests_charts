@@ -25,7 +25,7 @@ function VizArea({  groupBy, dataStates }) {
   return (
     
     
-      <Grid container className={classes.vizContainer}>
+      <Grid container className={classes.vizContainer} style={{width : "80vw"}}>
          
           {/* {!dataStates[0].length ?  <Typography variant="h1" className={classes.loading}>Loading...</Typography> : null} */}
           {dataStates[0].length ? <MemoLineChart groupBy={groupBy} dataStates={dataStates} /> : null}

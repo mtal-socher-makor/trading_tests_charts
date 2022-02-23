@@ -1,53 +1,83 @@
-import React from 'react'
-import { Grid, Typography } from '@material-ui/core'
-import ReplayIcon from '@material-ui/icons/Replay';
-import { useStyles } from '../styles/mainStyles'
+import React, { useEffect, useState } from "react";
+import { Grid, Typography } from "@material-ui/core";
+import ReplayIcon from "@material-ui/icons/Replay";
+import { useStyles } from "../styles/mainStyles";
 
-export default function GroupBy({ setGroupBy, groupBySetters }) {
-  const classes = useStyles()
-  const [setGroupByType, setGroupBySide, setGroupByLocation] = groupBySetters
-
+export default function GroupBy({ setGroupBy, groupBySetters, groupBy }) {
+  const classes = useStyles();
+  const [setGroupByType, setGroupBySide, setGroupByLocation] = groupBySetters;
+  const [allBtn, setAllBtn] = useState(false);
+  const [groupByType, groupBySide, groupByLocation] = groupBy;
   const handleGroup = (btnName) => {
-    setGroupBy(btnName)
-  }
+    setGroupBy(btnName);
+  };
   return (
-    <Grid container direction="row" spacing={4} className={classes.groupWrapper}>
+    <Grid
+      container
+      direction="row"
+      spacing={4}
+      className={classes.groupWrapper}
+    >
       <Grid item className={classes.groupItem}>
-        <Typography variant='caption' className={classes.groupBtn} onClick={() => {
-          setGroupByType(true)
-          setGroupByLocation(false)
-          setGroupBySide(false)
-          }}>
+        <Typography
+          variant="caption"
+          className={classes.groupBtn}
+          style={{ color: groupByType ? "#FFD700" : "#848E9C" }}
+          onClick={() => {
+            setGroupByType(true);
+            setGroupByLocation(false);
+            setGroupBySide(false);
+            setAllBtn(false);
+          }}
+        >
           Type
         </Typography>
       </Grid>
       <Grid item className={classes.groupItem}>
-        <Typography variant='caption' className={classes.groupBtn} onClick={() => {
-          setGroupByType(false)
-          setGroupByLocation(false)
-          setGroupBySide(true)
-          }}>
+        <Typography
+          variant="caption"
+          style={{ color: groupBySide ? "#FFD700" : "#848E9C" }}
+          className={classes.groupBtn}
+          onClick={() => {
+            setGroupByType(false);
+            setGroupByLocation(false);
+            setGroupBySide(true);
+            setAllBtn(false);
+          }}
+        >
           Side
         </Typography>
       </Grid>
       <Grid item className={classes.groupItem}>
-        <Typography variant='caption' className={classes.groupBtn} onClick={() => {
-          setGroupByType(false)
-          setGroupByLocation(true)
-          setGroupBySide(false)
-          }}>
+        <Typography
+          variant="caption"
+          style={{ color: groupByLocation ? "#FFD700" : "#848E9C" }}
+          className={classes.groupBtn}
+          onClick={() => {
+            setGroupByType(false);
+            setGroupByLocation(true);
+            setGroupBySide(false);
+            setAllBtn(false);
+          }}
+        >
           Location
         </Typography>
       </Grid>
       <Grid item className={classes.groupItem}>
-        <Typography variant='caption' className={classes.groupBtnSpecial} onClick={() => {
-          setGroupByType(false)
-          setGroupByLocation(false)
-          setGroupBySide(false)
-          }}>
-         ALL
+        <Typography
+          variant="caption"
+          style={{ color: allBtn ? "#FFD700" : "#848E9C" }}
+          className={classes.groupBtnSpecial}
+          onClick={() => {
+            setGroupByType(false);
+            setGroupByLocation(false);
+            setGroupBySide(false);
+            setAllBtn(true);
+          }}
+        >
+          All
         </Typography>
       </Grid>
     </Grid>
-  )
+  );
 }
