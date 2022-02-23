@@ -21,7 +21,7 @@ function App() {
   // });
   const [stateTrades, setStateTrades] = useState([])
   const [stateTradesPartly, setStateTradesPartly] = useState([])
-  const [mode, setMode] = useState('regular')
+  const [mode, setMode] = useState(false)
   const [products, setProducts] = useState([])
   //const [groupBy, setGroupBy] = useState("");
   const [groupByType, setGroupByType] = useState(false)

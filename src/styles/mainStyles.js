@@ -1,4 +1,5 @@
 import { makeStyles, TextField, withStyles, Button, IconButton, Switch } from '@material-ui/core'
+import { purple } from '@material-ui/core/colors';
 
 //474D57
 
@@ -133,6 +134,27 @@ export const useStyles = makeStyles((theme) => ({
       margin: 0,
     },
   },
+  switch:{
+    '&$checked': {
+      transform: 'translateX(16px)',
+      color: theme.palette.common.white,
+      '& + $track': {
+        backgroundColor: '#52d869',
+        opacity: 1,
+        border: 'none',
+      },
+  }
+},
+switchBase: {
+  color: purple[300],
+  '&$checked': {
+    color: purple[500],
+  },
+  '&$checked + $track': {
+    backgroundColor: purple[500],
+  },
+},
+
 }))
 
 export const FilledButton = withStyles({
