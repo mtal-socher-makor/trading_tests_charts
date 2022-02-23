@@ -7,6 +7,8 @@ import productsData from "./products.json";
 import Graph from "./componentsB/Graph";
 import VizArea from "./componentsB/VizArea";
 import GroupBy from "./componentsB/GroupBy";
+import Legend from "./componentsB/d3/Legend";
+import createDataArrays from "./helperFunctions.js/createDataArrays";
 export const currentWorker = new Worker("index.js");
 
 function App() {
@@ -35,7 +37,9 @@ function App() {
     sideTrades,
     locationTrades,
   ];
+  let dataSetters = [setStateTrades, setStateTradesPartly, setTypeTrades, setSideTrades, setLocationTrades]
   let groupBy = [groupByType, groupBySide, groupByLocation];
+  const [arrays, arrayNames, colorScale] = createDataArrays(dataStates, groupBy) 
   let groupBySetters = [setGroupByType, setGroupBySide, setGroupByLocation];
   // let ws = webSocketService.connectWS();
   // console.log("typeTrades", typeTrades);
@@ -126,7 +130,7 @@ function App() {
           <Typography className={classes.title}>Test the Server</Typography>
         </Grid>
         <Grid item xs={12}>
-          <ButtonBar changeMode={setMode} mode={mode} products={products} />
+          <ButtonBar changeMode={setMode} mode={mode} products={products} dataSetters={dataSetters}/>
         </Grid>
 
         {/* { stateTrades.length && <DataCircle  d={ stateTrades[stateTrades -1]} /> } */}
