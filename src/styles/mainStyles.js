@@ -24,8 +24,10 @@ export const useStyles = makeStyles((theme) => ({
     //   overflowX: "auto",
     // },
     vizContainer:{
-        backgroundColor: 'var(--main)',
-        width: "100vw",
+      // border : '1px solid #add8e6',
+        backgroundColor: '#313131',
+        // borderShadow: "5px 10px #000",
+        width: "80vw",
         height: "400px",
         borderRadius: "8px",
         //marginTop:50,

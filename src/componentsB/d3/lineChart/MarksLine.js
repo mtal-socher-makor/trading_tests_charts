@@ -1,30 +1,15 @@
 import { useState, forwardRef } from 'react'
-import { line, curveNatural,curveCardinal, transition, ease, duration, easeSin, scaleOrdinal } from 'd3'
+import { line, curveNatural, curveCardinal, transition, ease, duration, easeSin, scaleOrdinal } from 'd3'
 import Tooltip from '../Tooltip'
 import MarksLineSingle from './MarksLineSingle'
-
+import createDataArrays from '../../../helperFunctions.js/createDataArrays'
 const transitionPath = transition().ease(easeSin).duration(2500)
 
 const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue, tooltipFormat, innerHeight, type, groupBy, dataStates }, ref) => {
   //const [showTooltips, setShowTooltips] = useState(true)
-  const [stateTrades, stateTradesPartly, typeTrades, sideTrades, locationTrades] = dataStates
-  const [groupByType, groupBySide, groupByLocation] = groupBy
-  let gdata = []
-  if (groupByType === true) {
-    console.log('here')
-    gdata = typeTrades
-  } else if (groupBySide === true) {
-    gdata = sideTrades
-  } else if (groupByLocation === true) {
-    gdata = locationTrades
-  }
-  let arrays = Object.values(gdata)
-   let arrayNames = Object.keys(gdata)
-  //let arrayNames = ['FOK', 'MKT', 'RFQ']
-  const colorScale = scaleOrdinal()
-    .domain([...arrayNames])
-    .range(['#e41a1c', '#ffff33', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33', '#a65628', '#f781bf', '#999999'])
-  console.log('arrays', arrays)
+  const [stateTrades, stateTradesPartly, typeTrades, sideTrades, locationTrades, threadTrades] = dataStates
+  const[groupByType, groupBySide, groupByLocation, groupByThread]= groupBy
+  const [arrays, arrayNames, colorScale] = createDataArrays(dataStates, groupBy)
   return (
     <>
       <g className='marks'>
@@ -42,21 +27,21 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue, tooltipFormat, i
                     d={line()
                       .x((d) => xScale(xValue(d)))
                       .y((d) => yScale(yValue(d)))
-                      .curve(curveCardinal)(arr)
-                    }
+                      (arr)}
                   />
-                  {arr.map((d) => (
-                    <MarksLineSingle d={d} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color={colorScale(arrayNames[index])} />
-                  ))}
+                  {arr.map((d) => {
+                   
+                   return <MarksLineSingle d={d} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color={colorScale(arrayNames[index])} />
+                  })}
                 </>
               )
             })
           : null}
-        {stateTradesPartly.length && (
+        {(stateTradesPartly.length && !groupByThread) && (
           <>
             <path
               fill='none'
-              stroke='rgba(0, 255, 0 ,1)'
+              stroke='rgba(0, 700, 0 ,1)'
               strokeDashoffset='pathLength'
               strokeDasharray='pathLength'
               transition={transitionPath}
@@ -64,7 +49,7 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue, tooltipFormat, i
               d={line()
                 .x((d) => xScale(xValue(d)))
                 .y((d) => yScale(yValue(d)))
-                .curve(curveNatural)(stateTradesPartly)}
+                (stateTradesPartly)}
             />
             {stateTradesPartly.map((d) => (
               <MarksLineSingle d={d} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color='rgba(0, 255, 0 ,1)' />
@@ -72,7 +57,6 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue, tooltipFormat, i
           </>
         )}
       </g>
-        
     </>
   )
 })

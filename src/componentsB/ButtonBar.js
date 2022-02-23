@@ -1,33 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useStyles, FilledButton } from "../styles/mainStyles";
-import {
-  Grid,
-  Box,
-  Typography,
-  TextField,
-  Select,
-  Button,
-  IconButton,
-  Chip,
-  Divider,
-  FormControl,
-  InputLabel,
-  Checkbox,
-  FormControlLabel,
-  MenuItem,
-  Collapse,
-} from "@material-ui/core";
-import { openWebSocket } from "../styles/utils/utilsFunction";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import { IOSSwitch } from "../styles/utils/IosRadio";
-import * as webSocketService from "../services/websocket";
-import { PinDropSharp } from "@material-ui/icons";
-import MultipleSelect from "./MultipleSelect";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import { currentWorker } from "../App";
-let type = "get_data";
+import React, { useState, useEffect, useRef } from 'react'
+import { useStyles, FilledButton } from '../styles/mainStyles'
+import { Grid, Box, Typography, TextField, Select, Button, IconButton, Chip, Divider, FormControl, InputLabel, Checkbox, FormControlLabel, MenuItem, Collapse } from '@material-ui/core'
+import { openWebSocket } from '../styles/utils/utilsFunction'
+import FilterListIcon from '@material-ui/icons/FilterList'
+import { IOSSwitch } from '../styles/utils/IosRadio'
+import * as webSocketService from '../services/websocket'
+import { PinDropSharp } from '@material-ui/icons'
+import MultipleSelect from './MultipleSelect'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
+import { currentWorker } from '../App'
+let type = 'get_data'
 
 const ButtonBar = (props) => {
+  const changeMode = props.changeMode
+  const setGroupByThread = props.setGroupByThread
   const [showFilters, setShowFilters] = useState(false)
   const [filtersChanged, setFiltersChanged] = useState(false)
   const [filters, setFilters] = useState({
@@ -36,9 +22,9 @@ const ButtonBar = (props) => {
     sides: [],
     products: [],
   })
-  console.log("props",props)
+  console.log('props', props)
   const [power, setPower] = useState(false)
-  const [setStateTrades, setStateTradesPartly, setTypeTrades, setSideTrades, setLocationTrades] = props.dataSetters
+  const [setStateTrades, setStateTradesPartly, setTypeTrades, setSideTrades, setLocationTrades, setThreadTrades] = props.dataSetters
   const classes = useStyles()
   useEffect(() => {}, [power])
   const handleShowFilters = () => {
@@ -60,21 +46,26 @@ const ButtonBar = (props) => {
       setTypeTrades({})
       setSideTrades({})
       setLocationTrades({})
+      setThreadTrades({})
     }
-    
-     
-   
+
     // if (Object.values(filteredFilters).every((arr) => !arr.length)) {
     //   data = { type, power: !power };
     // } else {
-    data = { mode: props.mode, type, filters: filteredFilters, power: !power };
-    if (props.mode === "stress") data.threads = 1; /////CHANGE
+    data = { mode: props.mode, type, filters: filteredFilters, power: !power }
+    if (props.mode === 'stress') {
+      setGroupByThread(true)
+      console.log('hereee')
+      data.threads =100
+    } else {
+      setGroupByThread(false)
+    } /////CHANGE
     // }
     // webSocketService.sendEvent(JSON.stringify(data));
     // console.log(data);
-    currentWorker.postMessage(data);
-    setPower((prev) => !prev);
-  };
+    currentWorker.postMessage(data)
+    setPower((prev) => !prev)
+  }
 
   return (
     <Grid
@@ -99,7 +90,7 @@ const ButtonBar = (props) => {
             className={classes.filterInput}
             id='demo-multiple-option'
             value={filters.mode}
-            input={<OutlinedInput label="option" />}
+            input={<OutlinedInput label='option' />}
             onChange={(e) => props.changeMode(e.target.value)}
             // renderValue={(selected) => console.log("SELECTED", selected)}
             // MenuProps={MenuProps}
@@ -118,7 +109,7 @@ const ButtonBar = (props) => {
               getContentAnchorEl: null,
             }}
           >
-            {['Regular', 'Stress'].map((option) => (
+            {['regular', 'stress'].map((option) => (
               <MenuItem key={option} value={option}>
                 {option}
               </MenuItem>
@@ -182,7 +173,7 @@ const ButtonBar = (props) => {
           </Grid>
         </Collapse>
       </Grid>
-      <Grid item xs={6} direction='row' >
+      <Grid item xs={6} direction='row'>
         <Button
           fullWidth
           onClick={createTrade}
