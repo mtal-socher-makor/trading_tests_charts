@@ -132,10 +132,10 @@ function App() {
         {/* { stateTrades.length && <DataCircle  d={ stateTrades[stateTrades -1]} /> } */}
         <Grid container direction='column' className={classes.presentationArea}>
           <Grid item xs={10} style={{ display: 'flex', justifyContent: 'center' }} style={{ position: 'relative' }}>
-            <GroupBy groupByThread={groupByThread} groupBySetters={groupBySetters} />
+            <GroupBy groupByThread={groupByThread} groupBySetters={groupBySetters} groupBy={groupBy}/>
           </Grid>
           <Grid item>{<VizArea dataStates={dataStates} groupBy={groupBy} />}</Grid>
-          <Grid item style={{}}>
+          <Grid item className='vizPlusLegend' direction='row' spacing={2} style={{paddingTop: '10rem' }}>
             {!groupByThread && <Legend arrayNames={arrayNames} colorScale={colorScale} />}
           </Grid>
         </Grid>
