@@ -1,12 +1,9 @@
 let ws = null
 onmessage = (e) => {
-  console.log('INSIDE THE WEB WORKER', e.data)
   if (e.data.type === 'trial') {
     ws = connectWS()
   }
-  console.log('WEBSOCKET WS', ws)
   if (e.data.type === 'get_data') {
-    console.log('HERE', e.data)
     sendEvent(JSON.stringify(e.data))
   }
   if (e.data.type === 'products') {
@@ -18,7 +15,6 @@ onmessage = (e) => {
 }
 
 const connectWS = () => {
-  console.log('ws', ws)
   if (ws === null || ws.readyState === 3) {
     ws = new WebSocket(`ws://10.0.0.67:3050`)
   }
@@ -32,7 +28,6 @@ const sendEvent = (data) => {
     if (ws.readyState !== 1) {
       messages.push(data)
     } else {
-      console.log('HERE')
       ws.send(data)
     }
     ws.onopen = () => {

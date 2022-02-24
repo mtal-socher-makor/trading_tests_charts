@@ -7,7 +7,7 @@ import { Grid, Typography } from "@material-ui/core";
 import { useStyles } from "../../styles/mainStyles";
 //import GroupBy from '../GroupBy'
 
-function LineChart({ type, groupBy, dataStates }) {
+function LineChart({ type, groupBy, dataStates ,filters}) {
   const [stateTrades] = dataStates;
   const windowWidth = window.innerWidth;
   const dynamicWidth = windowWidth + stateTrades.length * 30;
@@ -76,6 +76,7 @@ function LineChart({ type, groupBy, dataStates }) {
             type={type}
             groupBy={groupBy}
             dataStates={dataStates}
+            filters={filters}
             xScale={xScale}
             yScale={yScale}
             xValue={xValue}

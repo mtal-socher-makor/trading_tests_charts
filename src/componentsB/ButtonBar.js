@@ -20,8 +20,8 @@ const ButtonBar = (props) => {
   const [filtersChanged, setFiltersChanged] = useState(false)
   const [setGroupByType, setGroupBySide, setGroupByLocation, setGroupByThread] = props.groupBySetters
   const filters = props.filters
+  const [groupByType, groupBySide, groupByLocation, groupByThread] = props.groupBy
   const setFilters = props.setFilters
-  console.log('props', props)
   const [numberOfThreads, setNumOfThreads] = useState(0)
   const [power, setPower] = useState(false)
   const [setStateTrades, setStateTradesPartly, setTypeTrades, setSideTrades, setLocationTrades, setThreadTrades] = props.dataSetters
@@ -33,7 +33,6 @@ const ButtonBar = (props) => {
 
   const createTrade = () => {
     let data = {}
-    console.log(power)
     const filteredFilters = {}
     if (!power) {
       Object.entries(filters).forEach(([filter, arr]) => {
@@ -50,10 +49,11 @@ const ButtonBar = (props) => {
       setGroupByType(false)
       setGroupBySide(false)
       setGroupByLocation(false)
+      setGroupByThread(false)
     }
 
     data = {
-      mode:props.mode?'stress':'regular',
+      mode: props.mode ? 'stress' : 'regular',
       type,
 
       power: !power,
@@ -134,7 +134,7 @@ const ButtonBar = (props) => {
           />
         </FormControl>
       </Grid>
-      {props.mode  && (
+      {props.mode && (
         <Grid item xs={3}>
           <FormControl className={classes.TextFieldInput} variant='outlined' size='small' fullWidth disabled={power}>
             <TextField

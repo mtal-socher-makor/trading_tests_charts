@@ -2,7 +2,6 @@ export let ws = null;
 
 let messages = [];
 export const connectWS = () => {
-  console.log("ws", ws);
   if (ws === null || ws.readyState === 3) {
     ws = new WebSocket(`ws://10.0.0.67:3050`);
   }
@@ -17,7 +16,6 @@ export const sendEvent = (data) => {
     if (ws.readyState !== 1) {
       messages.push(data);
     } else {
-      console.log("HERE");
       ws.send(data);
     }
     ws.onopen = () => {

@@ -9,7 +9,7 @@ import DataCircle from './d3/DataCircle'
 import GroupBy from './GroupBy'
 // import * as webSocketService from '../services/websocket'
 
-function VizArea({ groupBy, dataStates }) {
+function VizArea({ groupBy, dataStates ,filters}) {
   const classes = useStyles()
   const [average, setAverage] = useState('0')
 
@@ -22,7 +22,7 @@ function VizArea({ groupBy, dataStates }) {
   return (
     <Grid container className={classes.vizContainer} style={{ width: '80vw' , marginTop : 50}}>
       {/* {!dataStates[0].length ?  <Typography variant="h1" className={classes.loading}>Loading...</Typography> : null} */}
-      {dataStates[0].length ? <MemoLineChart groupBy={groupBy} dataStates={dataStates} /> : null}
+      {dataStates[0].length ? <MemoLineChart groupBy={groupBy} dataStates={dataStates} filters={filters} /> : null}
     </Grid>
   )
 }

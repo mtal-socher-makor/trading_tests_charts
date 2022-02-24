@@ -9,6 +9,8 @@ import VizArea from './componentsB/VizArea'
 import GroupBy from './componentsB/GroupBy'
 import Legend from './componentsB/d3/Legend'
 import createDataArrays from './helperFunctions.js/createDataArrays'
+import createScaleY from "./helperFunctions.js/createScaleY"
+import AxisLeft from './componentsB/d3/barchart/AxisLeft'
 export const currentWorker = new Worker('index.js')
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
   const [typeTrades, setTypeTrades] = useState({})
   const [groupBySide, setGroupBySide] = useState(false)
   const [sideTrades, setSideTrades] = useState({})
+  const [allBtn, setAllBtn] = useState(true)
+
   const [groupByLocation, setGroupByLocation] = useState(false)
   const [groupByThread, setGroupByThread] = useState(false)
   const [locationTrades, setLocationTrades] = useState({})
@@ -37,13 +41,14 @@ function App() {
     types: [],
     sides: [],
     products: [],
-    threads:[]
+    threads:["multi"]
   })
   let dataStates = [stateTrades, stateTradesPartly, typeTrades, sideTrades, locationTrades, threadTrades]
   let dataSetters = [setStateTrades, setStateTradesPartly, setTypeTrades, setSideTrades, setLocationTrades, setThreadTrades]
-  let groupBy = [groupByType, groupBySide, groupByLocation, groupByThread]
-  const [arrays, arrayNames, colorScale] = createDataArrays(dataStates, groupBy)
-  let groupBySetters = [setGroupByType, setGroupBySide, setGroupByLocation, setGroupByThread]
+  const groupBy = [groupByType, groupBySide, groupByLocation, groupByThread, allBtn]
+  const [arrays, arrayNames, colorScale] = createDataArrays(dataStates, groupBy,filters )
+  const [yScale, innerWidth, yAxisTickFormat] = createScaleY(dataStates[0])
+  let groupBySetters = [setGroupByType, setGroupBySide, setGroupByLocation, setGroupByThread, setAllBtn]
   // let ws = webSocketService.connectWS();
   // console.log("typeTrades", typeTrades);
   // console.log("group", groupByType);
@@ -62,11 +67,9 @@ function App() {
         if (parsedData.thread) {
         }
         let data = parsedData.data
-        console.log('data THREAD from app SSSSSSSS', data.thread)
         setStateTrades((prev) => [...prev, data])
       }
     }
-    console.log('currentWorker', currentWorker)
   }, [])
 
   useEffect(() => {
@@ -78,7 +81,6 @@ function App() {
           [lastType]: prev[lastType] ? [...prev?.[lastType], stateTrades[stateTrades.length - 1]] : [stateTrades[stateTrades.length - 1]],
         }
       })
-      console.log('typeTrades', typeTrades)
     }
   }, [stateTrades, groupByType])
 
@@ -105,6 +107,7 @@ function App() {
       })
     }
   }, [stateTrades, groupByLocation])
+
   useEffect(() => {
     if (groupByThread && stateTrades.length) {
       let lastThread = stateTrades[stateTrades.length - 1].thread
@@ -118,8 +121,9 @@ function App() {
       })
     }
   }, [stateTrades, groupByThread])
+
   useEffect(() => {
-    if (!groupByType && !groupBySide && !groupByLocation && stateTrades.length) {
+    if (!groupByType && !groupBySide && !groupByLocation && stateTrades.length && !mode) {
       let last = stateTrades[stateTrades.length - 1]
       setStateTradesPartly((prev) => [...prev, last])
     }
@@ -133,20 +137,30 @@ function App() {
           <Typography className={classes.title}>Test the Server</Typography>
         </Grid>
         <Grid item xs={12}>
-          <ButtonBar groupBySetters={groupBySetters} changeMode={setMode} mode={mode} products={products} dataSetters={dataSetters} filters={filters} setFilters={setFilters} />
+          <ButtonBar groupBy={groupBy} groupBySetters={groupBySetters} changeMode={setMode} mode={mode} products={products} dataSetters={dataSetters} filters={filters} setFilters={setFilters} />
         </Grid>
-        {console.log('threads', threadTrades)}
         {/* { stateTrades.length && <DataCircle  d={ stateTrades[stateTrades -1]} /> } */}
         <Grid container className={classes.presentationArea}>
           <Grid item xs={10} style={{ display: 'flex', justifyContent: 'center' }} style={{ position: 'relative' }}>
-            <GroupBy  filters={filters} groupByThread={groupByThread} groupBySetters={groupBySetters} groupBy={groupBy} />
+            <GroupBy  filters={filters} setFilters={setFilters} groupByThread={groupByThread} groupBySetters={groupBySetters} groupBy={groupBy} />
           </Grid>
           <Grid item>
             <Grid container direction='row' spacing={2}>
               <Grid item className='vizPlusLegend' style={{ paddingTop: '10rem' }}>
                 {!groupByThread && <Legend arrayNames={arrayNames} colorScale={colorScale} />}
               </Grid>
-              <Grid item>{<VizArea dataStates={dataStates} groupBy={groupBy} />}</Grid>
+              {/* {yScale.ticks().map((tickValue) => (
+                <AxisLeft
+                  key={tickValue}
+                  yScale={yScale}
+                  tickFormat={yAxisTickFormat}
+                  innerWidth={innerWidth}
+                  tickValue={tickValue}
+                />
+              ))} */}
+              <Grid item>
+                {<VizArea dataStates={dataStates} groupBy={groupBy} filters={filters}/>}
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

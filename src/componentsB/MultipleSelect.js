@@ -46,7 +46,6 @@ const MultipleSelect = ({
       target: { name, value },
     } = e;
 
-    console.log("INSIDE THE HANDLER CHANGEf", child, e.target);
     if (isObjectOptions) {
       setFilters(
         (prev) => ({
