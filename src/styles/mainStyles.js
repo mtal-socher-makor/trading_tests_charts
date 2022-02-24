@@ -19,7 +19,7 @@ export const useStyles = makeStyles((theme) => ({
   vizContainer: {
     backgroundColor: 'rgb(41, 41, 41);',
     // borderShadow: "5px 10px #000",
-    width: '80vw',
+    width: '85vw',
     height: '400px',
     borderRadius: '8px',
     //marginTop:50,

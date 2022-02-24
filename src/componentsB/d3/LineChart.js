@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React from "react";
 import { scaleBand, scaleLinear, max, format, group, scaleOrdinal } from "d3";
 import AxisBottom from "./barchart/AxisBottom";
 import AxisLeft from "./barchart/AxisLeft";
@@ -12,7 +12,7 @@ function LineChart({ type, groupBy, dataStates ,filters}) {
   const windowWidth = window.innerWidth;
   const dynamicWidth = windowWidth + stateTrades.length * 30;
   const height = 450;
-  const margin = { top: -20, right: 30, bottom: 60, left: 90 };
+  const margin = { top: -20, right: 30, bottom: 60, left: 30 };
   const innerHeight = height - margin.top - margin.bottom;
   const innerWidth = dynamicWidth - margin.left - margin.right;
   // const stylesProps = {
@@ -35,9 +35,12 @@ function LineChart({ type, groupBy, dataStates ,filters}) {
     .domain([0, max(dataStates[0], yValue)])
     .range([innerHeight - 30, 60]);
 
+
+    
+
   return (
     <Grid
-      container
+      item
       style={{ position: "relative", width: dynamicWidth }}
     >
       <svg width={dynamicWidth} height={height}>
@@ -56,10 +59,12 @@ function LineChart({ type, groupBy, dataStates ,filters}) {
                   tickFormat={yAxisTickFormat}
                   innerWidth={innerWidth}
                   tickValue={tickValue}
+                  stateTrades={stateTrades}
+                  innerHeight={innerHeight}
                 />
               ))}
            
-          <text
+          {/* <text
             className="axis-label"
             x={0}
             y={0}
@@ -70,7 +75,7 @@ function LineChart({ type, groupBy, dataStates ,filters}) {
             style={{ fontSize: 30 }}
           >
             Time (seconds)
-          </text>
+          </text> */}
 
           <MarksLine
             type={type}

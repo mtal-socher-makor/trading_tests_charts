@@ -15,7 +15,7 @@ const createScaleY = (data) => {
   .domain([0, max(data, yValue)])
   .range([innerHeight - 30, 60]);
 
-  return [yScale, innerWidth, yAxisTickFormat]
+  return [yScale, innerWidth, yAxisTickFormat, innerHeight]
 }
 
 export default createScaleY;

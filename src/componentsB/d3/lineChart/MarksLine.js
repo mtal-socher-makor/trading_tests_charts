@@ -41,7 +41,7 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue, tooltipFormat, i
             <>
               <path
                 fill='none'
-                stroke='rgba(0, 700, 0 ,1)'
+                stroke='#4deeea'
                 strokeDashoffset='pathLength'
                 strokeDasharray='pathLength'
                 transition={transitionPath}
@@ -51,7 +51,7 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue, tooltipFormat, i
                   .y((d) => yScale(yValue(d)))(stateTradesPartly)}
               />
               {stateTradesPartly.map((d) => (
-                <MarksLineSingle d={d} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color='rgba(0, 255, 0 ,1)' />
+                <MarksLineSingle d={d} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color='#4deeea' />
               ))}
             </>
           ))}

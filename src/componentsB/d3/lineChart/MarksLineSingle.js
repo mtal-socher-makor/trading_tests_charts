@@ -26,9 +26,6 @@ function MarksLineSingle({d,
 
         useEffect(() => {
           elementRef.current?.scrollIntoView({ behavior: 'smooth', block: "nearest", inline: "nearest" });
-        //   elementRef.current.scrollTop =  elementRef.current?.scrollHeight;
-        //   scrollyDiv.scrollTop = scrollyDiv.scrollHeight
-    
         }, [])
 
   return (
@@ -50,7 +47,7 @@ function MarksLineSingle({d,
                 textAnchor='middle'
                 {...(tooltipState && {fillOpacity: 0})}
                 >
-                {Math.round(d.tradeTime*1000)}
+                {d.tradeTime}
             </text>
             {tooltipState && <Tooltip
                 id="tooltip" 
