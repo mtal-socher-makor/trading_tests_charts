@@ -5,35 +5,32 @@ import AxisLeft from "./barchart/AxisLeft";
 import MarksLine from "./lineChart/MarksLine";
 import { Grid, Typography } from "@material-ui/core";
 import { useStyles } from "../../styles/mainStyles";
+import createScaleY from "../../helperFunctions.js/createScaleY";
+
 //import GroupBy from '../GroupBy'
 
 function LineChart({ type, groupBy, dataStates ,filters}) {
   const [stateTrades] = dataStates;
-  const windowWidth = window.innerWidth;
-  const dynamicWidth = windowWidth + stateTrades.length * 30;
-  const height = 450;
-  const margin = { top: -20, right: 30, bottom: 60, left: 30 };
-  const innerHeight = height - margin.top - margin.bottom;
-  const innerWidth = dynamicWidth - margin.left - margin.right;
-  // const stylesProps = {
-  //   w: width,
-  // }
+  const [yScale, innerWidth, yAxisTickFormat, innerHeight,height,margin,dynamicWidth,yValue] = createScaleY(
+    dataStates[0]
+  );
+  
   const classes = useStyles();
 
-  const yValue = (d) => d.tradeTime;
+  //const yValue = (d) => d.tradeTime;
   const xValue = (d) => d.id;
 
   const siFormat = format(".2s");
-  const yAxisTickFormat = (tickValue) => siFormat(tickValue);
+  // const yAxisTickFormat = (tickValue) => siFormat(tickValue);
 
   const xScale = scaleBand()
     .domain(dataStates[0].map(xValue))
     .range([20, dataStates[0].length * 35])
     .paddingInner(0.15);
 
-  const yScale = scaleLinear()
-    .domain([0, max(dataStates[0], yValue)])
-    .range([innerHeight - 30, 60]);
+  // const yScale = scaleLinear()
+  //   .domain([0, max(dataStates[0], yValue)])
+  //   .range([innerHeight - 30, 60]);
 
 
     

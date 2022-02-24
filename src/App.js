@@ -195,7 +195,7 @@ function App() {
         <Grid
           container
           className={classes.presentationArea}
-          style={{ marginTop: 64 }}
+          style={{ marginTop: 64, height: "70vh" }}
         >
           <Grid
             item
@@ -212,7 +212,7 @@ function App() {
             />
           </Grid>
           <Grid item>
-            <Grid container direction="row" spacing={2}>
+            <Grid container direction="row" spacing={2} style={{height: "100%"}}>
               <Grid
                 item
                 className="vizPlusLegend"
@@ -225,18 +225,19 @@ function App() {
               <Grid item>
                 <Grid container  style={{ display: "flex", width: "inherit" }}>
                   <Grid item style={{ display: "flex", alignItems: "center" }}>
+                    
                     <svg width={60} height={innerHeight}>
                       <g>
 
                       <text
                         className="axis-label"
-                        x={20}
+                        x={0}
                         y={0}
                         textAnchor="middle"
                         stroke="#fff"
                         fill="#fff"
                         transform={`translate(25, ${
-                          innerHeight / 2 
+                          innerHeight / 2 + 40 
                         }) rotate(-90)`}
                         style={{ fontSize: 30 }}
                         >
