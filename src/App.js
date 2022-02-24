@@ -128,15 +128,12 @@ function App() {
     <div className='App'>
       {/* <Charts /> */}
       <Grid container direction='column' className={classes.App2}>
-        <Grid item>
-          <Typography className={classes.title}>Test the Server</Typography>
-        </Grid>
         <Grid item xs={12}>
           <ButtonBar groupBySetters={groupBySetters} changeMode={setMode} mode={mode} products={products} dataSetters={dataSetters} filters={filters} setFilters={setFilters} />
         </Grid>
         {console.log('threads', threadTrades)}
         {/* { stateTrades.length && <DataCircle  d={ stateTrades[stateTrades -1]} /> } */}
-        <Grid container className={classes.presentationArea}>
+        <Grid container className={classes.presentationArea} style={{marginTop: 64}}>
           <Grid item xs={10} style={{ display: 'flex', justifyContent: 'center' }} style={{ position: 'relative' }}>
             <GroupBy  filters={filters} groupByThread={groupByThread} groupBySetters={groupBySetters} groupBy={groupBy} />
           </Grid>
