@@ -9,6 +9,9 @@ onmessage = (e) => {
     console.log("HERE", e.data);
     sendEvent(JSON.stringify(e.data));
   }
+  if (e.data.type === "products") {
+    sendEvent(e.data);
+  }
   ws.onmessage = (e) => {
     postMessage(e.data);
   };

@@ -58,6 +58,7 @@ function App() {
   // workerizedWorker.expensive();
   currentWorker.postMessage({ type: "trial" });
   useEffect(() => {
+    currentWorker.postMessage({ type: "products" });
     // currentWorker.postMessage({ type: "trial" });
     currentWorker.onmessage = (e) => {
       console.log("IN PRODUCTS", e.data);
@@ -147,7 +148,7 @@ function App() {
           />
         </Grid>
         {/* { stateTrades.length && <DataCircle  d={ stateTrades[stateTrades -1]} /> } */}
-        <Grid container  className={classes.presentationArea}>
+        <Grid container className={classes.presentationArea}>
           <Grid
             item
             xs={10}
@@ -157,8 +158,13 @@ function App() {
             <GroupBy groupBySetters={groupBySetters} groupBy={groupBy} />
           </Grid>
           <Grid item>
-            <Grid container className='vizPlusLegend' direction='row' spacing={2}>
-              <Grid item style={{paddingTop: '10rem' }}>
+            <Grid
+              container
+              className="vizPlusLegend"
+              direction="row"
+              spacing={2}
+            >
+              <Grid item style={{ paddingTop: "10rem" }}>
                 <Legend arrayNames={arrayNames} colorScale={colorScale} />
               </Grid>
               <Grid item>

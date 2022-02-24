@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -42,6 +42,7 @@ const MultipleSelect = ({
   //   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleChange = (e, child) => {
+    console.log(child, "CHILD FROM <ULTI SELECT");
     const {
       target: { name, value },
     } = e;
@@ -69,6 +70,9 @@ const MultipleSelect = ({
     }
   };
 
+  useEffect(() => {
+    console.log(values , "VALUE")
+  },[])
   return (
     <FormControl
       disabled={disabled}
