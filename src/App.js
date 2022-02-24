@@ -21,21 +21,21 @@ function App() {
   //   type: { mkt: [], rfq: [], fok: [] },
   //   location: {},
   // });
+  const [products, setProducts] = useState([])
+  const [mode, setMode] = useState(false)
+  //const [groupBy, setGroupBy] = useState("");
   const [stateTrades, setStateTrades] = useState([])
   const [stateTradesPartly, setStateTradesPartly] = useState([])
-  const [mode, setMode] = useState(false)
-  const [products, setProducts] = useState([])
-  //const [groupBy, setGroupBy] = useState("");
-  const [groupByType, setGroupByType] = useState(false)
   const [typeTrades, setTypeTrades] = useState({})
-  const [groupBySide, setGroupBySide] = useState(false)
   const [sideTrades, setSideTrades] = useState({})
-  const [allBtn, setAllBtn] = useState(true)
-
-  const [groupByLocation, setGroupByLocation] = useState(false)
-  const [groupByThread, setGroupByThread] = useState(false)
   const [locationTrades, setLocationTrades] = useState({})
   const [threadTrades, setThreadTrades] = useState({})
+  
+  const [allBtn, setAllBtn] = useState(true)
+  const [groupBySide, setGroupBySide] = useState(false)
+  const [groupByType, setGroupByType] = useState(false)
+  const [groupByLocation, setGroupByLocation] = useState(false)
+  const [groupByThread, setGroupByThread] = useState(false)
   const [filters, setFilters] = useState({
     servers: [],
     types: [],
