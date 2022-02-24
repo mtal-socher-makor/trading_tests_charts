@@ -6,7 +6,7 @@ import { filter } from 'd3'
 
 export default function GroupBy({ filters, groupByThread, setGroupBy, groupBySetters, groupBy }) {
   const classes = useStyles()
-  const [setGroupByType, setGroupBySide, setGroupByLocation] = groupBySetters
+  const [setGroupByType, setGroupBySide, setGroupByLocation,setGroupByThread] = groupBySetters
   const [allBtn, setAllBtn] = useState(false)
   const [groupByType, groupBySide, groupByLocation] = groupBy
   const handleGroup = (btnName) => {
@@ -81,6 +81,28 @@ export default function GroupBy({ filters, groupByThread, setGroupBy, groupBySet
             </Typography>
           </Grid>
         </>
+      )}
+         {groupByThread && (
+        <>
+          {!filters.threads.length && (
+            <Grid item className={classes.groupItem}>
+              <Typography
+                variant='caption'
+                className={classes.groupBtn}
+                style={{ color: groupByThread ? '#FFD700' : '#848E9C' }}
+                onClick={() => {
+                  setGroupByType(false)
+                  setGroupByLocation(false)
+                  setGroupBySide(false)
+                  setAllBtn(false)
+                  setGroupByThread((prev)=>!prev)
+                }}
+              >
+                Single/Multy
+              </Typography>
+            </Grid>
+          )}
+         </>
       )}
     </Grid>
   )

@@ -37,6 +37,7 @@ function App() {
     types: [],
     sides: [],
     products: [],
+    threads:[]
   })
   let dataStates = [stateTrades, stateTradesPartly, typeTrades, sideTrades, locationTrades, threadTrades]
   let dataSetters = [setStateTrades, setStateTradesPartly, setTypeTrades, setSideTrades, setLocationTrades, setThreadTrades]
