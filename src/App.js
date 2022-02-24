@@ -1,172 +1,90 @@
-import ButtonBar from './componentsB/ButtonBar'
-import { Grid, makeStyles, Typography } from '@material-ui/core'
-import * as webSocketService from './services/websocket'
-import React, { useState, useEffect, useRef } from 'react'
-import DataCircle from './componentsB/d3/DataCircle'
-import productsData from './products.json'
-import Graph from './componentsB/Graph'
-import VizArea from './componentsB/VizArea'
-import GroupBy from './componentsB/GroupBy'
-import Legend from './componentsB/d3/Legend'
-import createDataArrays from './helperFunctions.js/createDataArrays'
-import createScaleY from "./helperFunctions.js/createScaleY"
-import AxisLeft from './componentsB/d3/barchart/AxisLeft'
-export const currentWorker = new Worker('index.js')
+import ButtonBar from './componentsB/ButtonBar';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
+import * as webSocketService from './services/websocket';
+import React, { useState, useEffect, useRef } from 'react';
+import DataCircle from './componentsB/d3/DataCircle';
+import productsData from './products.json';
+import Graph from './componentsB/Graph';
+import VizArea from './componentsB/VizArea';
+import GroupBy from './componentsB/GroupBy';
+import Legend from './componentsB/d3/Legend';
+
+import createScaleY from './helperFunctions/createScaleY';
+import AxisLeft from './componentsB/d3/barchart/AxisLeft';
+import * as tradesAction from './Redux/Trades/TradesSlice';
+import { useSelector, useDispatch } from 'react-redux';
+export const currentWorker = new Worker('index.js');
 
 function App() {
-  const classes = useStyles()
-  // const [stateTrades, setStateTrades] = useState({
-  //   all: [],
-  //   side: { buy: [], sell: [] },
-  //   type: { mkt: [], rfq: [], fok: [] },
-  //   location: {},
-  // });
-  const [products, setProducts] = useState([])
-  const [mode, setMode] = useState(false)
-  //const [groupBy, setGroupBy] = useState("");
-  const [stateTrades, setStateTrades] = useState([])
-  const [stateTradesPartly, setStateTradesPartly] = useState([])
-  const [typeTrades, setTypeTrades] = useState({})
-  const [sideTrades, setSideTrades] = useState({})
-  const [locationTrades, setLocationTrades] = useState({})
-  const [threadTrades, setThreadTrades] = useState({})
-  
-  const [allBtn, setAllBtn] = useState(true)
-  const [groupBySide, setGroupBySide] = useState(false)
-  const [groupByType, setGroupByType] = useState(false)
-  const [groupByLocation, setGroupByLocation] = useState(false)
-  const [groupByThread, setGroupByThread] = useState(false)
-  const [filters, setFilters] = useState({
-    servers: [],
-    types: [],
-    sides: [],
-    products: [],
-    threads:["multi"]
-  })
-  let dataStates = [stateTrades, stateTradesPartly, typeTrades, sideTrades, locationTrades, threadTrades]
-  let dataSetters = [setStateTrades, setStateTradesPartly, setTypeTrades, setSideTrades, setLocationTrades, setThreadTrades]
-  const groupBy = [groupByType, groupBySide, groupByLocation, groupByThread, allBtn]
-  const [arrays, arrayNames, colorScale] = createDataArrays(dataStates, groupBy,filters )
-  const [yScale, innerWidth, yAxisTickFormat] = createScaleY(dataStates[0])
-  let groupBySetters = [setGroupByType, setGroupBySide, setGroupByLocation, setGroupByThread, setAllBtn]
-  // let ws = webSocketService.connectWS();
-  // console.log("typeTrades", typeTrades);
-  // console.log("group", groupByType);
+  const classes = useStyles();
+  const groupBy = useSelector((state) => state.groupingAndFilters?.grouping);
+  const mode = useSelector((state) => state.groupingAndFilters?.mode);
+  const dataStates = useSelector((state) => state.trades?.dataStates);
+  const dispatch = useDispatch();
 
-  // const powerWorker = workerizedWorker()
-  // workerizedWorker.expensive();
-  currentWorker.postMessage({ type: 'trial' })
+  const [products, setProducts] = useState([]);
+
+  currentWorker.postMessage({ type: 'trial' });
   useEffect(() => {
-    currentWorker.postMessage({ type: "products" });
+    currentWorker.postMessage({ type: 'products' });
     currentWorker.onmessage = (e) => {
-      const parsedData = JSON.parse(e.data)
+      const parsedData = JSON.parse(e.data);
       if (parsedData.type === 'products') {
-        setProducts(parsedData.data)
+        setProducts(parsedData.data);
       }
       if (parsedData.type === 'trade') {
         if (parsedData.thread) {
         }
-        let data = parsedData.data
-        setStateTrades((prev) => [...prev, data])
+        dispatch(tradesAction.setStateTrades(parsedData.data));
       }
-    }
-  }, [])
+    };
+  }, []);
 
-  useEffect(() => {
-    if (groupByType && stateTrades.length) {
-      let lastType = stateTrades[stateTrades.length - 1].type
-      setTypeTrades((prev) => {
-        return {
-          ...prev,
-          [lastType]: prev[lastType] ? [...prev?.[lastType], stateTrades[stateTrades.length - 1]] : [stateTrades[stateTrades.length - 1]],
-        }
-      })
-    }
-  }, [stateTrades, groupByType])
-
-  useEffect(() => {
-    if (groupBySide && stateTrades.length) {
-      let lastSide = stateTrades[stateTrades.length - 1].side
-      setSideTrades((prev) => {
-        return {
-          ...prev,
-          [lastSide]: prev[lastSide] ? [...prev?.[lastSide], stateTrades[stateTrades.length - 1]] : [stateTrades[stateTrades.length - 1]],
-        }
-      })
-    }
-  }, [stateTrades, groupBySide])
-
-  useEffect(() => {
-    if (groupByLocation && stateTrades.length) {
-      let lastLocation = stateTrades[stateTrades.length - 1].location
-      setLocationTrades((prev) => {
-        return {
-          ...prev,
-          [lastLocation]: prev[lastLocation] ? [...prev?.[lastLocation], stateTrades[stateTrades.length - 1]] : [stateTrades[stateTrades.length - 1]],
-        }
-      })
-    }
-  }, [stateTrades, groupByLocation])
-
-  useEffect(() => {
-    if (groupByThread && stateTrades.length) {
-      let lastThread = stateTrades[stateTrades.length - 1].thread
-      let key = lastThread?.toString()
-
-      setThreadTrades((prev) => {
-        return {
-          ...prev,
-          [key]: prev[key] ? [...prev?.[key], stateTrades[stateTrades.length - 1]] : [stateTrades[stateTrades.length - 1]],
-        }
-      })
-    }
-  }, [stateTrades, groupByThread])
-
-  useEffect(() => {
-    if (!groupByType && !groupBySide && !groupByLocation && stateTrades.length && !mode) {
-      let last = stateTrades[stateTrades.length - 1]
-      setStateTradesPartly((prev) => [...prev, last])
-    }
-  }, [stateTrades, groupByType, groupBySide, groupByLocation])
+  // useEffect(() => {
+  //   console.log(mode, "MODE HERERERER")
+  //   console.log(groupBy, 'groupBy HERERERER');
+  //   if (dataStates.stateTrades.length) {
+  //     console.log('herhehrherhehrerh');
+  //     if (groupBy.side) {
+  //       dispatch(tradesAction.sortBy('side'));
+  //     } else if (groupBy.type) {
+  //       dispatch(tradesAction.sortBy('type'));
+  //     } else if (groupBy.location) {
+  //       dispatch(tradesAction.sortBy('location'));
+  //     } else if (groupBy.thread) {
+  //       dispatch(tradesAction.sortBy('thread'));
+  //     } else if (!groupBy.side && !groupBy.type && !groupBy.location && !mode) {
+  //       console.log('here');
+  //       dispatch(tradesAction.setStateTradesPartly());
+  //     }
+  //   }
+  // }, [groupBy, dataStates.stateTrades]);
 
   return (
-    <div className='App'>
-      {/* <Charts /> */}
-      <Grid container direction='column' className={classes.App2}>
+    <div className="App">
+      <Grid container direction="column" className={classes.App2}>
         <Grid item xs={12}>
-          <ButtonBar groupBy={groupBy} groupBySetters={groupBySetters} changeMode={setMode} mode={mode} products={products} dataSetters={dataSetters} filters={filters} setFilters={setFilters} />
+          <ButtonBar products={products} />
         </Grid>
-        {/* { stateTrades.length && <DataCircle  d={ stateTrades[stateTrades -1]} /> } */}
-        <Grid container className={classes.presentationArea} style={{marginTop: 64}}>
+        <Grid container className={classes.presentationArea} style={{ marginTop: 64 }}>
           <Grid item xs={10} style={{ display: 'flex', justifyContent: 'center' }} style={{ position: 'relative' }}>
-            <GroupBy  filters={filters} setFilters={setFilters} groupByThread={groupByThread} groupBySetters={groupBySetters} groupBy={groupBy} />
+            <GroupBy />
           </Grid>
           <Grid item>
-            <Grid container direction='row' spacing={2}>
-              <Grid item className='vizPlusLegend' style={{ paddingTop: '10rem' }}>
-                {!groupByThread && <Legend arrayNames={arrayNames} colorScale={colorScale} />}
+            <Grid container direction="row" spacing={2}>
+              <Grid item className="vizPlusLegend" style={{ paddingTop: '10rem' }}>
+                {!groupBy.thread && <Legend />}
               </Grid>
-              {/* {yScale.ticks().map((tickValue) => (
-                <AxisLeft
-                  key={tickValue}
-                  yScale={yScale}
-                  tickFormat={yAxisTickFormat}
-                  innerWidth={innerWidth}
-                  tickValue={tickValue}
-                />
-              ))} */}
-              <Grid item>
-                {<VizArea dataStates={dataStates} groupBy={groupBy} filters={filters}/>}
-              </Grid>
+              <Grid item>{<VizArea />}</Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
 
 const useStyles = makeStyles((theme) => ({
   App2: {
@@ -179,4 +97,4 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     fontWeight: 600,
   },
-}))
+}));

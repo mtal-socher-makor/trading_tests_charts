@@ -1,73 +1,36 @@
-import React from "react";
-import { Grid, Typography } from "@material-ui/core";
-function Legend({ arrayNames, colorScale }) {
+import React, { useEffect } from 'react';
+import { Grid, Typography } from '@material-ui/core';
+import { scaleOrdinal } from 'd3';
+
+import { useDispatch, useSelector } from 'react-redux';
+import createDataArrays from '../../helperFunctions/createDataArrays';
+
+function Legend() {
+  const dispatch = useDispatch();
+
+  const dataStates = useSelector((state) => state.trades?.dataStates);
+  const groupBy = useSelector((state) => state.groupingAndFilters?.grouping);
+  const filters = useSelector((state) => state.groupingAndFilters?.filters);
+  const [arrays, arrayNames, colorScale] = createDataArrays(dataStates, groupBy, filters);
+
   return (
     <>
-      <Grid
-        container
-        direction="column"
-
-        // justifyContent="flex-start"
-        // style={{
-        //   gap: '2rem',
-        //   backgroundImage: `linear-gradient(to right, ${colorScale(
-        //     arrayNames[0]
-        //   )},${colorScale(arrayNames[1])},${colorScale(arrayNames[2])})`,
-        //   '-webkit-background-clip': "text",
-        // }}
-      >
-        {arrayNames.map((name, index) => (
-          <Grid
-            item
-            style={{
-              borderBottom: `3px solid ${colorScale(arrayNames[index])}`,
-            }}
-          >
-            {/* <svg width={100} height={50}>
-              <g>
-                <circle
-                  cx={`${index * 10 + 45}`}
-                  cy={5}
-                  r="3"
-                  fill={colorScale(arrayNames[index])}
-                />
-                <text
-                  x={`${index * 5 + 10}`}
-                  y={10}
-                  fill={colorScale(arrayNames[index])}
-                  style={{ fontSize: "0.9em" }}
-                >
-                  {name}{" "}
-                </text>
-              </g>
-            </svg> */}
-
-            <Typography style={{ fontWeight: "bold", color: "#dfe1e6" }}>
-              {name}
-            </Typography>
-          </Grid>
-        ))}
+      <Grid container direction="column">
+        {arrayNames?.length &&
+          arrayNames.map((name, index) => (
+            <Grid
+              item
+              style={{
+                borderBottom: `3px solid ${colorScale(arrayNames[index])}`,
+              }}
+            >
+              {console.log(arrayNames[index], 'ARAY NAMES')}
+              <Typography style={{ fontWeight: 'bold', color: '#dfe1e6' }}>{name}</Typography>
+            </Grid>
+          ))}
       </Grid>
     </>
   );
 }
 
 export default Legend;
-
-// {arrayNames.length &&
-//   arrayNames.map((name, index) => {
-//     console.log("arrayNames[index]",colorScale(arrayNames[index]))
-//     return (
-//       <foreignobject>
-//         <div>
-//           <svg>
-//             <g transform={`translate(200px,200px)`}>
-//               <circle cx={`${200 + index*40}`} cy={innerHeight} r='6' fill={colorScale(arrayNames[index])} />
-//               <text x={`${200 + index*40 + 10}`} y="0" >{name} </text>
-//             </g>
-//           </svg>
-//         </div>
-//       </foreignobject>
-
-//     )
-//   })}

@@ -1,85 +1,43 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useStyles } from "../styles/mainStyles";
-import {
-  Grid,
-  Box,
-  Typography,
-  TextField,
-  Select,
-  Button,
-  IconButton,
-  Chip,
-  Divider,
-  FormControl,
-  InputLabel,
-  Checkbox,
-  FormControlLabel,
-  MenuItem,
-  Collapse,
-  Toolbar,
-  AppBar,
-} from "@material-ui/core";
-import { openWebSocket } from "../styles/utils/utilsFunction";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import { IOSSwitch } from "../styles/utils/IosRadio";
-import * as webSocketService from "../services/websocket";
-import { PinDropSharp } from "@material-ui/icons";
-import MultipleSelect from "./MultipleSelect";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import { currentWorker } from "../App";
-import Switch from "@material-ui/core/Switch";
-import { PurpleSwitch } from "../styles/GreenSwitch";
+import React, { useState, useEffect, useRef } from 'react';
+import { useStyles } from '../styles/mainStyles';
+import { Grid, Typography, TextField, Button, FormControl, FormControlLabel, Toolbar, AppBar } from '@material-ui/core';
+import MultipleSelect from './MultipleSelect';
+import { currentWorker } from '../App';
+import { PurpleSwitch } from '../styles/GreenSwitch';
+import { useSelector, useDispatch } from 'react-redux';
+import * as tradesAction from '../Redux/Trades/TradesSlice';
+import * as groupingAndFiltersAction from '../Redux/GroupingAndFilters/GroupingAndFiltersSlice';
+import { dispatch } from 'd3';
 
-let type = "get_data";
+let type = 'get_data';
 
 const ButtonBar = (props) => {
-  const changeMode = props.changeMode;
-  const [showFilters, setShowFilters] = useState(false);
-  const [filtersChanged, setFiltersChanged] = useState(false);
-  const [setGroupByType, setGroupBySide, setGroupByLocation, setGroupByThread] =
-    props.groupBySetters;
-  const filters = props.filters;
-  const setFilters = props.setFilters;
-  console.log("props", props);
+  const dispatch = useDispatch();
+  const filters = useSelector((state) => state.groupingAndFilters?.filters);
+  const mode = useSelector((state) => state.groupingAndFilters?.mode);
+  
+  //const [showFilters, setShowFilters] = useState(false);
   const [numberOfThreads, setNumOfThreads] = useState(0);
   const [power, setPower] = useState(false);
-  const [
-    setStateTrades,
-    setStateTradesPartly,
-    setTypeTrades,
-    setSideTrades,
-    setLocationTrades,
-    setThreadTrades,
-  ] = props.dataSetters;
   const classes = useStyles();
+
   useEffect(() => {}, [power]);
-  const handleShowFilters = () => {
-    setShowFilters((prev) => !prev);
-  };
 
   const createTrade = () => {
-    let data = {}
-    const filteredFilters = {}
+    let data = {};
+    const filteredFilters = {};
     if (!power) {
       Object.entries(filters).forEach(([filter, arr]) => {
         if (arr.length) {
           filteredFilters[filter] = arr;
         }
-      })
-      setStateTrades([])
-      setStateTradesPartly([])
-      setTypeTrades({})
-      setSideTrades({})
-      setLocationTrades({})
-      setThreadTrades({})
-      setGroupByType(false)
-      setGroupBySide(false)
-      setGroupByLocation(false)
-      setGroupByThread(false)
+      });
+      dispatch(tradesAction.intializeStates());
+      dispatch(groupingAndFiltersAction.initializeGrouping());
     }
 
     data = {
-      mode: props.mode ? 'stress' : 'regular',
+      mode: mode ? 'stress' : 'regular',
       type,
 
       power: !power,
@@ -88,25 +46,21 @@ const ButtonBar = (props) => {
     if (Object.values(filteredFilters).length !== 0) {
       data.filters = filteredFilters;
     }
-    if (props.mode) {
-      setGroupByThread(true);
-
+    if (mode) {
+      dispatch(groupingAndFiltersAction.setGroupBy('thread'));
       data.threads = numberOfThreads;
     } else {
-      setGroupByThread(false);
+      dispatch(groupingAndFiltersAction.initializeGrouping());
     }
 
-    // }
-    // webSocketService.sendEvent(JSON.stringify(data));
-    // console.log(data);
     currentWorker.postMessage(data);
     setPower((prev) => !prev);
   };
   return (
     <AppBar
       style={{
-        backgroundColor: "transparent",
-        borderRadius: "0px 0px 30px 30px",
+        backgroundColor: 'transparent',
+        borderRadius: '0px 0px 30px 30px',
       }}
     >
       <Toolbar>
@@ -117,21 +71,16 @@ const ButtonBar = (props) => {
                 <Typography>Server test graph</Typography>
               </Grid>
               <Grid item xs={3}>
-                <MultipleSelect
-                  disabled={power}
-                  options={["a server", "dfgfg"]}
-                  label="servers"
-                  setFilters={setFilters}
-                  values={filters.servers}
-                />
+                <MultipleSelect disabled={power} options={['a server', 'dfgfg']} label="servers" values={filters.servers} />
               </Grid>
               <Grid item xs={2} style={{ marginLeft: 15 }}>
                 <FormControlLabel
                   control={
                     <PurpleSwitch
-                      checked={props.mode}
+                      checked={mode}
                       onChange={(e) => {
-                        props.changeMode((prev) => !prev);
+                       dispatch(groupingAndFiltersAction.setMode());
+                       dispatch(groupingAndFiltersAction.setGroupBy('thread'));
                       }}
                       name="checkedA"
                     />
@@ -139,17 +88,11 @@ const ButtonBar = (props) => {
                   label="Stress"
                 />
               </Grid>
-              {props.mode && (
+              {mode && (
                 <Grid item xs={3}>
-                  <FormControl
-                    className={classes.TextFieldInput}
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    disabled={power}
-                  >
+                  <FormControl className={classes.TextFieldInput} variant="outlined" size="small" fullWidth disabled={power}>
                     <TextField
-                      style={{ color: "#848E9C" }}
+                      style={{ color: '#848E9C' }}
                       className={classes.input}
                       onChange={(e) => {
                         setNumOfThreads(e.target.value);
@@ -165,50 +108,27 @@ const ButtonBar = (props) => {
             </Grid>
           </Grid>
           <Grid item xs={5}>
-            <Grid
-              container
-              justifyContent="flex-end"
-              alignItems="center"
-              spacing={2}
-            >
+            <Grid container justifyContent="flex-end" alignItems="center" spacing={2}>
               <Grid item xs={3}>
-                <MultipleSelect
-                  disabled={power}
-                  options={["FOK", "MKT", "RFQ"]}
-                  label="types"
-                  setFilters={setFilters}
-                  values={filters.types}
-                />
+                <MultipleSelect disabled={power} options={['FOK', 'MKT', 'RFQ']} label="types" values={filters.types} />
               </Grid>
               <Grid item xs={3}>
-                <MultipleSelect
-                  disabled={power}
-                  options={["Buy", "Sell"]}
-                  label="sides"
-                  setFilters={setFilters}
-                  values={filters.sides}
-                />
+                <MultipleSelect disabled={power} options={['Buy', 'Sell']} label="sides" values={filters.sides} />
               </Grid>
               <Grid item xs={3}>
-                <MultipleSelect
-                  disabled={power}
-                  options={props.products}
-                  label="products"
-                  setFilters={setFilters}
-                  values={filters.products}
-                />
+                <MultipleSelect disabled={power} options={props.products} label="products" values={filters.products} />
               </Grid>
               <Grid item xs={2} direction="row">
                 <Button
                   fullWidth
                   onClick={createTrade}
                   style={{
-                    backgroundColor: "lightblue",
+                    backgroundColor: 'lightblue',
                     flex: 1,
-                    textTransform: "none",
+                    textTransform: 'none',
                   }}
                 >
-                  {!power ? "Start" : "Stop"}
+                  {!power ? 'Start' : 'Stop'}
                 </Button>
               </Grid>
             </Grid>

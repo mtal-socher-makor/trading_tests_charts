@@ -6,7 +6,6 @@ import createRootReducer from './reducers';
 
 export default function configureAppStore(preloadedState) {
   const middlewares = [thunkMiddleware]; // logger]
-  console.log('middlewares', middlewares);
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
   const enhancers = [middlewareEnhancer];

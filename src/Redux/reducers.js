@@ -1,10 +1,11 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { groupingAndFiltersSlice } from './GroupingAndFilters/GroupingAndFiltersSlice';
-
+import groupingAndFiltersSliceReducer from './GroupingAndFilters/GroupingAndFiltersSlice';
+import tradesSliceReducer from './Trades/TradesSlice';
 
 const createRootReducer = () =>
   combineReducers({
-      groupingAndFilters : groupingAndFiltersSlice
+    groupingAndFilters: groupingAndFiltersSliceReducer,
+    trades: tradesSliceReducer,
   });
 
 export default createRootReducer;
