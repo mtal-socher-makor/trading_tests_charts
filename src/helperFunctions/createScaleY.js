@@ -1,7 +1,6 @@
 import { scaleBand, scaleLinear, max, format, group, scaleOrdinal } from "d3";
 
 const createScaleY = (data) => {
-  console.log("CHECKING CREATESCALEY");
   const yValue = (d) => d.tradeTime;
   const siFormat = format(".2s");
   const yAxisTickFormat = (tickValue) => siFormat(tickValue);

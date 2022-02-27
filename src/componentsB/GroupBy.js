@@ -48,7 +48,6 @@ export default function GroupBy() {
       }
     }
   }, [groupBy, stateTrades]);
-  console.log("here!!");
   return (
     <Grid
       container

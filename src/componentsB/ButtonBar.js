@@ -90,6 +90,7 @@ const ButtonBar = (props) => {
               </Grid>
               <Grid item xs={2} style={{ marginLeft: 15 }}>
                 <FormControlLabel
+                  disabled={power}
                   control={
                     <PurpleSwitch
                       checked={mode}

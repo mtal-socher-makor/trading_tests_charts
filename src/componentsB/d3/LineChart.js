@@ -12,7 +12,7 @@ function LineChart() {
   const stateTrades = useSelector(
     (state) => state.trades?.dataStates?.stateTrades
   );
-
+ 
   const [
     yScale,
     innerWidth,

@@ -25,6 +25,7 @@ const AxisLeftSvg = (props) => {
 
         {yScale.ticks().map((tickValue) => (
           <AxisLeftText
+            key={tickValue}
             tickValue={tickValue}
             yScale={yScale}
             innerWidth={innerWidth}
