@@ -1,6 +1,6 @@
 import React, {useRef, useEffect} from "react";
 
-function AxisLeft({ tickValue, yScale, innerWidth, stateTrades, innerHeight }) {
+function AxisLeft({ tickValue, yScale, innerWidth }) {
 
   // const countRef = useRef(0);
 

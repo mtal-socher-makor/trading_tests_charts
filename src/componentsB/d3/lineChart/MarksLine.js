@@ -1,28 +1,31 @@
-import { useState, forwardRef } from 'react'
-import { line, curveNatural, curveCardinal, transition, ease, duration, easeSin, scaleOrdinal } from 'd3'
-import Tooltip from '../Tooltip'
-import MarksLineSingle from './MarksLineSingle'
-import createDataArrays from '../../../helperFunctions.js/createDataArrays'
-const transitionPath = transition().ease(easeSin).duration(2500)
+import { useEffect, forwardRef } from 'react';
+import { line, transition, easeSin } from 'd3';
+import MarksLineSingle from './MarksLineSingle';
 
-const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue, tooltipFormat, innerHeight, type, groupBy, dataStates, filters }, ref) => {
-  //const [showTooltips, setShowTooltips] = useState(true)
-  const [stateTrades, stateTradesPartly, typeTrades, sideTrades, locationTrades, threadTrades] = dataStates
-  const [groupByType, groupBySide, groupByLocation, groupByThread, allBtn] = groupBy
-  const [arrays, arrayNames, colorScale] = createDataArrays(dataStates, groupBy,filters)
+import { useSelector, useDispatch } from 'react-redux';
+import createDataArrays from '../../../helperFunctions/createDataArrays';
+
+const transitionPath = transition().ease(easeSin).duration(2500);
+
+const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue }, ref) => {
+  const dispatch = useDispatch();
+  const dataStates = useSelector((state) => state.trades?.dataStates);
+  const groupBy = useSelector((state) => state.groupingAndFilters?.grouping);
+  const filters = useSelector((state) => state.groupingAndFilters?.filters);
+  const [arrays, arrayNames, colorScale] = createDataArrays(dataStates, groupBy, filters);
+
   return (
     <>
-      <g className='marks'>
-        {(groupByThread && arrays.length) || (arrays.length && (groupByType || groupBySide || groupByLocation))
+      <g className="marks">
+        {(groupBy?.thread && arrays?.length) || (arrays?.length && (groupBy?.type || groupBy?.side || groupBy?.location))
           ? arrays.map((arr, index) => {
-            console.log("ARRAYS", arrays)
               return (
                 <>
                   <path
-                    fill='none'
+                    fill="none"
                     stroke={colorScale(arrayNames[index])}
-                    strokeDashoffset='pathLength'
-                    strokeDasharray='pathLength'
+                    strokeDashoffset="pathLength"
+                    strokeDasharray="pathLength"
                     transition={transitionPath}
                     strokeDashoffset={0}
                     d={line()
@@ -30,34 +33,33 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue, tooltipFormat, i
                       .y((d) => yScale(yValue(d)))(arr)}
                   />
                   {arr.map((d) => {
-                    return <MarksLineSingle d={d} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color={colorScale(arrayNames[index])} />
+                    return <MarksLineSingle d={d} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color={colorScale(arrayNames[index])} />;
                   })}
                 </>
-              )
+              );
             })
           : null}
-        {
-          (stateTradesPartly.length  && (
-            <>
-              <path
-                fill='none'
-                stroke='#4deeea'
-                strokeDashoffset='pathLength'
-                strokeDasharray='pathLength'
-                transition={transitionPath}
-                strokeDashoffset={0}
-                d={line()
-                  .x((d) => xScale(xValue(d)))
-                  .y((d) => yScale(yValue(d)))(stateTradesPartly)}
-              />
-              {stateTradesPartly.map((d) => (
-                <MarksLineSingle d={d} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color='#4deeea' />
-              ))}
-            </>
-          ))}
+        {dataStates.stateTradesPartly?.length && (
+          <>
+            <path
+              fill="none"
+              stroke="rgba(0, 700, 0 ,1)"
+              strokeDashoffset="pathLength"
+              strokeDasharray="pathLength"
+              transition={transitionPath}
+              strokeDashoffset={0}
+              d={line()
+                .x((d) => xScale(xValue(d)))
+                .y((d) => yScale(yValue(d)))(dataStates.stateTradesPartly)}
+            />
+            {dataStates?.stateTradesPartly.map((d) => (
+              <MarksLineSingle d={d} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color="rgba(0, 255, 0 ,1)" />
+            ))}
+          </>
+        )}
       </g>
     </>
-  )
-})
+  );
+});
 
-export default MarksLine
+export default MarksLine;

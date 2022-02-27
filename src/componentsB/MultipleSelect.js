@@ -6,8 +6,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import clsx from 'clsx';
-import { Checkbox, ListItemText, Typography } from '@material-ui/core';
+import { Checkbox, ListItemText } from '@material-ui/core';
 import { useStyles } from '../styles/mainStyles';
+import * as groupingAndFiltersAction from '../Redux/GroupingAndFilters/GroupingAndFiltersSlice';
+import {useDispatch} from 'react-redux'
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -27,33 +29,20 @@ const getStyles = (option, options, theme) => {
 };
 
 const MultipleSelect = ({ label, options, values, setFilters, isObjectOptions, disabled }) => {
-  //   console.log("options", options);
   const theme = useTheme();
   const classes = useStyles();
-  //   const [selectedOptions, setSelectedOptions] = useState([]);
+  const dispatch = useDispatch();
 
   const handleChange = (e, child) => {
     const {
       target: { name, value },
     } = e;
-
-    console.log('INSIDE THE HANDLER CHANGEf', child, e.target);
     if (isObjectOptions) {
-      setFilters(
-        (prev) => ({
-          ...prev,
-          [label]: typeof child.props.name === 'string' ? child.props.name.split(',') : child.props.name,
-        })
-        // On autofill we get a stringified value.
-      );
+      dispatch(groupingAndFiltersAction.setGlobalFilters({ label, value: child.props.name }));
     } else {
-      setFilters(
-        (prev) => ({
-          ...prev,
-          [label]: typeof value === 'string' ? value.split(',') : value,
-        })
-        // On autofill we get a stringified value.
-      );
+      dispatch(groupingAndFiltersAction.setGlobalFilters({ label, value }));
+
+      // On autofill we get a stringified value.
     }
   };
 

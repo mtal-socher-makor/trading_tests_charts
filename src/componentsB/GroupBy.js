@@ -1,44 +1,56 @@
-import React, { useEffect, useState } from 'react'
-import { Grid, Typography } from '@material-ui/core'
-import ReplayIcon from '@material-ui/icons/Replay'
-import { useStyles } from '../styles/mainStyles'
-import { filter } from 'd3'
+import React, { useEffect, useState } from 'react';
+import { Grid, Typography } from '@material-ui/core';
+import ReplayIcon from '@material-ui/icons/Replay';
+import { useStyles } from '../styles/mainStyles';
+import { filter } from 'd3';
+import * as groupingAndFiltersAction from '../Redux/GroupingAndFilters/GroupingAndFiltersSlice';
+import * as tradesAction from '../Redux/Trades/TradesSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function GroupBy({ filters, groupByThread, setGroupBy, groupBySetters, groupBy, setFilters }) {
-  const classes = useStyles()
-  const [setGroupByType, setGroupBySide, setGroupByLocation, setGroupByThread,setAllBtn] = groupBySetters
-  const [groupByType, groupBySide, groupByLocation ,allBtn] = groupBy
-  const handleGroup = (btnName) => {
-    setGroupBy(btnName)
-  }
+export default function GroupBy() {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const groupBy = useSelector((state) => state.groupingAndFilters?.grouping);
+  const mode = useSelector((state) => state.groupingAndFilters?.mode);
+  const dataStates = useSelector((state) => state.trades?.dataStates);
+  const filters = useSelector((state) => state.groupingAndFilters?.filters);
+
   const handleThreads = () => {
-    setGroupByType(false)
-    setGroupByLocation(false)
-    setGroupBySide(false)
-    setAllBtn(false)
-    setFilters((prev) => {
-      if (prev.threads.length) {
-        return { ...prev, threads: [] }
-      } else {
-        return { ...prev, threads: ['multi'] }
+    dispatch(groupingAndFiltersAction.setGroupBy('thread'));
+    dispatch(groupingAndFiltersAction.setFilters('threads'));
+  };
+
+  const hendleGroupChange = (groupName) => {
+    dispatch(groupingAndFiltersAction.setGroupBy(groupName));
+  };
+  useEffect(() => {
+    if (dataStates.stateTrades.length) {
+      if (groupBy.side) {
+        dispatch(tradesAction.sortBy('side'));
+      } else if (groupBy.type) {
+        dispatch(tradesAction.sortBy('type'));
+      } else if (groupBy.location) {
+        dispatch(tradesAction.sortBy('location'));
+      } else if (groupBy.thread) {
+        dispatch(tradesAction.sortBy('thread'));
+      } else if (!groupBy.side && !groupBy.type && !groupBy.location && !mode) {
+        dispatch(tradesAction.setStateTradesPartly());
       }
-    })
-  }
+    }
+  }, [groupBy, dataStates.stateTrades]);
+console.log("here!!")
   return (
-    <Grid container direction='row' spacing={4} className={classes.groupWrapper}>
-      {!groupByThread && (
+    <Grid container direction="row" spacing={4} className={classes.groupWrapper}>
+      {!groupBy.thread && (
         <>
           {!filters.types.length && (
             <Grid item className={classes.groupItem}>
               <Typography
-                variant='caption'
+                variant="caption"
                 className={classes.groupBtn}
-                style={{ color: groupByType ? '#FFD700' : '#848E9C' }}
+                style={{ color: groupBy.type ? '#FFD700' : '#848E9C' }}
                 onClick={() => {
-                  setGroupByType(true)
-                  setGroupByLocation(false)
-                  setGroupBySide(false)
-                  setAllBtn(false)
+                  hendleGroupChange('type');
                 }}
               >
                 Type
@@ -48,14 +60,11 @@ export default function GroupBy({ filters, groupByThread, setGroupBy, groupBySet
           {!filters.sides.length && (
             <Grid item className={classes.groupItem}>
               <Typography
-                variant='caption'
-                style={{ color: groupBySide ? '#FFD700' : '#848E9C' }}
+                variant="caption"
+                style={{ color: groupBy.side ? '#FFD700' : '#848E9C' }}
                 className={classes.groupBtn}
                 onClick={() => {
-                  setGroupByType(false)
-                  setGroupByLocation(false)
-                  setGroupBySide(true)
-                  setAllBtn(false)
+                  hendleGroupChange('side');
                 }}
               >
                 Side
@@ -64,14 +73,11 @@ export default function GroupBy({ filters, groupByThread, setGroupBy, groupBySet
           )}
           <Grid item className={classes.groupItem}>
             <Typography
-              variant='caption'
-              style={{ color: groupByLocation ? '#FFD700' : '#848E9C' }}
+              variant="caption"
+              style={{ color: groupBy.location ? '#FFD700' : '#848E9C' }}
               className={classes.groupBtn}
               onClick={() => {
-                setGroupByType(false)
-                setGroupByLocation(true)
-                setGroupBySide(false)
-                setAllBtn(false)
+                hendleGroupChange('location');
               }}
             >
               Location
@@ -79,14 +85,11 @@ export default function GroupBy({ filters, groupByThread, setGroupBy, groupBySet
           </Grid>
           <Grid item className={classes.groupItem}>
             <Typography
-              variant='caption'
-              style={{ color: allBtn ? '#FFD700' : '#848E9C' }}
+              variant="caption"
+              style={{ color: groupBy.allBtn ? '#FFD700' : '#848E9C' }}
               className={classes.groupBtnSpecial}
               onClick={() => {
-                setGroupByType(false)
-                setGroupByLocation(false)
-                setGroupBySide(false)
-                setAllBtn(true)
+                dispatch(groupingAndFiltersAction.setGroupBy('allBtn'));
               }}
             >
               All
@@ -94,15 +97,15 @@ export default function GroupBy({ filters, groupByThread, setGroupBy, groupBySet
           </Grid>
         </>
       )}
-      {groupByThread && (
+      {groupBy.thread && (
         <>
           <Grid item className={classes.groupItem}>
-            <Typography variant='caption' className={classes.groupBtn} style={{ color: groupByThread ? '#FFD700' : '#848E9C' }} onClick={handleThreads}>
+            <Typography variant="caption" className={classes.groupBtn} style={{ color: groupBy.thread ? '#FFD700' : '#848E9C' }} onClick={handleThreads}>
               {filters.threads.length ? 'Single' : 'Multi'}
             </Typography>
           </Grid>
         </>
       )}
     </Grid>
-  )
+  );
 }
