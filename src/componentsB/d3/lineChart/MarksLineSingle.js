@@ -34,7 +34,7 @@ function MarksLineSingle({d,
             <circle  
             cx={xScale(xValue(d))} 
             cy={yScale(yValue(d))} 
-            r={6} 
+            r={3} 
             fill={color}
             onMouseEnter={tooltipEnter}
             onMouseLeave={tooltipLeave}
