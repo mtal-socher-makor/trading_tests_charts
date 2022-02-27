@@ -15,7 +15,6 @@ const createDataArrays = (dataStates, groupBy, filters) => {
   } else if (groupBy.thread && !filters.threads.length) {
     gdata = { all: dataStates.stateTrades };
   }
-  console.log(gdata , "GASDASD")
   let arrays = Object.values(gdata);
   let arrayNames = Object.keys(gdata);
 

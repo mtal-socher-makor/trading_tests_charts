@@ -18,8 +18,6 @@ export const currentWorker = new Worker('index.js');
 function App() {
   const classes = useStyles();
   const groupBy = useSelector((state) => state.groupingAndFilters?.grouping);
-  const mode = useSelector((state) => state.groupingAndFilters?.mode);
-  const dataStates = useSelector((state) => state.trades?.dataStates);
   const dispatch = useDispatch();
 
   const [products, setProducts] = useState([]);
@@ -40,25 +38,7 @@ function App() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   console.log(mode, "MODE HERERERER")
-  //   console.log(groupBy, 'groupBy HERERERER');
-  //   if (dataStates.stateTrades.length) {
-  //     console.log('herhehrherhehrerh');
-  //     if (groupBy.side) {
-  //       dispatch(tradesAction.sortBy('side'));
-  //     } else if (groupBy.type) {
-  //       dispatch(tradesAction.sortBy('type'));
-  //     } else if (groupBy.location) {
-  //       dispatch(tradesAction.sortBy('location'));
-  //     } else if (groupBy.thread) {
-  //       dispatch(tradesAction.sortBy('thread'));
-  //     } else if (!groupBy.side && !groupBy.type && !groupBy.location && !mode) {
-  //       console.log('here');
-  //       dispatch(tradesAction.setStateTradesPartly());
-  //     }
-  //   }
-  // }, [groupBy, dataStates.stateTrades]);
+ console.log("i am rendered")
 
   return (
     <div className="App">

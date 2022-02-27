@@ -38,7 +38,7 @@ export default function GroupBy() {
       }
     }
   }, [groupBy, dataStates.stateTrades]);
-
+console.log("here!!")
   return (
     <Grid container direction="row" spacing={4} className={classes.groupWrapper}>
       {!groupBy.thread && (

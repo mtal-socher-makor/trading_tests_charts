@@ -28,7 +28,6 @@ export const tradesSlice = createSlice({
       let givenGroup = action.payload;
       if (state.dataStates.stateTrades.length > 0) {
         let key = state.dataStates.stateTrades[state.dataStates.stateTrades.length - 1][givenGroup];
-        console.log(key, 'key!!!!@#!@#!@#!@#!@#!@fvj');
         if (givenGroup === 'thread') {
           key = key.toString();
         }
