@@ -100,6 +100,7 @@ const ButtonBar = (props) => {
                     />
                   }
                   label="Stress"
+                  disabled={power}
                 />
               </Grid>
               {mode && (

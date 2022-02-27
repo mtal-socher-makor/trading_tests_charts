@@ -16,6 +16,9 @@ export const PurpleSwitch = withStyles({
     '&$checked + $track': {
       backgroundColor:'#91ff35',
     },
+    "&$disabled":{
+      color: "#ADD8E6"
+    }
   },
   checked: {},
   track: {},
