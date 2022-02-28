@@ -20,14 +20,14 @@ function VizArea() {
       style={{ width: "80vw", marginTop: 50, height: 600 }}
     >
       <Grid item xs={12}>
-        {mode && (
+        {/* {mode && (
           <Typography
             id="kkakaka"
             style={{ color: "#FFD700", height: "fitContent" }}
           >
             *Each point in stress mode represents an average of five trades
           </Typography>
-        )}
+        )} */}
       </Grid>
       <Grid item>{stateTrades.length ? <LineChart /> : null}</Grid>
     </Grid>

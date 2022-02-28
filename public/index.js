@@ -5,6 +5,8 @@ onmessage = (e) => {
   if (e.data.type === 'trial') {
     ws = connectWS()
   }
+
+  
   if (e.data.type === 'get_data' && e.data.mode && e.data.timesMode && e.data.power) {
     e.data.mode = 'singleTrade'
     const types = ['MKT', 'FOK', 'RFQ']
@@ -29,7 +31,7 @@ onmessage = (e) => {
       let newData = e.data
       newData.startTime = startTime
       sendEvent(JSON.stringify(newData))
-    }, 2000)
+    }, 1000)
   } else if (e.data.type === 'get_data') {
     sendEvent(JSON.stringify(e.data))
   }
