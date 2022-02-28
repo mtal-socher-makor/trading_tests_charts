@@ -18,7 +18,6 @@ const createDataArrays = (dataStates, groupBy, filters) => {
   }
   let arrays = Object.values(gdata)
   let arrayNames = Object.keys(gdata)
-  console.log('Gdata', gdata)
   const colorScale = scaleOrdinal()
     .domain([...arrayNames])
     .range(colorsPalette)

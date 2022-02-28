@@ -51,9 +51,12 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue }) => {
                 .x((d) => xScale(xValue(d)))
                 .y((d) => yScale(yValue(d)))(dataStates?.stateTradesPartly)}
             />
-            {dataStates?.stateTradesPartly.map((d) => (
-              <MarksLineSingle d={d} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color='rgba(0, 255, 0 ,1)' />
-            ))}
+            {dataStates?.stateTradesPartly.map((d) => {
+                return (
+                  <MarksLineSingle d={d} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color='rgba(0, 255, 0 ,1)' />
+                )
+            }
+           )}
           </>
         )}
       </g>
