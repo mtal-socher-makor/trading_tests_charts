@@ -8,6 +8,7 @@ import { RedSwitch } from '../styles/RedSwitch'
 import { useSelector, useDispatch } from 'react-redux'
 import * as tradesAction from '../Redux/Trades/TradesSlice'
 import * as groupingAndFiltersAction from '../Redux/GroupingAndFilters/GroupingAndFiltersSlice'
+import { ContactSupportOutlined } from '@material-ui/icons'
 
 let type = 'get_data'
 
@@ -50,20 +51,19 @@ const ButtonBar = (props) => {
     }
 
     if (Object.values(filteredFilters).length !== 0) {
+      console.log('here')
       data.filters = filteredFilters
     }
     if (mode && timesMode) {
       data.mode = mode
       data.timesMode = timesMode
       data.products = products
-      delete data.filters
     } else if (mode) {
       dispatch(groupingAndFiltersAction.setGroupBy('thread'))
       data.threads = numberOfThreads
     } else if (timesMode) {
       data.mode = mode
       data.timesMode = timesMode
-      delete data.filters
     } else {
       dispatch(groupingAndFiltersAction.initializeGrouping())
     }
@@ -142,15 +142,19 @@ const ButtonBar = (props) => {
           </Grid>
           <Grid item xs={5}>
             <Grid container justifyContent='flex-end' alignItems='center' spacing={2}>
-              <Grid item xs={3}>
-                <MultipleSelect disabled={power} options={['FOK', 'MKT', 'RFQ']} label='types' values={filters.types} />
-              </Grid>
-              <Grid item xs={3}>
-                <MultipleSelect disabled={power} options={['Buy', 'Sell']} label='sides' values={filters.sides} />
-              </Grid>
-              <Grid item xs={3}>
-                <MultipleSelect disabled={power} options={products} label='products' values={filters.products} />
-              </Grid>
+              {!(mode && timesMode) && (
+                <>
+                  <Grid item xs={3}>
+                    <MultipleSelect disabled={power} options={['FOK', 'MKT', 'RFQ']} label='types' values={filters.types} />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <MultipleSelect disabled={power} options={['Buy', 'Sell']} label='sides' values={filters.sides} />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <MultipleSelect disabled={power} options={products} label='products' values={filters.products} />
+                  </Grid>
+                </>
+              )}
               <Grid item xs={2} direction='row'>
                 <Button
                   fullWidth

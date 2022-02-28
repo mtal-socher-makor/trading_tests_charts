@@ -9,7 +9,7 @@ import clsx from 'clsx';
 import { Checkbox, ListItemText } from '@material-ui/core';
 import { useStyles } from '../styles/mainStyles';
 import * as groupingAndFiltersAction from '../Redux/GroupingAndFilters/GroupingAndFiltersSlice';
-import {useDispatch} from 'react-redux'
+import {useDispatch,useSelector} from 'react-redux'
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -32,7 +32,8 @@ const MultipleSelect = ({ label, options, values, setFilters, isObjectOptions, d
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
-
+  const mode = useSelector((state) => state.groupingAndFilters?.mode)
+  const timesMode = useSelector((state) => state.groupingAndFilters?.timesMode)
   const handleChange = (e, child) => {
     const {
       target: { name, value },
@@ -51,7 +52,7 @@ const MultipleSelect = ({ label, options, values, setFilters, isObjectOptions, d
       <InputLabel style={{ textTransform: 'capitalize', color: '#848E9C' }}>{label}</InputLabel>
       <Select
         id="demo-multiple-option"
-        multiple
+        multiple={(!mode  && timesMode)? false:true}
         value={values}
         className={classes.filterInput}
         onChange={(e, child) => handleChange(e, child)}
