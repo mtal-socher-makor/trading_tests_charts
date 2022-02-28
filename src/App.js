@@ -26,19 +26,19 @@ function App() {
   useEffect(() => {
     currentWorker.onmessage = (e) => {
       const parsedData = JSON.parse(e.data)
-      console.log('OBJECT', parsedData)
       if (parsedData.type === 'products') {
         dispatch(tradesAction.setProducts(parsedData.data))
       }
       if (parsedData.type === 'trade') {
         dispatch(tradesAction.setStateTrades(parsedData.data))
       }
+      console.log('TIMES', parsedData)
       if (parsedData.type === 'singleTrade') {
-        console.log('I am hereeeeee', parsedData.data.startTime)
         let endTime = Date.now()
+        console.log('TIMES', endTime, parsedData.data.startTime)
         let executeTime = (endTime - parsedData.data.startTime) / 1000
         parsedData.data.tradeTime = executeTime
-        console.log('AAAAA', parsedData.data)
+        console.log(executeTime)
         dispatch(tradesAction.setStateTrades(parsedData.data))
       }
     }

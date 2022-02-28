@@ -17,7 +17,7 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue }) => {
   return (
     <>
       <g className='marks' transform='translate(10,35)'>
-        {(groupBy?.thread && arrays?.length) || (arrays?.length && (groupBy?.type || groupBy?.side || groupBy?.location)||timesMode)
+        {(groupBy?.thread && arrays?.length) || (arrays?.length && (groupBy?.type || groupBy?.side || groupBy?.location)|| timesMode)
           ? arrays.map((arr, index) => {
               return (
                 <>

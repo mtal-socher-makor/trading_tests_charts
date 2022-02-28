@@ -29,13 +29,11 @@ const createDataArrays = (dataStates, groupBy, filters,timesMode) => {
     console.log("IAM HEREEE")
     gdata = { all: dataStates.stateTrades }
   }
-  console.log("G",gdata)
   let arrays = Object.values(gdata)
   let arrayNames = Object.keys(gdata)
   const colorScale = scaleOrdinal()
     .domain([...arrayNames])
     .range(colorsPalette)
-console.log( "arrays",arrays)
   return [arrays, arrayNames, colorScale]
 }
 

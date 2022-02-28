@@ -24,7 +24,6 @@ function Legend() {
                 borderBottom: `3px solid ${colorScale(arrayNames[index])}`,
               }}
             >
-              {console.log(arrayNames[index], 'ARAY NAMES')}
               <Typography style={{ fontWeight: 'bold', color: '#dfe1e6' }}>{name}</Typography>
             </Grid>
           )) : null }

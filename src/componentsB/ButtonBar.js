@@ -21,14 +21,13 @@ const ButtonBar = (props) => {
   //const [showFilters, setShowFilters] = useState(false);
   const [numberOfThreads, setNumOfThreads] = useState(0)
   const [power, setPower] = useState(false)
+
   const classes = useStyles()
 
-  useEffect(() => {}, [power])
-
-  const createTrade = () => {
+  useEffect(() => {
     let data = {}
     const filteredFilters = {}
-    if (!power) {
+    if (power) {
       Object.entries(filters).forEach(([filter, arr]) => {
         if (arr.length) {
           filteredFilters[filter] = arr
@@ -36,30 +35,43 @@ const ButtonBar = (props) => {
       })
       dispatch(tradesAction.intializeStates())
       dispatch(groupingAndFiltersAction.initializeGrouping())
+    } else {
+      data = {
+        type: 'stopInterval',
+      }
+      currentWorker.postMessage(data)
     }
 
     data = {
       mode: mode ? 'stress' : 'regular',
       type,
 
-      power: !power,
+      power: power,
     }
 
     if (Object.values(filteredFilters).length !== 0) {
       data.filters = filteredFilters
     }
     if (mode && timesMode) {
-      data.mode = 'singleTrade'
-      console.log('i am here', data)
+      data.mode = mode
+      data.timesMode = timesMode
+      data.products = products
       delete data.filters
     } else if (mode) {
       dispatch(groupingAndFiltersAction.setGroupBy('thread'))
       data.threads = numberOfThreads
+    } else if (timesMode) {
+      data.mode = mode
+      data.timesMode = timesMode
+      delete data.filters
     } else {
       dispatch(groupingAndFiltersAction.initializeGrouping())
     }
-
+    console.log('DATA', data)
     currentWorker.postMessage(data)
+  }, [power])
+
+  const createTrade = () => {
     setPower((prev) => !prev)
   }
   return (
