@@ -22,7 +22,6 @@ onmessage = (e) => {
       }
       sendEvent(JSON.stringify(e.data))
     }, 1000)
-    console.log('intervalId', intervalId)
   } else if (e.data.type === 'get_data' && !e.data.mode && e.data.timesMode && e.data.power) {
     e.data.mode = 'singleTrade'
     intervalId = setInterval(() => {
@@ -38,7 +37,6 @@ onmessage = (e) => {
     sendEvent(e.data)
   }
   if (e.data.type === 'stopInterval') {
-    console.log('i am here and my id is', intervalId)
     clearInterval(intervalId)
   }
   ws.onmessage = (e) => {

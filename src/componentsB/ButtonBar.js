@@ -51,7 +51,6 @@ const ButtonBar = (props) => {
     }
 
     if (Object.values(filteredFilters).length !== 0) {
-      console.log('here')
       data.filters = filteredFilters
     }
     if (mode && timesMode) {
@@ -67,7 +66,6 @@ const ButtonBar = (props) => {
     } else {
       dispatch(groupingAndFiltersAction.initializeGrouping())
     }
-    console.log('DATA', data)
     currentWorker.postMessage(data)
   }, [power])
 

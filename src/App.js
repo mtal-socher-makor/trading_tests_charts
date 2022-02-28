@@ -32,13 +32,10 @@ function App() {
       if (parsedData.type === 'trade') {
         dispatch(tradesAction.setStateTrades(parsedData.data))
       }
-      console.log('TIMES', parsedData)
       if (parsedData.type === 'singleTrade') {
         let endTime = Date.now()
-        console.log('TIMES', endTime, parsedData.data.startTime)
         let executeTime = (endTime - parsedData.data.startTime) / 1000
         parsedData.data.tradeTime = executeTime
-        console.log(executeTime)
         dispatch(tradesAction.setStateTrades(parsedData.data))
       }
     }
