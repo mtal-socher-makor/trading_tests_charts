@@ -6,14 +6,14 @@ import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-export const GreenSwitch = withStyles({
+export const RedSwitch = withStyles({
   switchBase: {
     color: '#fff',
     '&$checked': {
-      color: '#76ff03',
+      color: '#ff0055',
     },
     '&$checked + $track': {
-      backgroundColor:'#91ff35',
+      backgroundColor:'#ff073a',
     },
   },
   checked: {},

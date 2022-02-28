@@ -11,12 +11,13 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue }) => {
   const dataStates = useSelector((state) => state.trades?.dataStates)
   const groupBy = useSelector((state) => state.groupingAndFilters?.grouping)
   const filters = useSelector((state) => state.groupingAndFilters?.filters)
-  const [arrays, arrayNames, colorScale] = createDataArrays(dataStates, groupBy, filters)
+  const timesMode = useSelector((state) => state.groupingAndFilters?.timesMode)
+  const [arrays, arrayNames, colorScale] = createDataArrays(dataStates, groupBy, filters,timesMode)
 
   return (
     <>
       <g className='marks' transform='translate(10,35)'>
-        {(groupBy?.thread && arrays?.length) || (arrays?.length && (groupBy?.type || groupBy?.side || groupBy?.location))
+        {(groupBy?.thread && arrays?.length) || (arrays?.length && (groupBy?.type || groupBy?.side || groupBy?.location)||timesMode)
           ? arrays.map((arr, index) => {
               return (
                 <>
