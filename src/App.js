@@ -21,7 +21,8 @@ function App() {
   const groupBy = useSelector((state) => state.groupingAndFilters?.grouping)
 
   const dispatch = useDispatch()
-
+ 
+  
   currentWorker.postMessage({ type: 'products' })
   useEffect(() => {
     currentWorker.onmessage = (e) => {

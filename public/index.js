@@ -5,8 +5,6 @@ onmessage = (e) => {
   if (e.data.type === 'trial') {
     ws = connectWS()
   }
-
-  
   if (e.data.type === 'get_data' && e.data.mode && e.data.timesMode && e.data.power) {
     e.data.mode = 'singleTrade'
     const types = ['MKT', 'FOK', 'RFQ']
@@ -23,7 +21,7 @@ onmessage = (e) => {
         products: [random_product],
       }
       sendEvent(JSON.stringify(e.data))
-    }, 1000)
+    }, 500)
   } else if (e.data.type === 'get_data' && !e.data.mode && e.data.timesMode && e.data.power) {
     e.data.mode = 'singleTrade'
     intervalId = setInterval(() => {
@@ -31,7 +29,7 @@ onmessage = (e) => {
       let newData = e.data
       newData.startTime = startTime
       sendEvent(JSON.stringify(newData))
-    }, 1000)
+    }, 500)
   } else if (e.data.type === 'get_data') {
     sendEvent(JSON.stringify(e.data))
   }

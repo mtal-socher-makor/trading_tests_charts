@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useStyles } from '../styles/mainStyles'
 import { Grid, Typography, TextField, Button, FormControl, FormControlLabel, Toolbar, AppBar } from '@material-ui/core'
 import MultipleSelect from './MultipleSelect'
+import MultipleSelectServer from './MultipleSelectServer'
 import { currentWorker } from '../App'
 import { GreenSwitch } from '../styles/GreenSwitch'
 import { RedSwitch } from '../styles/RedSwitch'
 import { useSelector, useDispatch } from 'react-redux'
 import * as tradesAction from '../Redux/Trades/TradesSlice'
 import * as groupingAndFiltersAction from '../Redux/GroupingAndFilters/GroupingAndFiltersSlice'
-import { ContactSupportOutlined } from '@material-ui/icons'
 
 let type = 'get_data'
 
@@ -18,11 +18,12 @@ const ButtonBar = (props) => {
   const mode = useSelector((state) => state.groupingAndFilters?.mode)
   const timesMode = useSelector((state) => state.groupingAndFilters?.timesMode)
   const products = useSelector((state) => state.trades?.products)
-
+  const allServers = JSON.parse(process.env.REACT_APP_SERVERS)
   //const [showFilters, setShowFilters] = useState(false);
   const [numberOfThreads, setNumOfThreads] = useState(0)
   const [power, setPower] = useState(false)
 
+  console.log('allServers', allServers)
   const classes = useStyles()
 
   useEffect(() => {
@@ -87,7 +88,7 @@ const ButtonBar = (props) => {
                 <Typography>Server test graph</Typography>
               </Grid>
               <Grid item xs={3}>
-                <MultipleSelect disabled={power} options={['a server', 'dfgfg']} label='servers' values={filters.servers} />
+                <MultipleSelectServer disabled={power} options={allServers} label='servers' values={filters.servers} isObjectOptions={true} />
               </Grid>
               <Grid item xs={2}>
                 <FormControlLabel

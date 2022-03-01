@@ -55,7 +55,11 @@ export const groupingAndFiltersSlice = createSlice({
     setGlobalFilters: (state, action) => {
       let key = action.payload.label
       let value = action.payload.value
-      state.filters = { ...state.filters, [key]: typeof value === 'string' ? value.split(',') : value }
+      if (key === 'servers') {
+        state.filters = { ...state.filters, [key]:state.filters[key].length? [...state.filters[key], value]:[value] }
+      } else {
+        state.filters = { ...state.filters, [key]: typeof value === 'string' ? value.split(',') : value }
+      }
     },
     setMode: (state, action) => {
       state.mode = !state.mode

@@ -28,18 +28,19 @@ const getStyles = (option, options, theme) => {
   }
 }
 
-const MultipleSelect = ({ label, options, values, setFilters, isObjectOptions, disabled }) => {
+const MultipleSelectServer = ({ label, options, values, isObjectOptions, disabled }) => {
   const theme = useTheme()
   const classes = useStyles()
   const dispatch = useDispatch()
   const mode = useSelector((state) => state.groupingAndFilters?.mode)
   const timesMode = useSelector((state) => state.groupingAndFilters?.timesMode)
   const handleChange = (e, child) => {
+    console.log('child', child.props.value)
     const {
       target: { name, value },
     } = e
     if (isObjectOptions) {
-      dispatch(groupingAndFiltersAction.setGlobalFilters({ label, value: child.props.name }))
+      dispatch(groupingAndFiltersAction.setGlobalFilters({ label, value: child.props.value }))
     } else {
       dispatch(groupingAndFiltersAction.setGlobalFilters({ label, value }))
 
@@ -52,12 +53,11 @@ const MultipleSelect = ({ label, options, values, setFilters, isObjectOptions, d
       <InputLabel style={{ textTransform: 'capitalize', color: '#848E9C' }}>{label}</InputLabel>
       <Select
         id='demo-multiple-option'
-        multiple={!mode && timesMode ? false : true}
+        multiple={true}
         value={values}
         className={classes.filterInput}
         onChange={(e, child) => handleChange(e, child)}
         input={<OutlinedInput label={label} />}
-        renderValue={(selected) => selected.join(', ')}
         MenuProps={{
           classes: {
             paper: classes.selectPaper,
@@ -76,7 +76,7 @@ const MultipleSelect = ({ label, options, values, setFilters, isObjectOptions, d
       >
         {options.map((option) =>
           isObjectOptions ? (
-            <MenuItem key={option.product_id} value={option.product_name} name={option.product_id}>
+            <MenuItem key={option.key} value={option.value} name={option.key}>
               <Checkbox
                 className={classes.rootCheckbox}
                 disableRipple
@@ -84,9 +84,9 @@ const MultipleSelect = ({ label, options, values, setFilters, isObjectOptions, d
                 checkedIcon={<span className={clsx(classes.notCheckedIcon, classes.checkedIcon)} />}
                 icon={<span className={classes.notCheckedIcon} />}
                 inputProps={{ 'aria-label': 'decorative checkbox' }}
-                checked={values.indexOf(option.product_id) > -1}
+                checked={values.indexOf(option.value) > -1}
               />
-              <ListItemText primary={option.product_name} />
+              <ListItemText primary={option.key} />
             </MenuItem>
           ) : (
             <MenuItem key={option} value={option} id={option}>
@@ -108,4 +108,4 @@ const MultipleSelect = ({ label, options, values, setFilters, isObjectOptions, d
   )
 }
 
-export default MultipleSelect
+export default MultipleSelectServer
