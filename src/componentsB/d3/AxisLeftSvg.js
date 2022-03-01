@@ -10,18 +10,20 @@ const AxisLeftSvg = (props) => {
   return (
     <svg width={60} height={innerHeight}>
       <g>
-        <text
-          className="axis-label"
-          x={0}
-          y={0}
-          textAnchor="middle"
-          stroke="#fff"
-          fill="#fff"
-          transform={`translate(25, ${innerHeight / 2 + 40}) rotate(-90)`}
-          style={{ fontSize: 30 }}
-        >
-          Time (seconds)
-        </text>
+        {stateTrades.length > 0 && (
+          <text
+            className="axis-label"
+            x={0}
+            y={0}
+            textAnchor="middle"
+            stroke="#fff"
+            fill="#fff"
+            transform={`translate(25, ${innerHeight / 2 + 40}) rotate(-90)`}
+            style={{ fontSize: 30 }}
+          >
+            Time (seconds)
+          </text>
+        )}
 
         {yScale.ticks().map((tickValue) => (
           <AxisLeftText
