@@ -26,7 +26,7 @@ export const tradesSlice = createSlice({
       state.products = action.payload
     },
     setStateTrades: (state, action) => {
-      if (state.dataStates.stateTrades.length <= 70 ) {
+      if (state.dataStates.stateTrades.length <= 60 ) {
         state.dataStates.stateTrades = [...state.dataStates.stateTrades, action.payload]
       } else {
         let temp = [...state.dataStates.stateTrades]

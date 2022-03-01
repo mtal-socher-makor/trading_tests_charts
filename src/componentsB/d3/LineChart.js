@@ -7,12 +7,13 @@ import { Grid } from "@material-ui/core";
 import { useStyles } from "../../styles/mainStyles";
 import { useSelector } from "react-redux";
 import createScaleY from "../../helperFunctions/createScaleY";
+import { motion } from "framer-motion";
 
 function LineChart() {
   const stateTrades = useSelector(
     (state) => state.trades?.dataStates?.stateTrades
   );
- 
+
   const [
     yScale,
     innerWidth,
@@ -24,9 +25,15 @@ function LineChart() {
     yValue,
   ] = createScaleY(stateTrades);
 
-
   const xValue = (d) => d.id;
 
+  const svgVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 1 },
+    },
+  };
 
   const xScale = scaleBand()
     .domain(stateTrades.map(xValue))
@@ -35,7 +42,14 @@ function LineChart() {
 
   return (
     <Grid item style={{ position: "relative", width: dynamicWidth }}>
-      <svg width={dynamicWidth} height={height}>
+  
+      <svg
+        width={dynamicWidth}
+        height={height}
+        className="mainSvg"
+        variants={svgVariants}
+        animate="visible"
+      >
         <g transform={`translate(${margin.left},${margin.top})`}>
           {xScale.domain().map((tickValue) => (
             <AxisBottom
