@@ -24,8 +24,9 @@ function App() {
   const groupBy = useSelector((state) => state.groupingAndFilters?.grouping);
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(tradesAction.loginGetAllProduct())
     londonWorker.onmessage = (e) => {
-      axios.dispatch(tradesAction.setProducts(parsedData.data));
+      // axios.dispatch(tradesAction.setProducts(parsedData.data));
       const parsedData = JSON.parse(e.data);
       if (parsedData.type === "trade") {
         dispatch(tradesAction.setStateTrades(parsedData.data));

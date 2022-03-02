@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { useTheme } from "@material-ui/core/styles";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import clsx from "clsx";
-import { Checkbox, ListItemText } from "@material-ui/core";
-import { useStyles } from "../styles/mainStyles";
-import * as groupingAndFiltersAction from "../Redux/GroupingAndFilters/GroupingAndFiltersSlice";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from 'react';
+import { useTheme } from '@material-ui/core/styles';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import clsx from 'clsx';
+import { Checkbox, ListItemText } from '@material-ui/core';
+import { useStyles } from '../styles/mainStyles';
+import * as groupingAndFiltersAction from '../Redux/GroupingAndFilters/GroupingAndFiltersSlice';
+import {useDispatch,useSelector} from 'react-redux'
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -24,37 +24,22 @@ const MenuProps = {
 
 const getStyles = (option, options, theme) => {
   return {
-    fontWeight:
-      options.indexOf(option) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
+    fontWeight: options.indexOf(option) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
   };
 };
 
-const MultipleSelect = ({
-  label,
-  options,
-  values,
-  setFilters,
-  isObjectOptions,
-  disabled,
-}) => {
+const MultipleSelect = ({ label, options, values, setFilters, isObjectOptions, disabled }) => {
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const mode = useSelector((state) => state.groupingAndFilters?.mode);
-  const timesMode = useSelector((state) => state.groupingAndFilters?.timesMode);
+  const mode = useSelector((state) => state.groupingAndFilters?.mode)
+  const timesMode = useSelector((state) => state.groupingAndFilters?.timesMode)
   const handleChange = (e, child) => {
     const {
       target: { name, value },
     } = e;
     if (isObjectOptions) {
-      dispatch(
-        groupingAndFiltersAction.setGlobalFilters({
-          label,
-          value: child.props.ip,
-        })
-      );
+      dispatch(groupingAndFiltersAction.setGlobalFilters({ label, value: child.props.value }));
     } else {
       dispatch(groupingAndFiltersAction.setGlobalFilters({ label, value }));
 
@@ -63,64 +48,64 @@ const MultipleSelect = ({
   };
 
   return (
-    <FormControl
-      disabled={disabled}
-      fullWidth
-      className={classes.focusField}
-      style={{ flex: 1 }}
-      variant="outlined"
-      size="small"
-    >
-      <InputLabel style={{ textTransform: "capitalize", color: "#848E9C" }}>
-        {label}
-      </InputLabel>
+    <FormControl disabled={disabled} fullWidth className={classes.focusField} style={{ flex: 1 }} variant="outlined" size="small">
+      <InputLabel style={{ textTransform: 'capitalize', color: '#848E9C' }}>{label}</InputLabel>
       <Select
         id="demo-multiple-option"
-        multiple={!mode && timesMode ? false : true}
+        multiple={(!mode  && timesMode)? false:true}
         value={values}
         className={classes.filterInput}
         onChange={(e, child) => handleChange(e, child)}
         input={<OutlinedInput label={label} />}
-        renderValue={(selected) => selected.join(", ")}
+        renderValue={(selected) => {
+          console.log(selected) 
+          selected.join(', ')
+        }}
         MenuProps={{
           classes: {
             paper: classes.selectPaper,
             icon: classes.icon,
           },
           anchorOrigin: {
-            vertical: "bottom",
-            horizontal: "left",
+            vertical: 'bottom',
+            horizontal: 'left',
           },
           transformOrigin: {
-            vertical: "top",
-            horizontal: "left",
+            vertical: 'top',
+            horizontal: 'left',
           },
           getContentAnchorEl: null,
         }}
       >
-        {options.map((option) => {
-          return (
-            <MenuItem key={option.ip} value={option.ip} name={option.ip}>
+        {options.map((option) =>
+          isObjectOptions ? (
+            <MenuItem key={option.product_id} value={option.product_name} name={option.product_id}>
               <Checkbox
                 className={classes.rootCheckbox}
                 disableRipple
                 color="default"
-                checkedIcon={
-                  <span
-                    className={clsx(
-                      classes.notCheckedIcon,
-                      classes.checkedIcon
-                    )}
-                  />
-                }
+                checkedIcon={<span className={clsx(classes.notCheckedIcon, classes.checkedIcon)} />}
                 icon={<span className={classes.notCheckedIcon} />}
-                inputProps={{ "aria-label": "decorative checkbox" }}
-                checked={values.indexOf(option.ip) > -1}
+                inputProps={{ 'aria-label': 'decorative checkbox' }}
+                checked={values.indexOf(option.product_name) > -1}
               />
-              <ListItemText primary={option.ip} />
+              <ListItemText primary={option.product_name} />
             </MenuItem>
-          );
-        })}
+          ) : (
+            <MenuItem key={option} value={option} id={option}>
+              <Checkbox
+                className={classes.rootCheckbox}
+                disableRipple
+                color="default"
+                checkedIcon={<span className={clsx(classes.notCheckedIcon, classes.checkedIcon)} />}
+                icon={<span className={classes.notCheckedIcon} />}
+                inputProps={{ 'aria-label': 'decorative checkbox' }}
+                checked={values.indexOf(option) > -1}
+              />
+              <ListItemText primary={option} />
+            </MenuItem>
+          )
+        )}
       </Select>
     </FormControl>
   );

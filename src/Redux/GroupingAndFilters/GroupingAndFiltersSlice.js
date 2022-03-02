@@ -56,15 +56,31 @@ export const groupingAndFiltersSlice = createSlice({
       let key = action.payload.label;
       let value =
         key === "servers" ? action.payload.server : action.payload.value;
-      if (key !== "servers") {
+      if (key !== "servers" && key !== "products") {
         state.filters = {
           ...state.filters,
           [key]: typeof value === "string" ? value.split(",") : value,
         };
-      } else {
+      } else if (key === "servers") {
         if (state.filters[key].some((s) => s.ip === value.ip)) {
-          state.filters[key] = state.filters[key].filter(x => x.ip !== value.ip);
+          state.filters[key] = state.filters[key].filter(
+            (x) => x.ip !== value.ip
+          );
         } else {
+          state.filters = {
+            ...state.filters,
+            [key]: [...state.filters[key], value],
+          };
+        }
+      } else if (key === "products") {
+        if (
+          state.filters[key].includes(value) &&
+          state.filters[key].length > 0
+        ) {
+          state.filters[key] = state.filters[key].filter((p) => p !== value);
+        } else {
+          console.log(state.filters.products);
+
           state.filters = {
             ...state.filters,
             [key]: [...state.filters[key], value],

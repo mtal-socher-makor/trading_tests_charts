@@ -27,7 +27,7 @@ const ButtonBar = (props) => {
   const mode = useSelector((state) => state.groupingAndFilters?.mode);
   const timesMode = useSelector((state) => state.groupingAndFilters?.timesMode);
   const products = useSelector((state) => state.trades?.products);
-  console.log("ENV", process.env.REACT_APP_USA_SERVER);
+
   const servers = JSON.parse(process.env.REACT_APP_SERVERS);
   const serverMap = {};
   servers.forEach((server) => {
@@ -39,7 +39,6 @@ const ButtonBar = (props) => {
   const [power, setPower] = useState(false);
 
   const classes = useStyles();
-  console.log(servers , "ORTAL MWSHUGAAT")
   useEffect(() => {
     let data = {};
     const filteredFilters = {};
@@ -206,6 +205,7 @@ const ButtonBar = (props) => {
                       options={products}
                       label="products"
                       values={filters.products}
+                      isObjectOptions={true}
                     />
                   </Grid>
                 </>
