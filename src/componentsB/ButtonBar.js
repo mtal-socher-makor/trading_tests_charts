@@ -70,7 +70,7 @@ const ButtonBar = (props) => {
         worker.onmessage = (msg) => {
           console.log(JSON.parse(msg.data))
           const trade = JSON.parse(msg.data)
-          dispatch(tradesAction.setStateTrades(trade))
+          dispatch(tradesAction.setStateTrades(trade.data))
         }
         workers.push(worker)
       }

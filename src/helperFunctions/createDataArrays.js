@@ -12,12 +12,11 @@ const createDataArrays = (dataStates, groupBy, filters) => {
   } else if (groupBy.location) {
     gdata = dataStates.locationTrades
   } else if (groupBy.thread && filters.threads.length) {
+    console.log('Error')
     gdata = dataStates.threadTrades
   } else if (groupBy.thread && !filters.threads.length) {
     gdata = { all: dataStates.stateTrades }
-  } else {
-    gdata = { all: dataStates.stateTrades }
-  }
+  } 
   let arrays = Object.values(gdata)
   let arrayNames = Object.keys(gdata)
   const colorScale = scaleOrdinal()
