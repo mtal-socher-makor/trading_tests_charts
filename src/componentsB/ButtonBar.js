@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useStyles } from "../styles/mainStyles";
 import {
   Grid,
@@ -11,13 +11,10 @@ import {
   AppBar,
 } from "@material-ui/core";
 import MultipleSelect from "./MultipleSelect";
-// import { currentWorker } from "../App";
 import { GreenSwitch } from "../styles/GreenSwitch";
-import { RedSwitch } from "../styles/RedSwitch";
 import { useSelector, useDispatch } from "react-redux";
 import * as tradesAction from "../Redux/Trades/TradesSlice";
 import * as groupingAndFiltersAction from "../Redux/GroupingAndFilters/GroupingAndFiltersSlice";
-import { ContactSupportOutlined } from "@material-ui/icons";
 import ServerMultipleSelect from "./ServerMultipleSelect";
 let type = "get_data";
 
@@ -25,9 +22,12 @@ const ButtonBar = (props) => {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.groupingAndFilters?.filters);
   const mode = useSelector((state) => state.groupingAndFilters?.mode);
-  const timesMode = useSelector((state) => state.groupingAndFilters?.timesMode);
+  // const servers = useSelector((state) => state.groupingAndFilters?.filters?.servers)
+  const [socketWorkers, setSocketWorkers] = useState([]);
   const products = useSelector((state) => state.trades?.products);
-
+  const selectedServers = useSelector(
+    (state) => state.groupingAndFilters?.filters?.servers
+  );
   const servers = JSON.parse(process.env.REACT_APP_SERVERS);
   const serverMap = {};
   servers.forEach((server) => {
@@ -43,6 +43,7 @@ const ButtonBar = (props) => {
     let data = {};
     const filteredFilters = {};
     if (power) {
+      let workers = [];
       Object.entries(filters).forEach(([filter, arr]) => {
         if (arr.length) {
           filteredFilters[filter] = arr;
@@ -50,37 +51,52 @@ const ButtonBar = (props) => {
       });
       dispatch(tradesAction.intializeStates());
       dispatch(groupingAndFiltersAction.initializeGrouping());
+
+      const workingServers = selectedServers.length ? selectedServers : servers;
+      for (const server of workingServers) {
+        const worker = new Worker("index.js");
+        data = {
+          mode: mode ? "stress" : "regular",
+          type,
+          server,
+          power: power,
+        };
+
+        if (Object.values(filteredFilters).length !== 0) {
+          delete filteredFilters.threads;
+          data.filters = filteredFilters;
+        }
+        if (mode) {
+          data.products = products;
+          dispatch(groupingAndFiltersAction.setGroupBy("thread"));
+          data.threads = numberOfThreads;
+        } else {
+          dispatch(groupingAndFiltersAction.initializeGrouping());
+        }
+
+        worker.postMessage(JSON.stringify(data));
+
+        worker.onmessage = (msg) => {
+          console.log(JSON.parse(msg.data));
+          const trade = JSON.parse(msg.data);
+          dispatch(tradesAction.setStateTrades(trade.data));
+        };
+        workers.push(worker);
+      }
+      setSocketWorkers(workers);
     } else {
-      data = {
-        type: "stopInterval",
-      };
-      // currentWorker.postMessage(data);
+      if (socketWorkers.length) {
+        socketWorkers.forEach((worker) => {
+          data = {
+            mode: mode ? "stress" : "regular",
+            type,
+            power: power,
+          };
+          worker.postMessage(JSON.stringify(data));
+          worker.terminate();
+        });
+      }
     }
-
-    data = {
-      mode: mode ? "stress" : "regular",
-      type,
-
-      power: power,
-    };
-
-    if (Object.values(filteredFilters).length !== 0) {
-      data.filters = filteredFilters;
-    }
-    if (mode && timesMode) {
-      data.mode = mode;
-      data.timesMode = timesMode;
-      data.products = products;
-    } else if (mode) {
-      dispatch(groupingAndFiltersAction.setGroupBy("thread"));
-      data.threads = numberOfThreads;
-    } else if (timesMode) {
-      data.mode = mode;
-      data.timesMode = timesMode;
-    } else {
-      dispatch(groupingAndFiltersAction.initializeGrouping());
-    }
-    // currentWorker.postMessage(data);
   }, [power]);
 
   const createTrade = () => {
@@ -132,20 +148,6 @@ const ButtonBar = (props) => {
                       label="Stress"
                     />
                   </Grid>
-                  <Grid item xs={6}>
-                    <FormControlLabel
-                      disabled={power}
-                      control={
-                        <RedSwitch
-                          checked={timesMode}
-                          onChange={(e) => {
-                            dispatch(groupingAndFiltersAction.setTimesMode());
-                          }}
-                        />
-                      }
-                      label="All around time"
-                    />
-                  </Grid>
                 </Grid>
               </Grid>
 
@@ -159,7 +161,7 @@ const ButtonBar = (props) => {
                     disabled={power}
                   >
                     <TextField
-                      style={{ color: "#848E9C" }}
+                      style={{ color: "#848E9C"}}
                       className={classes.input}
                       onChange={(e) => {
                         setNumOfThreads(e.target.value);
@@ -181,39 +183,39 @@ const ButtonBar = (props) => {
               alignItems="center"
               spacing={2}
             >
-              {!(mode && timesMode) && (
-                <>
-                  <Grid item xs={3}>
-                    <MultipleSelect
-                      disabled={power}
-                      options={["FOK", "MKT", "RFQ"]}
-                      label="types"
-                      values={filters.types}
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <MultipleSelect
-                      disabled={power}
-                      options={["Buy", "Sell"]}
-                      label="sides"
-                      values={filters.sides}
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <MultipleSelect
-                      disabled={power}
-                      options={products}
-                      label="products"
-                      values={filters.products}
-                      isObjectOptions={true}
-                    />
-                  </Grid>
-                </>
-              )}
+              <>
+                <Grid item xs={3}>
+                  <MultipleSelect
+                    disabled={power}
+                    options={["FOK", "MKT", "RFQ"]}
+                    label="types"
+                    values={filters.types}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <MultipleSelect
+                    disabled={power}
+                    options={["Buy", "Sell"]}
+                    label="sides"
+                    values={filters.sides}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <MultipleSelect
+                    disabled={power}
+                    options={products}
+                    label="products"
+                    values={filters.products}
+                    isObjectOptions={true}
+                  />
+                </Grid>
+              </>
+
               <Grid item xs={2} direction="row">
                 <Button
                   fullWidth
                   onClick={createTrade}
+                  // disabled={!selectedServers.length}
                   style={{
                     backgroundColor: "lightblue",
                     flex: 1,

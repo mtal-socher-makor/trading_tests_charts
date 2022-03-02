@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { tradesSlice } from "../Trades/TradesSlice";
-import { contourDensity, scaleOrdinal } from "d3";
 
 export const groupingAndFiltersSlice = createSlice({
   name: "groupAndFilters",

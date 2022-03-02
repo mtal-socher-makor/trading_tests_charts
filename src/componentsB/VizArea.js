@@ -17,7 +17,7 @@ function VizArea() {
     <Grid
       container
       className={classes.vizContainer}
-      style={{ width: "80vw", marginTop: 50, height: 600 }}
+      style={{ width: "75vw", marginTop: 50, height: 600 }}
     >
       <Grid item xs={12}>
         {mode && (

@@ -1,44 +1,21 @@
 import ButtonBar from "./componentsB/ButtonBar";
-import { Grid, makeStyles, Typography } from "@material-ui/core";
-import * as webSocketService from "./services/websocket";
-import React, { useState, useEffect, useRef } from "react";
-import DataCircle from "./componentsB/d3/DataCircle";
-import productsData from "./products.json";
-import Graph from "./componentsB/Graph";
+import { Grid, makeStyles } from "@material-ui/core";
+import React, { useEffect } from "react";
 import VizArea from "./componentsB/VizArea";
 import GroupBy from "./componentsB/GroupBy";
 import Legend from "./componentsB/d3/Legend";
 
-import createScaleY from "./helperFunctions/createScaleY";
-import AxisLeftText from "./componentsB/d3/barchart/AxisLeftText";
 import * as tradesAction from "./Redux/Trades/TradesSlice";
 import { useSelector, useDispatch } from "react-redux";
 import AxisLeftSvg from "./componentsB/d3/AxisLeftSvg";
-import axios from "axios";
-export const londonWorker = new Worker("London.js");
-export const NYWorker = new Worker("NY.js");
-export const parisWorker = new Worker("Paris.js");
 
 function App() {
   const classes = useStyles();
   const groupBy = useSelector((state) => state.groupingAndFilters?.grouping);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(tradesAction.loginGetAllProduct())
-    londonWorker.onmessage = (e) => {
-      // axios.dispatch(tradesAction.setProducts(parsedData.data));
-      const parsedData = JSON.parse(e.data);
-      if (parsedData.type === "trade") {
-        dispatch(tradesAction.setStateTrades(parsedData.data));
-      }
-      if (parsedData.type === "singleTrade") {
-        let endTime = Date.now();
-        let executeTime = (endTime - parsedData.data.startTime) / 1000;
-        parsedData.data.tradeTime = executeTime;
-        dispatch(tradesAction.setStateTrades(parsedData.data));
-      }
-    };
-  }, []);
+    dispatch(tradesAction.loginGetAllProduct());
+  }, [dispatch]);
 
   return (
     <div className="App">
@@ -54,8 +31,7 @@ function App() {
           <Grid
             item
             xs={10}
-            style={{ display: "flex", justifyContent: "center" }}
-            style={{ position: "relative" }}
+            style={{ display: "flex", justifyContent: "center" , position: "relative" }}
           >
             <GroupBy />
           </Grid>
