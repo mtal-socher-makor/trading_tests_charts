@@ -56,7 +56,6 @@ export const groupingAndFiltersSlice = createSlice({
       let key = action.payload.label;
       let value =
         key === "servers" ? action.payload.server : action.payload.value;
-      console.log(key, "!@#");
       if (key !== "servers") {
         state.filters = {
           ...state.filters,
@@ -64,8 +63,6 @@ export const groupingAndFiltersSlice = createSlice({
         };
       } else {
         if (state.filters[key].some((s) => s.ip === value.ip)) {
-          let index = state.filters[key].findIndex((s) => s.ip === value.ip);
-          console.log("🚀 ~ file: GroupingAndFiltersSlice.js ~ line 69 ~ index", index)
           state.filters[key] = state.filters[key].filter(x => x.ip !== value.ip);
         } else {
           state.filters = {
