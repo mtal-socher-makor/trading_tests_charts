@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -31,37 +31,34 @@ const getStyles = (option, options, theme) => {
   };
 };
 
-const MultipleSelect = ({
+const ServerMultipleSelect = ({
   label,
   options,
   values,
   setFilters,
   isObjectOptions,
   disabled,
+  serverMap,
 }) => {
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
   const mode = useSelector((state) => state.groupingAndFilters?.mode);
   const timesMode = useSelector((state) => state.groupingAndFilters?.timesMode);
+  let serverNames = values.map((value) => serverMap[value]);
+
+  console.log("values", values, serverNames);
   const handleChange = (e, child) => {
+    console.log("VALUE", e.target, child.props);
     const {
       target: { name, value },
     } = e;
-    if (isObjectOptions) {
-      dispatch(
-        groupingAndFiltersAction.setGlobalFilters({
-          label,
-          value: child.props.ip,
-        })
-      );
-    } else {
-      dispatch(groupingAndFiltersAction.setGlobalFilters({ label, value }));
 
-      // On autofill we get a stringified value.
-    }
+    dispatch(groupingAndFiltersAction.setGlobalFilters({ label, value }));
+
+    // On autofill we get a stringified value.
   };
-
+  console.log("SERVERMAP", serverMap);
   return (
     <FormControl
       disabled={disabled}
@@ -81,7 +78,10 @@ const MultipleSelect = ({
         className={classes.filterInput}
         onChange={(e, child) => handleChange(e, child)}
         input={<OutlinedInput label={label} />}
-        renderValue={(selected) => selected.join(", ")}
+        renderValue={(selected) => {
+          console.log("SELECTED", selected);
+          return selected.map((select) => serverMap[select]).join(", ");
+        }}
         MenuProps={{
           classes: {
             paper: classes.selectPaper,
@@ -99,8 +99,9 @@ const MultipleSelect = ({
         }}
       >
         {options.map((option) => {
+          console.log("OPTION", option);
           return (
-            <MenuItem key={option.ip} value={option.ip} name={option.ip}>
+            <MenuItem key={option.ip} value={option.ip} id={option.ip}>
               <Checkbox
                 className={classes.rootCheckbox}
                 disableRipple
@@ -117,7 +118,7 @@ const MultipleSelect = ({
                 inputProps={{ "aria-label": "decorative checkbox" }}
                 checked={values.indexOf(option.ip) > -1}
               />
-              <ListItemText primary={option.ip} />
+              <ListItemText primary={option.name} />
             </MenuItem>
           );
         })}
@@ -126,4 +127,4 @@ const MultipleSelect = ({
   );
 };
 
-export default MultipleSelect;
+export default ServerMultipleSelect;

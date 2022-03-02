@@ -14,6 +14,7 @@ import AxisLeftText from "./componentsB/d3/barchart/AxisLeftText";
 import * as tradesAction from "./Redux/Trades/TradesSlice";
 import { useSelector, useDispatch } from "react-redux";
 import AxisLeftSvg from "./componentsB/d3/AxisLeftSvg";
+import axios from "axios";
 export const currentWorker = new Worker("index.js");
 
 function App() {
@@ -22,14 +23,10 @@ function App() {
 
   const dispatch = useDispatch();
 
-  currentWorker.postMessage({ type: "connectWS" });
-  currentWorker.postMessage({ type: "products" });
   useEffect(() => {
     currentWorker.onmessage = (e) => {
+      axios.dispatch(tradesAction.setProducts(parsedData.data));
       const parsedData = JSON.parse(e.data);
-      if (parsedData.type === "products") {
-        dispatch(tradesAction.setProducts(parsedData.data));
-      }
       if (parsedData.type === "trade") {
         dispatch(tradesAction.setStateTrades(parsedData.data));
       }

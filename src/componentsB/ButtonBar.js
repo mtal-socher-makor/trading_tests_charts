@@ -18,7 +18,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as tradesAction from "../Redux/Trades/TradesSlice";
 import * as groupingAndFiltersAction from "../Redux/GroupingAndFilters/GroupingAndFiltersSlice";
 import { ContactSupportOutlined } from "@material-ui/icons";
-
+import ServerMultipleSelect from "./ServerMultipleSelect";
 let type = "get_data";
 
 const ButtonBar = (props) => {
@@ -27,6 +27,12 @@ const ButtonBar = (props) => {
   const mode = useSelector((state) => state.groupingAndFilters?.mode);
   const timesMode = useSelector((state) => state.groupingAndFilters?.timesMode);
   const products = useSelector((state) => state.trades?.products);
+  console.log("ENV", process.env.REACT_APP_USA_SERVER);
+  const servers = JSON.parse(process.env.REACT_APP_SERVERS);
+  const serverMap = {};
+  servers.forEach((server) => {
+    serverMap[server.ip] = server.name;
+  });
 
   //const [showFilters, setShowFilters] = useState(false);
   const [numberOfThreads, setNumOfThreads] = useState(0);
@@ -102,14 +108,15 @@ const ButtonBar = (props) => {
                 <Typography>Server test graph</Typography>
               </Grid>
               <Grid item xs={2}>
-                <MultipleSelect
+                <ServerMultipleSelect
                   disabled={power}
-                  options={["a server", "dfgfg"]}
+                  options={servers}
                   label="servers"
+                  serverMap={serverMap}
                   values={filters.servers}
                 />
               </Grid>
-              <Grid item xs={4} >
+              <Grid item xs={4}>
                 <Grid container>
                   <Grid item xs={6}>
                     <FormControlLabel

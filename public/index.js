@@ -55,9 +55,9 @@ onmessage = (e) => {
   };
 };
 
-const connectWS = () => {
+const connectWS = (serverIp) => {
   if (ws === null || ws.readyState === 3) {
-    ws = new WebSocket(`ws://10.0.0.67:3050`);
+    ws = new WebSocket(serverIp);
   }
   messages = [];
   return ws;
