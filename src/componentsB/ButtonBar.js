@@ -109,7 +109,12 @@ const ButtonBar = (props) => {
                 <Typography>Server test graph</Typography>
               </Grid>
               <Grid item xs={2}>
-                <ServerMultipleSelect disabled={power} options={servers} label='servers' serverMap={serverMap} values={filters.servers} />
+                <ServerMultipleSelect 
+                disabled={power} 
+                options={servers} 
+                label='servers' 
+                serverMap={serverMap}
+                 values={filters.servers} />
               </Grid>
               <Grid item xs={4}>
                 <Grid container>
