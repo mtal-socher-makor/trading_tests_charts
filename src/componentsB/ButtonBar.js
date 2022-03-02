@@ -11,7 +11,7 @@ import {
   AppBar,
 } from "@material-ui/core";
 import MultipleSelect from "./MultipleSelect";
-import { currentWorker } from "../App";
+// import { currentWorker } from "../App";
 import { GreenSwitch } from "../styles/GreenSwitch";
 import { RedSwitch } from "../styles/RedSwitch";
 import { useSelector, useDispatch } from "react-redux";
@@ -39,7 +39,7 @@ const ButtonBar = (props) => {
   const [power, setPower] = useState(false);
 
   const classes = useStyles();
-
+  console.log(servers , "ORTAL MWSHUGAAT")
   useEffect(() => {
     let data = {};
     const filteredFilters = {};
@@ -55,7 +55,7 @@ const ButtonBar = (props) => {
       data = {
         type: "stopInterval",
       };
-      currentWorker.postMessage(data);
+      // currentWorker.postMessage(data);
     }
 
     data = {
@@ -81,7 +81,7 @@ const ButtonBar = (props) => {
     } else {
       dispatch(groupingAndFiltersAction.initializeGrouping());
     }
-    currentWorker.postMessage(data);
+    // currentWorker.postMessage(data);
   }, [power]);
 
   const createTrade = () => {

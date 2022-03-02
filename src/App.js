@@ -15,16 +15,16 @@ import * as tradesAction from "./Redux/Trades/TradesSlice";
 import { useSelector, useDispatch } from "react-redux";
 import AxisLeftSvg from "./componentsB/d3/AxisLeftSvg";
 import axios from "axios";
-export const currentWorker = new Worker("index.js");
+export const londonWorker = new Worker("London.js");
+export const NYWorker = new Worker("NY.js");
+export const parisWorker = new Worker("Paris.js");
 
 function App() {
   const classes = useStyles();
   const groupBy = useSelector((state) => state.groupingAndFilters?.grouping);
-
   const dispatch = useDispatch();
-
   useEffect(() => {
-    currentWorker.onmessage = (e) => {
+    londonWorker.onmessage = (e) => {
       axios.dispatch(tradesAction.setProducts(parsedData.data));
       const parsedData = JSON.parse(e.data);
       if (parsedData.type === "trade") {

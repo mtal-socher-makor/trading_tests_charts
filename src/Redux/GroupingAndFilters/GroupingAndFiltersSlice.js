@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { tradesSlice } from '../Trades/TradesSlice'
-import { scaleOrdinal } from 'd3'
+import { contourDensity, scaleOrdinal } from 'd3'
 
 export const groupingAndFiltersSlice = createSlice({
   name: 'groupAndFilters',
@@ -54,8 +54,18 @@ export const groupingAndFiltersSlice = createSlice({
     },
     setGlobalFilters: (state, action) => {
       let key = action.payload.label
-      let value = action.payload.value
-      state.filters = { ...state.filters, [key]: typeof value === 'string' ? value.split(',') : value }
+      let value = key ==="servers" ? action.payload.server : action.payload.value
+      console.log(key , "!@#")
+      if (key !== 'servers') {
+        state.filters = { ...state.filters, [key]: typeof value === 'string' ? value.split(',') : value }
+      }else{
+        if(state.filters[key].map().includes(value)){
+          console.log("here")
+          let index = state.filters.map(s => s.ip === value.ip).indexOf()
+          console.log(index , "WHEQHWE")
+        }
+        state.filters = {...state.filters , [key] : [...state.filters[key], value]}
+      }
     },
     setMode: (state, action) => {
       state.mode = !state.mode
