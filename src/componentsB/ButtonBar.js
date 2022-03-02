@@ -27,10 +27,11 @@ const ButtonBar = (props) => {
   const mode = useSelector((state) => state.groupingAndFilters?.mode);
   const timesMode = useSelector((state) => state.groupingAndFilters?.timesMode);
   const products = useSelector((state) => state.trades?.products);
+  const power = useSelector((state) => state.trades?.power);
 
   //const [showFilters, setShowFilters] = useState(false);
   const [numberOfThreads, setNumOfThreads] = useState(0);
-  const [power, setPower] = useState(false);
+  //const [power, setPower] = useState(false);
 
   const classes = useStyles();
 
@@ -79,7 +80,9 @@ const ButtonBar = (props) => {
   }, [power]);
 
   const createTrade = () => {
-    setPower((prev) => !prev);
+    // setPower((prev) => !prev);
+    dispatch(tradesAction.setPower());
+
   };
   return (
     <AppBar

@@ -10,6 +10,7 @@ import { motion } from "framer-motion"
 
 const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue }) => {
   const dataStates = useSelector((state) => state.trades?.dataStates);
+  const power = useSelector((state) => state.trades?.power);
   const groupBy = useSelector((state) => state.groupingAndFilters?.grouping);
   const filters = useSelector((state) => state.groupingAndFilters?.filters);
   const timesMode = useSelector((state) => state.groupingAndFilters?.timesMode);
@@ -20,20 +21,20 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue }) => {
     timesMode
   );
 
-  const pathVariants = {
-    hidden: {
-      opacity: 0,
-      pathLength: 0,
-    },
-    visible: {
-      opacity: 1,
-      pathLength: 1,
-      transition: { 
-        duration: 2,
-        ease: "easeInOut",
-      }
-    }
-  };
+  // const pathVariants = {
+  //   hidden: {
+  //     opacity: 0,
+  //     pathLength: 0,
+  //   },
+  //   visible: {
+  //     opacity: 1,
+  //     pathLength: 1,
+  //     transition: { 
+  //       duration: 2,
+  //       ease: "easeInOut",
+  //     }
+  //   }
+  // };
 
   return (
     <>
@@ -50,9 +51,9 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue }) => {
                     fill="none"
                     //stroke={colorScale(arrayNames[index])}
                     //variants={pathVariants}
-                    initial={{ opacity: 0, stroke: "#000" }}
-                    animate={{ opacity: 1, stroke: "#fff"}}
-                    transition={{delay: 1.5, duration: 3}}
+                    initial={{ opacity: 0, stroke: "#000",  pathLength: 0 }}
+                    animate={{ opacity: 1, stroke: colorScale(arrayNames[index]),  pathLength: 1}}
+                    transition={{ duration: 5, type: "tween", repeat: power ? Infinity : 0}}
                     d={line()
                       .x((d) => xScale(xValue(d)))
                       .y((d) => yScale(yValue(d)))(arr)}
@@ -78,11 +79,10 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue }) => {
             <motion.path
               fill="none"
               //stroke="rgba(0, 700, 0 ,1)"
-              whileHover="hover"
-              initial={{ opacity: 0, stroke: "#000", pathLength: 0 }}
-              animate={{ opacity: 1, stroke: "rgba(0, 700, 0 ,1)", pathLength: 1}}
-              transition={{ duration: 5, type: "tween", repeat: Infinity}}
-              
+              initial={{ opacity: 0, stroke: "#000",  pathLength: 0 }}
+              animate={{ opacity: 1, stroke: "rgba(0, 700, 0 ,1)",  pathLength: 1}}
+              transition={{ duration: dataStates.stateTradesPartly.length*5, type: "tween"}}
+              // transitionEnd={{opacity: 0.5, pathLength: 1}}
               
               d={line()
                 .x((d) => xScale(xValue(d)))

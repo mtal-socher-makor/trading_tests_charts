@@ -11,6 +11,7 @@ export const tradesSlice = createSlice({
       threadTrades: {},
     },
     products: [],
+    power: false
   },
   reducers: {
     intializeStates: (state) => {
@@ -25,8 +26,11 @@ export const tradesSlice = createSlice({
     setProducts: (state, action) => {
       state.products = action.payload
     },
+    setPower: (state, action) => {
+      state.power = !state.power
+    },
     setStateTrades: (state, action) => {
-      if (state.dataStates.stateTrades.length <= 60 ) {
+      if (state.dataStates.stateTrades.length <= 60 && state.power) {
         state.dataStates.stateTrades = [...state.dataStates.stateTrades, action.payload]
       } else {
         let temp = [...state.dataStates.stateTrades]
@@ -103,5 +107,5 @@ export const tradesSlice = createSlice({
   },
 })
 
-export const { intializeStates, setStateTrades, sortBy, setStateTradesPartly, setProducts } = tradesSlice.actions
+export const { intializeStates, setStateTrades, sortBy, setStateTradesPartly, setProducts, setPower } = tradesSlice.actions
 export default tradesSlice.reducer
