@@ -36,20 +36,15 @@ const ServerMultipleSelect = ({ label, options, values, setFilters, isObjectOpti
   const timesMode = useSelector((state) => state.groupingAndFilters?.timesMode)
   let serverNames = Object.keys(values).map((value) => serverMap[value])
 
-  console.log('values', values, serverNames)
   const handleChange = (e, child) => {
-    console.log('VALUE', e.target, child.props)
     const {
       target: { name, value },
     } = e
     let server = options.find((server) => server.ip === child.props.value)
-    console.log('🚀 ~ file: ServerMultipleSelect.js ~ line 57 ~ handleChange ~ server', server)
-    console.log(label, 'LABAERLAFF')
     dispatch(groupingAndFiltersAction.setGlobalFilters({ label, server }))
 
     // On autofill we get a stringified value.
   }
-  console.log('SERVERMAP', serverMap)
   return (
     <FormControl disabled={disabled} fullWidth className={classes.focusField} style={{ flex: 1 }} variant='outlined' size='small'>
       <InputLabel style={{ textTransform: 'capitalize', color: '#848E9C' }}>{label}</InputLabel>
@@ -61,7 +56,6 @@ const ServerMultipleSelect = ({ label, options, values, setFilters, isObjectOpti
         onChange={(e, child) => handleChange(e, child)}
         input={<OutlinedInput label={label} />}
         renderValue={(selected) => {
-          console.log('SELECTED', selected.map(s => s.name).join(', '))
           return selected.map(s => s.name).join(', ')
         }}
         MenuProps={{
@@ -81,7 +75,6 @@ const ServerMultipleSelect = ({ label, options, values, setFilters, isObjectOpti
         }}
       >
         {options.map((option) => {
-          console.log('OPTION', option)
           return (
             <MenuItem key={option.ip} value={option.ip} id={option.ip}>
               <Checkbox
