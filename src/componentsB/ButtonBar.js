@@ -19,6 +19,7 @@ const ButtonBar = (props) => {
   // const servers = useSelector((state) => state.groupingAndFilters?.filters?.servers)
   const [socketWorkers, setSocketWorkers] = useState([])
   const products = useSelector((state) => state.trades?.products)
+  const selectedServers = useSelector((state) => state.groupingAndFilters?.filters?.servers)
   const servers = JSON.parse(process.env.REACT_APP_SERVERS)
   const serverMap = {}
   servers.forEach((server) => {
@@ -42,8 +43,9 @@ const ButtonBar = (props) => {
       })
       dispatch(tradesAction.intializeStates())
       dispatch(groupingAndFiltersAction.initializeGrouping())
-
-      for (const server of servers) {
+      
+      const workingServers = selectedServers.length ? selectedServers : servers;
+      for (const server of workingServers) {
         const worker = new Worker('index.js')
         data = {
           mode: mode ? 'stress' : 'regular',
@@ -57,7 +59,6 @@ const ButtonBar = (props) => {
           data.filters = filteredFilters
         }
         if (mode) {
-          data.mode = mode
           data.products = products
           dispatch(groupingAndFiltersAction.setGroupBy('thread'))
           data.threads = numberOfThreads
@@ -181,6 +182,7 @@ const ButtonBar = (props) => {
                 <Button
                   fullWidth
                   onClick={createTrade}
+                  // disabled={!selectedServers.length}
                   style={{
                     backgroundColor: 'lightblue',
                     flex: 1,
