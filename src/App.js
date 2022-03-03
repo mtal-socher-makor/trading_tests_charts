@@ -1,14 +1,13 @@
-import ButtonBar from "./componentsB/ButtonBar";
+import ButtonBar from "./components/ButtonBar";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import React, { useEffect } from "react";
 import VizArea from "./components/VizArea";
 import GroupBy from "./components/GroupBy";
 import Legend from "./components/d3/Legend";
-
+import AxisLeftSvg from "./components/d3/lineChart/AxisLeftSvg"
 import * as tradesAction from "./Redux/Trades/TradesSlice";
 import { useSelector, useDispatch } from "react-redux";
-import AxisLeftSvg from "./componentsB/d3/AxisLeftSvg";
-import ErrorLogger from "./componentsB/ErrorLogger";
+import ErrorLogger from "./components/ErrorLogger";
 
 function App() {
   const classes = useStyles();
