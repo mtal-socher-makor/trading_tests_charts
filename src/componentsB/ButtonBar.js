@@ -211,7 +211,7 @@ const ButtonBar = (props) => {
                 </Grid>
               </>
 
-              <Grid item xs={2} direction="row">
+              <Grid item xs={2}>
                 <Button
                   fullWidth
                   onClick={createTrade}

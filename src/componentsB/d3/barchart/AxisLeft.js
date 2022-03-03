@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 
 function AxisLeft({ tickValue, yScale, innerWidth }) {
   return (
-    <g className="tick" transform="translate(10,35)">
+    <g className="tick" transform="translate(10,35)" key={tickValue}>
       <line
         x1={0}
         x2={innerWidth}

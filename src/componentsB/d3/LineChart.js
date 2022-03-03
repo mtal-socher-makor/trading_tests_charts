@@ -1,10 +1,9 @@
 import React from "react";
-import { scaleBand, scaleLinear, max, format, group, scaleOrdinal } from "d3";
+import { scaleBand } from "d3";
 import AxisBottom from "./barchart/AxisBottom";
 import AxisLeft from "./barchart/AxisLeft";
 import MarksLine from "./lineChart/MarksLine";
 import { Grid } from "@material-ui/core";
-import { useStyles } from "../../styles/mainStyles";
 import { useSelector } from "react-redux";
 import createScaleY from "../../helperFunctions/createScaleY";
 

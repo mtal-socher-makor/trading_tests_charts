@@ -7,7 +7,7 @@ import createDataArrays from '../../../helperFunctions/createDataArrays'
 
 const transitionPath = transition().ease(easeSin).duration(2500)
 
-const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue }) => {
+const MarksLine = ({ xScale, yScale, xValue, yValue }) => {
   const dataStates = useSelector((state) => state.trades?.dataStates)
   const groupBy = useSelector((state) => state.groupingAndFilters?.grouping)
   const filters = useSelector((state) => state.groupingAndFilters?.filters)
@@ -19,7 +19,7 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue }) => {
         {(groupBy?.thread && arrays?.length) || (arrays?.length && (groupBy?.type || groupBy?.side || groupBy?.location))
           ? arrays.map((arr, index) => {
               return (
-                <>
+                <g key={index}>
                   <path
                     fill='none'
                     stroke={colorScale(arrayNames[index])}
@@ -32,9 +32,9 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue }) => {
                       .y((d) => yScale(yValue(d)))(arr)}
                   />
                   {arr.map((d) => {
-                    return <MarksLineSingle d={d} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color={colorScale(arrayNames[index])} />
+                    return <MarksLineSingle d={`${d.id}`} key={d.tim} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color={colorScale(arrayNames[index])} />
                   })}
-                </>
+                </g>
               )
             })
           : null}
@@ -62,6 +62,6 @@ const MarksLine = forwardRef(({ xScale, yScale, xValue, yValue }) => {
       </g>
     </>
   )
-})
+}
 
 export default MarksLine

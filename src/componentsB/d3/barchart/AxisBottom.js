@@ -2,7 +2,7 @@ import React from "react";
 
 function AxisBottom({ xScale, innerWidth, tickValue }) {
   return (
-    <g
+    <g key={`${xScale}${tickValue}`}
       className="tick"
       key={tickValue}
       transform={`translate(${xScale(tickValue)},0)`}
