@@ -134,7 +134,6 @@ const ButtonBar = (props) => {
         <Grid
           style={{ flex: 1 }}
           container
-          id="kakaka"
           alignItems="center"
           justifyContent="space-between"
         >
