@@ -77,7 +77,6 @@ const ButtonBar = (props) => {
         worker.postMessage(JSON.stringify(data));
 
         worker.onmessage = (msg) => {
-          console.log(JSON.parse(msg.data));
           const trade = JSON.parse(msg.data);
           dispatch(tradesAction.setStateTrades(trade.data));
         };

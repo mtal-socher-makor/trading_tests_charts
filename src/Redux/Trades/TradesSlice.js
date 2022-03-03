@@ -133,7 +133,6 @@ export const tradesSlice = createSlice({
 });
 
 export const loginGetAllProduct = () => async (dispatch) => {
-  console.log("HERE");
   const login_data = {
     username: USER_NAME,
     password: PASSWORD,
@@ -141,7 +140,6 @@ export const loginGetAllProduct = () => async (dispatch) => {
 
   // Check the time and insert it to the object
   const token = await axios.put(`${AUTH_URL}`, login_data);
-  console.log(token)
   if (token.data) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + token.data.token;
   } else {

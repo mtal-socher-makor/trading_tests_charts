@@ -32,7 +32,7 @@ const MarksLine = ({ xScale, yScale, xValue, yValue }) => {
                       .y((d) => yScale(yValue(d)))(arr)}
                   />
                   {arr.map((d) => {
-                    return <MarksLineSingle d={`${d.id}`} key={d.tim} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color={colorScale(arrayNames[index])} />
+                    return <MarksLineSingle d={d} key={d.id} xScale={xScale} yScale={yScale} xValue={xValue} yValue={yValue} color={colorScale(arrayNames[index])} />
                   })}
                 </g>
               )
