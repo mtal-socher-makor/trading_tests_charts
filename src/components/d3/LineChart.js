@@ -6,11 +6,15 @@ import MarksLine from "./lineChart/MarksLine";
 import { Grid } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import createScaleY from "../../helperFunctions/createScaleY";
+import TooltipRegular from "./TooltipRegular";
+
 
 function LineChart() {
   const stateTrades = useSelector(
     (state) => state.trades?.dataStates?.stateTrades
   );
+  //const [arrays, arrayNames, colorScale] = createDataArrays(dataStates, groupBy, filters)
+
  
   const [
     yScale,
@@ -63,6 +67,13 @@ function LineChart() {
           />
         </g>
       </svg>
+      {stateTrades. length && stateTrades.map(trade => (
+        <TooltipRegular 
+          d={trade}
+          x={xScale(xValue(trade)) + 5}
+          y={yScale(yValue(trade)) - 18}
+        />
+      ))}
     </Grid>
   );
 }
