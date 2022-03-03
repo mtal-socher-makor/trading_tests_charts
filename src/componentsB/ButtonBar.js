@@ -105,7 +105,7 @@ const ButtonBar = (props) => {
   return (
     <AppBar
       style={{
-        backgroundColor: "transparent",
+        backgroundColor:'rgb(41, 41, 41)',
         borderRadius: "0px 0px 30px 30px",
       }}
     >
