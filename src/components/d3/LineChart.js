@@ -35,6 +35,7 @@ function LineChart() {
   return (
     <Grid item style={{ position: "relative", width: dynamicWidth }}>
       <svg width={dynamicWidth} height={height}>
+       
         <g transform={`translate(${margin.left},${margin.top})`}>
           {xScale.domain().map((tickValue) => (
             <AxisBottom
