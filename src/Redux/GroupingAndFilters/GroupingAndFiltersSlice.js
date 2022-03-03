@@ -11,6 +11,7 @@ export const groupingAndFiltersSlice = createSlice({
       thread: false,
     },
     filters: {
+      qty : 0,
       servers: [],
       types: [],
       sides: [],
@@ -45,7 +46,7 @@ export const groupingAndFiltersSlice = createSlice({
       if (action.payload === "threads") {
         if (state.filters.threads.length > 0) {
           state.filters.threads.pop();
-        } else {
+        }else {
           state.filters.threads.push("multi");
         }
       }

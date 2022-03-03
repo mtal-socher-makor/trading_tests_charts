@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as tradesAction from "../Redux/Trades/TradesSlice";
 import * as groupingAndFiltersAction from "../Redux/GroupingAndFilters/GroupingAndFiltersSlice";
 import ServerMultipleSelect from "./ServerMultipleSelect";
+import { filter } from "d3";
 let type = "get_data";
 
 const ButtonBar = (props) => {
@@ -24,6 +25,7 @@ const ButtonBar = (props) => {
   const mode = useSelector((state) => state.groupingAndFilters?.mode);
   // const servers = useSelector((state) => state.groupingAndFilters?.filters?.servers)
   const [socketWorkers, setSocketWorkers] = useState([]);
+  const [qty, setQty] = useState();
   const products = useSelector((state) => state.trades?.products);
   const selectedServers = useSelector(
     (state) => state.groupingAndFilters?.filters?.servers
@@ -73,6 +75,12 @@ const ButtonBar = (props) => {
         } else {
           dispatch(groupingAndFiltersAction.initializeGrouping());
         }
+        if (
+          filters.products.length === 1 &&
+          ((qty !== null && qty !== undefined) || qty < 0)
+        ) {
+          data.filters = { ...data.filters, qty: qty };
+        }
 
         worker.postMessage(JSON.stringify(data));
 
@@ -101,6 +109,20 @@ const ButtonBar = (props) => {
   const createTrade = () => {
     setPower((prev) => !prev);
   };
+
+  const setLocalQty = (e) => {
+    let product = products.find((p) => p.product_name === filters.products[0]);
+    if (Number(e.target.value) < product.min_quantity ) {
+      setQty();
+    } else if (Number(e.target.value) > product.max_quantity) {
+      e.target.value = product.max_quantity;
+      setQty(product.max_quantity);
+    } else {
+      console.log(e.target.value, "QTYYYY");
+      setQty(Number(e.target.value));
+    }
+  };
+
   return (
     <AppBar
       style={{
@@ -132,7 +154,7 @@ const ButtonBar = (props) => {
               </Grid>
               <Grid item xs={4}>
                 <Grid container>
-                  <Grid item xs={6}>
+                  <Grid item xs={5}>
                     <FormControlLabel
                       disabled={power}
                       control={
@@ -147,32 +169,30 @@ const ButtonBar = (props) => {
                       label="Stress"
                     />
                   </Grid>
+                  {mode && (
+                    <Grid item xs={6}>
+                      <FormControl
+                        className={classes.TextFieldInput}
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        disabled={power}
+                      >
+                        <TextField
+                          style={{ color: "#848E9C" }}
+                          onChange={(e) => {
+                            setNumOfThreads(e.target.value);
+                          }}
+                          size="small"
+                          variant="outlined"
+                          label="Threads"
+                          type="number"
+                        />
+                      </FormControl>
+                    </Grid>
+                  )}
                 </Grid>
               </Grid>
-
-              {mode && (
-                <Grid item xs={3}>
-                  <FormControl
-                    className={classes.TextFieldInput}
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    disabled={power}
-                  >
-                    <TextField
-                      style={{ color: "#848E9C"}}
-                      className={classes.input}
-                      onChange={(e) => {
-                        setNumOfThreads(e.target.value);
-                      }}
-                      size="small"
-                      variant="outlined"
-                      label="Threads"
-                      type="number"
-                    />
-                  </FormControl>
-                </Grid>
-              )}
             </Grid>
           </Grid>
           <Grid item xs={5}>
@@ -182,33 +202,65 @@ const ButtonBar = (props) => {
               alignItems="center"
               spacing={2}
             >
-              <>
-                <Grid item xs={3}>
-                  <MultipleSelect
-                    disabled={power}
-                    options={["FOK", "MKT", "RFQ"]}
-                    label="types"
-                    values={filters.types}
-                  />
+              <Grid item xs={2}>
+                <MultipleSelect
+                  disabled={power}
+                  options={["FOK", "MKT", "RFQ"]}
+                  label="types"
+                  values={filters.types}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <MultipleSelect
+                  disabled={power}
+                  options={["Buy", "Sell"]}
+                  label="sides"
+                  values={filters.sides}
+                />
+              </Grid>
+              {filters.products.length === 1 ? (
+                <Grid item xs={2}>
+                  <FormControl
+                    className={classes.TextFieldInput}
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                  >
+                    <TextField
+                      type="number"
+                      style={{ color: "#848E9C" }}
+                      size="small"
+                      variant="outlined"
+                      label="Qty"
+                      value={qty}
+                      inputProps={{
+                        min: Number(
+                          products.find(
+                            (p) => p.product_name === filters.products[0]
+                          ).min_quantity
+                        ),
+                        max: Number(
+                          products.find(
+                            (p) => p.product_name === filters.products[0]
+                          ).max_quantity
+                        ),
+                        // maxLength: products.find((p) => p.product_name === filters.products[0]).max_quantity,
+                        step: "0.1",
+                      }}
+                      onChange={setLocalQty}
+                    />
+                  </FormControl>
                 </Grid>
-                <Grid item xs={3}>
-                  <MultipleSelect
-                    disabled={power}
-                    options={["Buy", "Sell"]}
-                    label="sides"
-                    values={filters.sides}
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <MultipleSelect
-                    disabled={power}
-                    options={products}
-                    label="products"
-                    values={filters.products}
-                    isObjectOptions={true}
-                  />
-                </Grid>
-              </>
+              ) : null}
+              <Grid item xs={2}>
+                <MultipleSelect
+                  disabled={power}
+                  options={products}
+                  label="products"
+                  values={filters.products}
+                  isObjectOptions={true}
+                />
+              </Grid>
 
               <Grid item xs={2}>
                 <Button
