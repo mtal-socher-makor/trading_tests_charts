@@ -20,6 +20,7 @@ export const groupingAndFiltersSlice = createSlice({
     },
     mode: false,
     timesMode: false,
+    error: "",
   },
 
   reducers: {
@@ -40,6 +41,10 @@ export const groupingAndFiltersSlice = createSlice({
           state.grouping[key] = true;
         }
       });
+    },
+    setErrorId: (state, action) => {
+      console.log("action", action.payload);
+      state.error = action.payload;
     },
 
     setFilters: (state, action) => {
@@ -102,6 +107,7 @@ export const {
   setFilters,
   setGlobalFilters,
   setMode,
+  setErrorId,
   setTimesMode,
 } = groupingAndFiltersSlice.actions;
 export default groupingAndFiltersSlice.reducer;
