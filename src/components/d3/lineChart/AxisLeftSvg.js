@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import createScaleY from "../../helperFunctions/createScaleY";
-import AxisLeftText from "./barchart/AxisLeftText";
+import createScaleY from "../../../helperFunctions/createScaleY";
+import AxisLeftText from "./AxisLeftText";
 const AxisLeftSvg = (props) => {
   const stateTrades = useSelector(
     (state) => state.trades?.dataStates?.stateTrades

@@ -1,6 +1,7 @@
 import { useEffect, forwardRef } from 'react'
 import { line, transition, easeSin } from 'd3'
 import MarksLineSingle from './MarksLineSingle'
+import { motion } from "framer-motion"
 
 import { useSelector, useDispatch } from 'react-redux'
 import createDataArrays from '../../../helperFunctions/createDataArrays'
@@ -23,10 +24,9 @@ const MarksLine = ({ xScale, yScale, xValue, yValue }) => {
                   <path
                     fill='none'
                     stroke={colorScale(arrayNames[index])}
-                    strokeDashoffset='pathLength'
-                    strokeDasharray='pathLength'
-                    transition={transitionPath}
-                    strokeDashoffset={0}
+                    // initial={{ opacity: 0, stroke: "#000",  pathLength: 0 }}
+                    // animate={{ opacity: 1, stroke: colorScale(arrayNames[index]),  pathLength: 1}}
+                    // transition={{ duration: 5, type: "tween"}}
                     d={line()
                       .x((d) => xScale(xValue(d)))
                       .y((d) => yScale(yValue(d)))(arr)}
@@ -40,13 +40,12 @@ const MarksLine = ({ xScale, yScale, xValue, yValue }) => {
           : null}
         {dataStates?.stateTradesPartly?.length && (
           <>
-            <path
+            <motion.path
               fill='none'
-              stroke='rgba(0, 700, 0 ,1)'
-              strokeDashoffset='pathLength'
-              strokeDasharray='pathLength'
-              transition={transitionPath}
-              strokeDashoffset={0}
+              stroke="rgba(0, 700, 0 ,1)"
+              // initial={{ opacity: 0, stroke: "#000",  pathLength: 0 }}
+              // animate={{ opacity: 1, stroke: "rgba(0, 700, 0 ,1)",  pathLength: 1}}
+              // transition={{ duration: 5, type: "tween"}}
               d={line()
                 .x((d) => xScale(xValue(d)))
                 .y((d) => yScale(yValue(d)))(dataStates?.stateTradesPartly)}

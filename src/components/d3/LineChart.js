@@ -1,7 +1,7 @@
 import React from "react";
 import { scaleBand } from "d3";
-import AxisBottom from "./barchart/AxisBottom";
-import AxisLeft from "./barchart/AxisLeft";
+import AxisBottom from "./lineChart/AxisBottom";
+import AxisLeft from "./lineChart/AxisLeft";
 import MarksLine from "./lineChart/MarksLine";
 import { Grid } from "@material-ui/core";
 import { useSelector } from "react-redux";
