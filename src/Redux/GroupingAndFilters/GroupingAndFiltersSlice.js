@@ -11,6 +11,7 @@ export const groupingAndFiltersSlice = createSlice({
       thread: false,
     },
     filters: {
+      qty : 0,
       servers: [],
       types: [],
       sides: [],
@@ -19,6 +20,7 @@ export const groupingAndFiltersSlice = createSlice({
     },
     mode: false,
     timesMode: false,
+    error: "",
   },
 
   reducers: {
@@ -40,12 +42,16 @@ export const groupingAndFiltersSlice = createSlice({
         }
       });
     },
+    setErrorId: (state, action) => {
+      console.log("action", action.payload);
+      state.error = action.payload;
+    },
 
     setFilters: (state, action) => {
       if (action.payload === "threads") {
         if (state.filters.threads.length > 0) {
           state.filters.threads.pop();
-        } else {
+        }else {
           state.filters.threads.push("multi");
         }
       }
@@ -101,6 +107,7 @@ export const {
   setFilters,
   setGlobalFilters,
   setMode,
+  setErrorId,
   setTimesMode,
 } = groupingAndFiltersSlice.actions;
 export default groupingAndFiltersSlice.reducer;
