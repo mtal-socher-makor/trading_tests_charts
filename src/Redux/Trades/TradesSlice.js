@@ -16,7 +16,7 @@ export const tradesSlice = createSlice({
       sideTrades: {},
       locationTrades: {},
       threadTrades: {},
-      hoveredTrade: ""
+      hoveredTrade: {}
     },
     products: [],
   },
@@ -34,7 +34,7 @@ export const tradesSlice = createSlice({
       state.products = action.payload;
     },
     setHoveredTrade: (state, action) => {
-      state.hoveredTrade = action.payload;
+      state.dataStates.hoveredTrade = action.payload;
     },
     setStateTrades: (state, action) => {
       if (state.dataStates.stateTrades.length <= 70) {

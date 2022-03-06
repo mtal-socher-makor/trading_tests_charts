@@ -1,5 +1,5 @@
-import { makeStyles, TextField, withStyles, Button, IconButton, Switch } from '@material-ui/core';
-import { purple } from '@material-ui/core/colors';
+import { makeStyles, TextField, withStyles, Button, IconButton, Switch } from '@material-ui/core'
+import { purple } from '@material-ui/core/colors'
 
 //474D57
 
@@ -56,16 +56,46 @@ export const useStyles = makeStyles((theme) => ({
   // },
   tspanTitle: {
     fontWeight: 900,
-    fontSize: 12
+    fontSize: 12,
   },
   tspan: {
     fontWeight: 600,
     fontSize: 10,
+  },
+  cardWrapper: {
+    width: '90%',
+    //height: 360,
+    //backgroundColor: '#add8e6',
 
+    // right: 100,
+    // bottom: 100,
+    borderRadius: 8,
+    // display: "flex",
+    // flexDirection: "column",
+    // alignItems: "center"
+  },
+  cardTitle: {
+    paddingTop: 40,
+    textAlign: 'center',
+    fontWeight: '600',
+    color: "rgba(0, 700, 0 ,1)"
+  },
+  cardInfo: {
+    width: '80%',
+    //borderBottom: '1px solid #fff',
+    fontSize: 12,
+    paddingLeft:10,
+    color: "rgba(0, 700, 0 ,1)",
+    // -webkit-box-decoration-break: clone,
+   boxDecorationBreak: "clone"
+  },
+  cardkey: {
+    fontWeight: '600',
   },
   presentationArea: {
     justifyContent: 'center',
   },
+
   groupBtn: {
     color: '#848E9C',
     fontSize: '1.1em !important',
@@ -214,7 +244,7 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: purple[500],
     },
   },
-}));
+}))
 
 export const FilledButton = withStyles({
   root: {
@@ -235,7 +265,7 @@ export const FilledButton = withStyles({
       color: '#868DA2',
     },
   },
-})(Button);
+})(Button)
 
 export const StyledTextField = withStyles({
   root: {
@@ -257,4 +287,4 @@ export const StyledTextField = withStyles({
       },
     },
   },
-})(TextField);
+})(TextField)
