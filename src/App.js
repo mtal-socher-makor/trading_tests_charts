@@ -1,6 +1,6 @@
 import ButtonBar from "./components/ButtonBar";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import VizArea from "./components/VizArea";
 import GroupBy from "./components/GroupBy";
 import Legend from "./components/d3/Legend";
@@ -12,6 +12,7 @@ import ErrorLogger from "./components/ErrorLogger";
 function App() {
   const classes = useStyles();
   const groupBy = useSelector((state) => state.groupingAndFilters?.grouping);
+  const [open , setOpen] = useState()
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(tradesAction.loginGetAllProduct());
@@ -22,6 +23,12 @@ function App() {
   //     element.scrollTop = element.scrollHeight;
   //   }
   // };
+
+  const getIsOpen = (value) => {
+    setOpen(value)
+    console.log("🚀 ~ file: App.js ~ line 29 ~ getIsOpen ~ value", value)
+    
+  }
   return (
     <div className="App">
       <Grid container direction="column" className={classes.App2}>
@@ -78,18 +85,20 @@ function App() {
             <Grid
               item
               style={{
-                display: "flex",
+                display: !open ? "inline" : "flex",
                 flexDirection: "column",
                 height: "100vh",
                 flex: 1,
-                minWidth: 290,
+                minWidth: !open ? 0 : 280,
                 borderLeft: "5px solid rgb(60,60,60)",
                 padding: "2rem 0 ",
                 margin: '0 1rem',
                 rowGap: "15px",
+                backgroundColor : '#000'
               }}
             >
-             <ErrorLogger />
+             <ErrorLogger  sendOpen={(val) => getIsOpen(val)}/>
+
             </Grid>
           </Grid>
         </Grid>
