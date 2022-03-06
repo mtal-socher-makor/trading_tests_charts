@@ -78,16 +78,16 @@ export const useStyles = makeStyles((theme) => ({
     paddingTop: 40,
     textAlign: 'center',
     fontWeight: '600',
-    color: "rgba(0, 700, 0 ,1)"
+    color: 'rgba(0, 700, 0 ,1)',
   },
   cardInfo: {
     width: '80%',
     //borderBottom: '1px solid #fff',
     fontSize: 12,
-    paddingLeft:10,
-    color: "rgba(0, 700, 0 ,1)",
+    paddingLeft: 10,
+    color: 'rgba(0, 700, 0 ,1)',
     // -webkit-box-decoration-break: clone,
-   boxDecorationBreak: "clone"
+    boxDecorationBreak: 'clone',
   },
   cardkey: {
     fontWeight: '600',
@@ -113,10 +113,11 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   groupWrapper: {
-    // marginLeft: 20,
+    marginLeft: 20,
+    marginTop:20,
     // position: "absolute",
     top: '10px',
-    left: '10px',
+    left: '20px',
     zIndex: 2,
   },
   groupItem: {
