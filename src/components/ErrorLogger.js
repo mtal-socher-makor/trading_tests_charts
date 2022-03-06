@@ -60,6 +60,7 @@ const ErrorLogger = (props) => {
         width: isOpen ? "100%" : "0px",
         position: "relative",
         height: "100%",
+        // padding: "1rem"
       }}
     >
       <Button
@@ -108,7 +109,7 @@ const ErrorLogger = (props) => {
                       </Grid>
                       <Grid item container justifyContent="flex-end"> 
                         <Typography className={classes.errorTypo} >
-                          {format(new Date() , 'dd-mm-yyyy , hh:mm:ss')}
+                          {format(new Date() , 'dd-MM-yyyy , hh:mm:ss')}
                         </Typography>
                       </Grid>
                       <Divider style={{ height: "1px", borderTop: "dotted" }} />
