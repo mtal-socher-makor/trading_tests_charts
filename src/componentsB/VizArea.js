@@ -3,7 +3,8 @@ import { useStyles } from "../styles/mainStyles";
 import { Grid, Typography } from "@material-ui/core";
 import LineChart from "./d3/LineChart";
 // import createScaleY from "../helperFunctions.js/createScaleY"
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import Card from "./Card"
 
 function VizArea() {
   const classes = useStyles();
@@ -12,6 +13,9 @@ function VizArea() {
     (state) => state.trades?.dataStates?.stateTrades
   );
   const mode = useSelector((state) => state.groupingAndFilters?.mode);
+  const hoveredTrade = useSelector(
+    (state) => state.trades?.hoveredTrade
+  );
 
   return (
     <Grid
@@ -22,7 +26,6 @@ function VizArea() {
       <Grid item xs={12}>
         {mode && (
           <Typography
-            id="kkakaka"
             style={{ color: "#FFD700", height: "fitContent" }}
           >
             *Each point in stress mode represents an average of five trades
@@ -30,6 +33,7 @@ function VizArea() {
         )}
       </Grid>
       <Grid item>{stateTrades.length ? <LineChart /> : null}</Grid>
+      {hoveredTrade && <Card />}
     </Grid>
   );
 }

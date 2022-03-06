@@ -51,14 +51,17 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: '30px !important',
     padding: 8,
   },
-  tooltipBox: {
-    zIndex: 3,
-  },
+  // tooltipBox: {
+  //   zIndex: 3,
+  // },
   tspanTitle: {
     fontWeight: 900,
+    fontSize: 12
   },
   tspan: {
     fontWeight: 600,
+    fontSize: 10,
+
   },
   presentationArea: {
     justifyContent: 'center',

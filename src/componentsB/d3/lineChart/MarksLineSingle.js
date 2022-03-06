@@ -25,7 +25,7 @@ function MarksLineSingle({ d, xValue, yValue, xScale, yScale, color }) {
     });
   }, []);
 
-  
+
 
   return (
     <g key={d.id} ref={elementRef}>
